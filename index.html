@@ -1,2077 +1,2371 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
-    >
-
-    <title>REAL ABBA BOOSTING</title>
-
-    <meta
-        name="description"
-        content="REAL ABBA BOOSTING - Social media growth services"
-    >
-
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        :root {
-            --bg: #07111f;
-            --bg2: #0a1728;
-            --card: #0e1d30;
-            --card2: #11243a;
-            --border: rgba(92, 193, 255, 0.12);
-            --text: #f4f9ff;
-            --muted: #8ea5bc;
-            --blue: #19bfff;
-            --blue2: #087dff;
-            --cyan: #3ddcff;
-            --green: #19d58b;
-            --red: #ff5c69;
-            --yellow: #ffc857;
-        }
-
-        body {
-            font-family:
-                Inter,
-                system-ui,
-                -apple-system,
-                BlinkMacSystemFont,
-                "Segoe UI",
-                sans-serif;
-
-            background:
-                radial-gradient(
-                    circle at top right,
-                    rgba(0, 168, 255, 0.13),
-                    transparent 35%
-                ),
-                linear-gradient(
-                    180deg,
-                    #06101d 0%,
-                    #071321 100%
-                );
-
-            color: var(--text);
-            min-height: 100vh;
-        }
-
-        button,
-        input,
-        select,
-        textarea {
-            font: inherit;
-        }
-
-        button {
-            cursor: pointer;
-        }
-
-        a {
-            color: var(--cyan);
-            text-decoration: none;
-        }
-
-        /* =====================================================
-           AUTH
-           ===================================================== */
-
-        #authScreen {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 24px 16px;
-        }
-
-        .auth-wrapper {
-            width: 100%;
-            max-width: 430px;
-        }
-
-        .brand {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .brand-icon {
-            width: 68px;
-            height: 68px;
-            margin: 0 auto 14px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 20px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(35, 206, 255, 0.22),
-                    rgba(0, 103, 255, 0.18)
-                );
-
-            border: 1px solid rgba(66, 210, 255, 0.25);
-
-            box-shadow:
-                0 12px 35px rgba(0, 158, 255, 0.14);
-        }
-
-        .brand-icon span {
-            font-size: 28px;
-            font-weight: 900;
-            color: var(--cyan);
-        }
-
-        .brand h1 {
-            font-size: 23px;
-            font-weight: 900;
-            letter-spacing: 0.8px;
-        }
-
-        .brand p {
-            margin-top: 6px;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .auth-card {
-            background:
-                linear-gradient(
-                    145deg,
-                    rgba(16, 35, 57, 0.98),
-                    rgba(8, 22, 37, 0.98)
-                );
-
-            border: 1px solid var(--border);
-            border-radius: 25px;
-
-            padding: 22px;
-
-            box-shadow:
-                0 25px 70px rgba(0, 0, 0, 0.32);
-        }
-
-        .auth-tabs {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
-
-            padding: 5px;
-            background: #071523;
-            border-radius: 13px;
-            margin-bottom: 22px;
-        }
-
-        .auth-tab {
-            border: 0;
-            background: transparent;
-            color: var(--muted);
-
-            padding: 12px;
-            border-radius: 10px;
-
-            font-weight: 800;
-            transition: 0.2s;
-        }
-
-        .auth-tab.active {
-            background:
-                linear-gradient(
-                    135deg,
-                    var(--blue2),
-                    var(--blue)
-                );
-
-            color: white;
-
-            box-shadow:
-                0 7px 22px rgba(0, 155, 255, 0.22);
-        }
-
-        .form-title {
-            font-size: 22px;
-            font-weight: 900;
-            margin-bottom: 6px;
-        }
-
-        .form-subtitle {
-            color: var(--muted);
-            font-size: 13px;
-            margin-bottom: 19px;
-            line-height: 1.5;
-        }
-
-        .field {
-            margin-bottom: 14px;
-        }
-
-        .field label {
-            display: block;
-            color: #b9cce0;
-            font-size: 12px;
-            font-weight: 800;
-            margin-bottom: 7px;
-        }
-
-        .input {
-            width: 100%;
-
-            border: 1px solid rgba(108, 181, 230, 0.12);
-            outline: none;
-
-            background: #071625;
-            color: white;
-
-            border-radius: 13px;
-            padding: 13px 14px;
-
-            transition: 0.2s;
-        }
-
-        .input::placeholder {
-            color: #5d748a;
-        }
-
-        .input:focus {
-            border-color: rgba(35, 193, 255, 0.6);
-            box-shadow:
-                0 0 0 3px rgba(20, 178, 255, 0.08);
-        }
-
-        textarea.input {
-            min-height: 100px;
-            resize: vertical;
-        }
-
-        select.input {
-            appearance: auto;
-        }
-
-        .primary-btn {
-            width: 100%;
-
-            border: 0;
-            border-radius: 13px;
-
-            padding: 14px;
-
-            color: white;
-            font-weight: 900;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #087eff,
-                    #18c4ff
-                );
-
-            box-shadow:
-                0 10px 26px rgba(0, 153, 255, 0.2);
-
-            transition:
-                transform 0.15s,
-                opacity 0.15s;
-        }
-
-        .primary-btn:active {
-            transform: scale(0.98);
-        }
-
-        .primary-btn:disabled {
-            opacity: 0.55;
-            cursor: wait;
-        }
-
-        .forgot-btn {
-            border: 0;
-            background: transparent;
-            color: var(--cyan);
-
-            font-size: 12px;
-            font-weight: 800;
-
-            margin-top: 15px;
-            width: 100%;
-        }
-
-        /* =====================================================
-           VERIFICATION
-           ===================================================== */
-
-        #verificationScreen {
-            min-height: 100vh;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .verification-card {
-            width: 100%;
-            max-width: 430px;
-
-            background:
-                linear-gradient(
-                    145deg,
-                    #10243a,
-                    #081725
-                );
-
-            border: 1px solid var(--border);
-            border-radius: 25px;
-
-            padding: 28px 22px;
-
-            text-align: center;
-
-            box-shadow:
-                0 25px 70px rgba(0, 0, 0, 0.35);
-        }
-
-        .verification-icon {
-            width: 72px;
-            height: 72px;
-
-            margin: 0 auto 18px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 50%;
-
-            background: rgba(25, 191, 255, 0.12);
-            border: 1px solid rgba(25, 191, 255, 0.25);
-
-            font-size: 32px;
-        }
-
-        .verification-card h2 {
-            font-size: 23px;
-            margin-bottom: 9px;
-        }
-
-        #verificationEmail {
-            color: var(--cyan);
-            font-weight: 800;
-            word-break: break-word;
-            margin: 12px 0;
-        }
-
-        #verificationMessage {
-            color: var(--muted);
-            line-height: 1.6;
-            font-size: 13px;
-            margin-bottom: 22px;
-        }
-
-        .secondary-btn {
-            width: 100%;
-            border: 1px solid rgba(91, 185, 235, 0.16);
-            background: #0b1c2d;
-            color: white;
-
-            padding: 13px;
-            border-radius: 13px;
-
-            font-weight: 800;
-            margin-top: 10px;
-        }
-
-        /* =====================================================
-           APP
-           ===================================================== */
-
-        #appScreen {
-            display: none;
-            min-height: 100vh;
-            padding-bottom: 88px;
-        }
-
-        .topbar {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-
-            background:
-                rgba(6, 17, 30, 0.9);
-
-            backdrop-filter: blur(18px);
-
-            border-bottom:
-                1px solid rgba(92, 193, 255, 0.08);
-
-            padding: 14px 16px;
-        }
-
-        .topbar-inner {
-            max-width: 760px;
-            margin: auto;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .top-brand {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .top-brand-icon {
-            width: 39px;
-            height: 39px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 12px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #087eff,
-                    #17caff
-                );
-
-            font-weight: 900;
-        }
-
-        .top-brand-text {
-            font-weight: 900;
-            font-size: 14px;
-        }
-
-        .top-brand-sub {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 2px;
-        }
-
-        .logout-mini {
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: #0c1d2e;
-            color: #a9bdd0;
-
-            border-radius: 10px;
-            padding: 8px 11px;
-
-            font-size: 11px;
-            font-weight: 800;
-        }
-
-        .app-container {
-            width: 100%;
-            max-width: 760px;
-            margin: auto;
-            padding: 20px 15px;
-        }
-
-        .app-page {
-            display: none;
-        }
-
-        .app-page:first-child {
-            display: block;
-        }
-
-        /* =====================================================
-           HOME
-           ===================================================== */
-
-        .welcome {
-            margin-bottom: 18px;
-        }
-
-        .welcome small {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        .welcome h2 {
-            font-size: 25px;
-            margin-top: 4px;
-            font-weight: 900;
-        }
-
-        .welcome h2 span {
-            color: var(--cyan);
-        }
-
-        .balance-card {
-            position: relative;
-            overflow: hidden;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #087eff,
-                    #08b8ed
-                );
-
-            border-radius: 22px;
-
-            padding: 21px;
-
-            margin-bottom: 18px;
-
-            box-shadow:
-                0 18px 42px rgba(0, 129, 255, 0.2);
-        }
-
-        .balance-card::after {
-            content: "";
-            position: absolute;
-
-            width: 170px;
-            height: 170px;
-
-            border-radius: 50%;
-
-            right: -60px;
-            top: -75px;
-
-            background: rgba(255,255,255,0.12);
-        }
-
-        .balance-label {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .balance-value {
-            font-size: 31px;
-            font-weight: 950;
-            margin-top: 5px;
-        }
-
-        .balance-note {
-            margin-top: 10px;
-            font-size: 11px;
-            opacity: 0.78;
-        }
-
-        .section-title {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            margin: 21px 0 12px;
-        }
-
-        .section-title h3 {
-            font-size: 16px;
-        }
-
-        .section-title span {
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        .quick-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-        }
-
-        .quick-card {
-            border: 1px solid var(--border);
-            background: var(--card);
-
-            border-radius: 17px;
-            padding: 16px;
-
-            transition: 0.15s;
-        }
-
-        .quick-card:active {
-            transform: scale(0.98);
-        }
-
-        .quick-icon {
-            font-size: 22px;
-            margin-bottom: 11px;
-        }
-
-        .quick-card strong {
-            display: block;
-            font-size: 13px;
-        }
-
-        .quick-card small {
-            display: block;
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 4px;
-        }
-
-        .info-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 17px;
-            line-height: 1.6;
-        }
-
-        .info-card p {
-            color: var(--muted);
-            font-size: 12px;
-        }
-
-        /* =====================================================
-           SERVICES
-           ===================================================== */
-
-        .service-platform {
-            margin-bottom: 20px;
-        }
-
-        .platform-heading {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
-        }
-
-        .platform-heading .platform-icon {
-            width: 38px;
-            height: 38px;
-
-            border-radius: 11px;
-
-            background: var(--card2);
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            font-size: 19px;
-        }
-
-        .platform-heading h3 {
-            font-size: 15px;
-        }
-
-        .platform-heading p {
-            color: var(--muted);
-            font-size: 10px;
-            margin-top: 2px;
-        }
-
-        .services-grid {
-            display: grid;
-            gap: 9px;
-        }
-
-        .service-card {
-            width: 100%;
-
-            border: 1px solid var(--border);
-            background: var(--card);
-
-            border-radius: 16px;
-
-            padding: 15px;
-
-            text-align: left;
-            color: white;
-
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            transition: 0.15s;
-        }
-
-        .service-card:active {
-            transform: scale(0.985);
-        }
-
-        .service-card strong {
-            display: block;
-            font-size: 13px;
-        }
-
-        .service-card small {
-            display: block;
-            color: var(--muted);
-            margin-top: 4px;
-            font-size: 10px;
-        }
-
-        .service-price {
-            color: var(--cyan);
-            font-size: 11px;
-            font-weight: 900;
-            white-space: nowrap;
-        }
-
-        /* =====================================================
-           ORDER
-           ===================================================== */
-
-        .form-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 18px;
-        }
-
-        .order-total {
-            margin: 16px 0;
-
-            padding: 17px;
-
-            border-radius: 15px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    rgba(9, 126, 255, 0.15),
-                    rgba(19, 201, 255, 0.08)
-                );
-
-            border:
-                1px solid rgba(26, 193, 255, 0.14);
-        }
-
-        .order-total-label {
-            color: var(--muted);
-            font-size: 11px;
-        }
-
-        #orderTotal,
-        #totalPrice {
-            color: var(--cyan);
-            font-size: 25px;
-            font-weight: 950;
-            margin-top: 3px;
-        }
-
-        /* =====================================================
-           ORDERS
-           ===================================================== */
-
-        .loading,
-        .empty-state {
-            padding: 35px 15px;
-            text-align: center;
-            color: var(--muted);
-            font-size: 13px;
-        }
-
-        .order-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 17px;
-            padding: 16px;
-            margin-bottom: 10px;
-        }
-
-        .order-card-top {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            align-items: center;
-            margin-bottom: 13px;
-        }
-
-        .order-card-top strong {
-            font-size: 13px;
-        }
-
-        .order-status {
-            padding: 5px 8px;
-            border-radius: 8px;
-            font-size: 9px;
-            font-weight: 900;
-            background: rgba(255, 200, 87, 0.12);
-            color: var(--yellow);
-        }
-
-        .order-status.completed {
-            color: var(--green);
-            background: rgba(25, 213, 139, 0.12);
-        }
-
-        .order-status.cancelled,
-        .order-status.failed {
-            color: var(--red);
-            background: rgba(255, 92, 105, 0.12);
-        }
-
-        .order-info {
-            color: var(--muted);
-            font-size: 11px;
-            line-height: 1.9;
-        }
-
-        .order-info strong {
-            color: white;
-        }
-
-        .admin-note {
-            border-left: 2px solid var(--cyan);
-            padding-left: 10px;
-            margin-top: 8px;
-            color: #bcd2e5;
-        }
-
-        /* =====================================================
-           ACCOUNT
-           ===================================================== */
-
-        .profile-card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 18px;
-        }
-
-        .profile-avatar {
-            width: 62px;
-            height: 62px;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-
-            border-radius: 18px;
-
-            background:
-                linear-gradient(
-                    135deg,
-                    #087eff,
-                    #18caff
-                );
-
-            font-size: 23px;
-            font-weight: 950;
-
-            margin-bottom: 15px;
-        }
-
-        .profile-name {
-            font-size: 20px;
-            font-weight: 900;
-        }
-
-        .profile-email {
-            color: var(--muted);
-            font-size: 11px;
-            margin-top: 4px;
-        }
-
-        /* =====================================================
-           BOTTOM NAV
-           ===================================================== */
-
-        .bottom-nav {
-            position: fixed;
-            z-index: 500;
-
-            bottom: 0;
-            left: 0;
-            right: 0;
-
-            padding:
-                8px
-                10px
-                calc(8px + env(safe-area-inset-bottom));
-
-            background:
-                rgba(5, 15, 27, 0.94);
-
-            backdrop-filter: blur(20px);
-
-            border-top:
-                1px solid rgba(96, 190, 235, 0.1);
-        }
-
-        .bottom-nav-inner {
-            max-width: 760px;
-            margin: auto;
-
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 5px;
-        }
-
-        .nav-item {
-            border: 0;
-            background: transparent;
-
-            color: #667e94;
-
-            padding: 8px 4px;
-
-            border-radius: 12px;
-
-            font-size: 9px;
-            font-weight: 800;
-        }
-
-        .nav-icon {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 3px;
-        }
-
-        .nav-item.active {
-            color: var(--cyan);
-            background: rgba(28, 190, 255, 0.08);
-        }
-
-        /* =====================================================
-           DESKTOP
-           ===================================================== */
-
-        @media (min-width: 700px) {
-            .app-container {
-                padding-top: 28px;
-            }
-
-            .quick-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-
-            .services-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#07111f">
+  <title>REAL ABBA BOOSTING</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top right, rgba(0, 180, 255, 0.13), transparent 35%),
+        linear-gradient(180deg, #07111f 0%, #081522 100%);
+      color: #fff;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+      border: 0;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* =========================
+       AUTH
+    ========================= */
+
+    #authScreen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .auth-wrapper {
+      width: 100%;
+      max-width: 430px;
+    }
+
+    .brand {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+
+    .brand-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 14px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #00c6ff, #0072ff);
+      box-shadow: 0 15px 40px rgba(0, 153, 255, .25);
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    .brand h1 {
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: .5px;
+    }
+
+    .brand p {
+      margin-top: 7px;
+      color: #8fa6bc;
+      font-size: 14px;
+    }
+
+    .auth-card {
+      background: rgba(12, 27, 43, .96);
+      border: 1px solid rgba(117, 166, 207, .13);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 25px 70px rgba(0, 0, 0, .35);
+    }
+
+    .auth-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #07121f;
+      border-radius: 14px;
+      padding: 4px;
+      margin-bottom: 22px;
+    }
+
+    .auth-tab {
+      background: transparent;
+      color: #8298ad;
+      padding: 13px;
+      border-radius: 11px;
+      font-weight: 800;
+      transition: .2s;
+    }
+
+    .auth-tab.active {
+      color: white;
+      background: linear-gradient(135deg, #00aef5, #006eff);
+      box-shadow: 0 8px 22px rgba(0, 126, 255, .2);
+    }
+
+    .form-title {
+      font-size: 23px;
+      font-weight: 900;
+      margin-bottom: 5px;
+    }
+
+    .form-subtitle {
+      color: #8299ae;
+      font-size: 13px;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+
+    .field {
+      margin-bottom: 15px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 12px;
+      color: #9db1c4;
+      margin-bottom: 7px;
+      font-weight: 700;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      height: 50px;
+      padding: 0 15px;
+      border-radius: 13px;
+      border: 1px solid #1d344b;
+      background: #081725;
+      color: white;
+      outline: none;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: #00aef5;
+      box-shadow: 0 0 0 3px rgba(0, 174, 245, .08);
+    }
+
+    .field input::placeholder {
+      color: #536a7e;
+    }
+
+    .primary-btn {
+      width: 100%;
+      min-height: 51px;
+      border-radius: 13px;
+      color: white;
+      font-weight: 900;
+      background: linear-gradient(135deg, #00b7ff, #006dff);
+      box-shadow: 0 10px 25px rgba(0, 123, 255, .2);
+      margin-top: 4px;
+    }
+
+    .primary-btn:disabled {
+      opacity: .55;
+      cursor: not-allowed;
+    }
+
+    .secondary-btn {
+      width: 100%;
+      min-height: 48px;
+      border-radius: 13px;
+      background: #102335;
+      color: #d9e8f5;
+      font-weight: 800;
+      margin-top: 10px;
+    }
+
+    .forgot-btn {
+      display: block;
+      margin: 13px auto 0;
+      background: transparent;
+      color: #24b9ff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .message {
+      display: none;
+      padding: 12px 13px;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .message.show {
+      display: block;
+    }
+
+    .message.error {
+      background: rgba(255, 67, 67, .1);
+      border: 1px solid rgba(255, 67, 67, .25);
+      color: #ff9d9d;
+    }
+
+    .message.success {
+      background: rgba(0, 210, 145, .1);
+      border: 1px solid rgba(0, 210, 145, .25);
+      color: #7ff0ca;
+    }
+
+    .terms {
+      color: #657e94;
+      text-align: center;
+      font-size: 11px;
+      line-height: 1.5;
+      margin-top: 17px;
+    }
+
+    /* =========================
+       VERIFICATION
+    ========================= */
+
+    .verify-box {
+      text-align: center;
+      padding: 12px 4px 4px;
+    }
+
+    .verify-icon {
+      width: 76px;
+      height: 76px;
+      border-radius: 50%;
+      background: rgba(0, 174, 255, .1);
+      border: 1px solid rgba(0, 174, 255, .25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 18px;
+      font-size: 32px;
+    }
+
+    .verify-box h2 {
+      font-size: 23px;
+      margin-bottom: 10px;
+    }
+
+    .verify-box p {
+      color: #8ca2b7;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .verify-email {
+      color: #25bbff;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    /* =========================
+       APP
+    ========================= */
+
+    #appScreen {
+      min-height: 100vh;
+      padding-bottom: 90px;
+    }
+
+    .topbar {
+      padding: 18px 18px 10px;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(7, 17, 31, .94);
+      backdrop-filter: blur(15px);
+    }
+
+    .topbar-inner {
+      max-width: 700px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .mini-brand {
+      font-size: 16px;
+      font-weight: 900;
+    }
+
+    .mini-brand span {
+      color: #15baff;
+    }
+
+    .logout-top {
+      background: #102437;
+      color: #9db4c9;
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .content {
+      width: 100%;
+      max-width: 700px;
+      margin: auto;
+      padding: 15px 16px 30px;
+    }
+
+    .page {
+      display: none;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    .welcome {
+      margin: 12px 0 20px;
+    }
+
+    .welcome small {
+      color: #7e95a9;
+      font-size: 13px;
+    }
+
+    .welcome h2 {
+      font-size: 26px;
+      margin-top: 5px;
+    }
+
+    .balance-card {
+      padding: 22px;
+      border-radius: 21px;
+      background: linear-gradient(135deg, #087ec5, #064c9b);
+      box-shadow: 0 18px 35px rgba(0, 100, 200, .18);
+      margin-bottom: 18px;
+    }
+
+    .balance-label {
+      color: #bce6ff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .balance {
+      font-size: 31px;
+      font-weight: 900;
+      margin: 7px 0 18px;
+    }
+
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .quick-card,
+    .service-card,
+    .order-card,
+    .account-card {
+      background: #0c1c2c;
+      border: 1px solid #172d42;
+      border-radius: 18px;
+    }
+
+    .quick-card {
+      padding: 17px;
+    }
+
+    .quick-card strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 5px;
+    }
+
+    .quick-card span {
+      color: #7891a7;
+      font-size: 12px;
+    }
+
+    .section-title {
+      margin: 23px 0 12px;
+      font-size: 17px;
+      font-weight: 900;
+    }
+
+    .service-grid {
+      display: grid;
+      gap: 11px;
+    }
+
+    .service-card {
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .service-left {
+      display: flex;
+      align-items: center;
+      gap: 13px;
+    }
+
+    .service-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 13px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #102a40;
+      font-size: 18px;
+    }
+
+    .service-card strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .service-card small {
+      color: #738ba1;
+      font-size: 11px;
+      display: block;
+      margin-top: 4px;
+    }
+
+    .order-btn {
+      background: #0c86d6;
+      color: white;
+      padding: 9px 12px;
+      border-radius: 9px;
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .order-form,
+    .account-card {
+      padding: 19px;
+    }
+
+    .price-box {
+      background: #091725;
+      border: 1px solid #19344c;
+      border-radius: 13px;
+      padding: 15px;
+      margin: 12px 0;
+    }
+
+    .price-box span {
+      color: #7890a5;
+      font-size: 12px;
+    }
+
+    .price-box strong {
+      display: block;
+      font-size: 23px;
+      margin-top: 4px;
+    }
+
+    .order-card {
+      padding: 16px;
+      margin-bottom: 11px;
+    }
+
+    .order-card-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .order-card strong {
+      font-size: 14px;
+    }
+
+    .status {
+      font-size: 10px;
+      padding: 5px 8px;
+      border-radius: 8px;
+      background: rgba(255, 193, 7, .1);
+      color: #ffd76b;
+      font-weight: 800;
+    }
+
+    .order-info {
+      margin-top: 10px;
+      color: #7890a5;
+      font-size: 12px;
+      line-height: 1.7;
+      word-break: break-word;
+    }
+
+    .account-row {
+      padding: 14px 0;
+      border-bottom: 1px solid #172d42;
+    }
+
+    .account-row:last-child {
+      border-bottom: 0;
+    }
+
+    .account-row small {
+      display: block;
+      color: #70879c;
+      margin-bottom: 5px;
+      font-size: 11px;
+    }
+
+    .account-row strong {
+      word-break: break-word;
+    }
+
+    /* =========================
+       BOTTOM NAV
+    ========================= */
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 20;
+      background: rgba(7, 17, 31, .97);
+      border-top: 1px solid #172b3f;
+      padding: 9px 7px calc(9px + env(safe-area-inset-bottom));
+      backdrop-filter: blur(15px);
+    }
+
+    .bottom-nav-inner {
+      max-width: 700px;
+      margin: auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .nav-btn {
+      background: transparent;
+      color: #657d92;
+      padding: 7px 3px;
+      font-size: 10px;
+      font-weight: 800;
+    }
+
+    .nav-btn span {
+      display: block;
+      font-size: 18px;
+      margin-bottom: 4px;
+    }
+
+    .nav-btn.active {
+      color: #16baff;
+    }
+
+    @media (min-width: 600px) {
+      .content {
+        padding-left: 24px;
+        padding-right: 24px;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- =========================================================
-     AUTH SCREEN
-     ========================================================= -->
+  <!-- =========================
+       AUTH SCREEN
+  ========================== -->
 
-<section id="authScreen">
+  <section id="authScreen">
 
     <div class="auth-wrapper">
 
-        <div class="brand">
+      <div class="brand">
+        <div class="brand-icon">RA</div>
+        <h1>REAL ABBA BOOSTING</h1>
+        <p>Grow your social media presence</p>
+      </div>
 
-            <div class="brand-icon">
-                <span>RA</span>
-            </div>
+      <div class="auth-card">
 
-            <h1>REAL ABBA BOOSTING</h1>
+        <!-- TABS -->
+        <div class="auth-tabs">
+          <button
+            type="button"
+            id="loginTab"
+            class="auth-tab active"
+            onclick="showAuthForm('login')">
+            Login
+          </button>
 
-            <p>
-                Grow your social media presence faster
-            </p>
-
+          <button
+            type="button"
+            id="signupTab"
+            class="auth-tab"
+            onclick="showAuthForm('signup')">
+            Sign Up
+          </button>
         </div>
 
+        <div id="authMessage" class="message"></div>
+
+        <!-- LOGIN -->
+        <form id="loginForm">
+
+          <div class="form-title">Welcome back</div>
+          <div class="form-subtitle">
+            Login to your REAL ABBA BOOSTING account.
+          </div>
+
+          <div class="field">
+            <label>Email Address</label>
+            <input
+              id="loginEmail"
+              type="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Password</label>
+            <input
+              id="loginPassword"
+              type="password"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+              required>
+          </div>
+
+          <button
+            type="submit"
+            id="loginButton"
+            class="primary-btn">
+            Login
+          </button>
+
+          <button
+            type="button"
+            class="forgot-btn"
+            onclick="forgotPassword()">
+            Forgot password?
+          </button>
+
+        </form>
+
+        <!-- SIGN UP -->
+        <form id="signupForm" class="hidden">
+
+          <div class="form-title">Create account</div>
+          <div class="form-subtitle">
+            Create your account and start growing your social media.
+          </div>
+
+          <div class="field">
+            <label>Full Name</label>
+            <input
+              id="signupName"
+              type="text"
+              placeholder="Enter your full name"
+              autocomplete="name"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Email Address</label>
+            <input
+              id="signupEmail"
+              type="email"
+              placeholder="Enter your email"
+              autocomplete="email"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Password</label>
+            <input
+              id="signupPassword"
+              type="password"
+              placeholder="Create a password"
+              autocomplete="new-password"
+              minlength="6"
+              required>
+          </div>
+
+          <div class="field">
+            <label>Confirm Password</label>
+            <input
+              id="signupConfirm"
+              type="password"
+              placeholder="Confirm your password"
+              autocomplete="new-password"
+              minlength="6"
+              required>
+          </div>
+
+          <button
+            type="submit"
+            id="signupButton"
+            class="primary-btn">
+            Create Account
+          </button>
+
+        </form>
+
+        <div class="terms">
+          By continuing, you agree to use REAL ABBA BOOSTING responsibly.
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================
+       EMAIL VERIFICATION
+  ========================== -->
+
+  <section id="verificationScreen" class="hidden">
+    <div id="authScreen">
+      <div class="auth-wrapper">
+
+        <div class="brand">
+          <div class="brand-icon">RA</div>
+          <h1>REAL ABBA BOOSTING</h1>
+          <p>One more step</p>
+        </div>
 
         <div class="auth-card">
+          <div class="verify-box">
 
-            <div class="auth-tabs">
+            <div class="verify-icon">✉</div>
 
-                <button
-                    type="button"
-                    id="loginTab"
-                    class="auth-tab active"
-                >
-                    Login
-                </button>
+            <h2>Verify your email</h2>
 
-                <button
-                    type="button"
-                    id="signupTab"
-                    class="auth-tab"
-                >
-                    Sign Up
-                </button>
+            <p>
+              We sent a verification link to:
+            </p>
 
-            </div>
+            <p class="verify-email" id="verificationEmail">
+              your email
+            </p>
 
+            <br>
 
-            <!-- LOGIN -->
-
-            <form id="loginForm">
-
-                <h2 class="form-title">
-                    Welcome back
-                </h2>
-
-                <p class="form-subtitle">
-                    Login to manage your boosting orders.
-                </p>
-
-
-                <div class="field">
-
-                    <label for="loginEmail">
-                        Email address
-                    </label>
-
-                    <input
-                        class="input"
-                        type="email"
-                        id="loginEmail"
-                        placeholder="Enter your email"
-                        autocomplete="email"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="loginPassword">
-                        Password
-                    </label>
-
-                    <input
-                        class="input"
-                        type="password"
-                        id="loginPassword"
-                        placeholder="Enter your password"
-                        autocomplete="current-password"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    id="loginButton"
-                    class="primary-btn"
-                >
-                    Login
-                </button>
-
-
-                <button
-                    type="button"
-                    id="forgotPasswordBtn"
-                    class="forgot-btn"
-                >
-                    Forgot your password?
-                </button>
-
-            </form>
-
-
-            <!-- SIGN UP -->
-
-            <form
-                id="signupForm"
-                style="display:none;"
-            >
-
-                <h2 class="form-title">
-                    Create account
-                </h2>
-
-                <p class="form-subtitle">
-                    Join REAL ABBA BOOSTING and start growing.
-                </p>
-
-
-                <div class="field">
-
-                    <label for="signupName">
-                        Full name
-                    </label>
-
-                    <input
-                        class="input"
-                        type="text"
-                        id="signupName"
-                        placeholder="Enter your name"
-                        autocomplete="name"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupEmail">
-                        Email address
-                    </label>
-
-                    <input
-                        class="input"
-                        type="email"
-                        id="signupEmail"
-                        placeholder="Enter your email"
-                        autocomplete="email"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupPassword">
-                        Password
-                    </label>
-
-                    <input
-                        class="input"
-                        type="password"
-                        id="signupPassword"
-                        placeholder="Minimum 6 characters"
-                        autocomplete="new-password"
-                        required
-                    >
-
-                </div>
-
-
-                <div class="field">
-
-                    <label for="signupConfirm">
-                        Confirm password
-                    </label>
-
-                    <input
-                        class="input"
-                        type="password"
-                        id="signupConfirm"
-                        placeholder="Enter password again"
-                        autocomplete="new-password"
-                        required
-                    >
-
-                </div>
-
-
-                <button
-                    type="submit"
-                    id="signupButton"
-                    class="primary-btn"
-                >
-                    Create Account
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     EMAIL VERIFICATION
-     ========================================================= -->
-
-<section id="verificationScreen">
-
-    <div class="verification-card">
-
-        <div class="verification-icon">
-            ✉️
-        </div>
-
-        <h2>
-            Verify your email
-        </h2>
-
-        <p id="verificationEmail"></p>
-
-        <p id="verificationMessage">
-            We sent a confirmation link to your email.
-            Open your email and click the confirmation link.
-        </p>
-
-
-        <button
-            type="button"
-            id="checkVerificationBtn"
-            class="primary-btn"
-        >
-            I've Confirmed My Email
-        </button>
-
-
-        <button
-            type="button"
-            id="resendVerificationBtn"
-            class="secondary-btn"
-        >
-            Resend Email
-        </button>
-
-
-        <button
-            type="button"
-            id="verificationLogoutBtn"
-            class="secondary-btn"
-        >
-            Use Another Account
-        </button>
-
-    </div>
-
-</section>
-
-
-<!-- =========================================================
-     MAIN APP
-     ========================================================= -->
-
-<section id="appScreen">
-
-    <!-- TOP BAR -->
-
-    <header class="topbar">
-
-        <div class="topbar-inner">
-
-            <div class="top-brand">
-
-                <div class="top-brand-icon">
-                    RA
-                </div>
-
-                <div>
-
-                    <div class="top-brand-text">
-                        REAL ABBA BOOSTING
-                    </div>
-
-                    <div class="top-brand-sub">
-                        Social Growth Platform
-                    </div>
-
-                </div>
-
-            </div>
-
+            <p>
+              Open your email and click the verification link.
+              Then come back here.
+            </p>
 
             <button
-                type="button"
-                id="logoutBtn"
-                class="logout-mini"
-            >
-                Logout
+              type="button"
+              id="checkVerificationButton"
+              class="primary-btn"
+              style="margin-top:20px"
+              onclick="checkVerification()">
+              I've Verified My Email
             </button>
 
+            <button
+              type="button"
+              class="secondary-btn"
+              onclick="resendVerification()">
+              Resend Email
+            </button>
+
+            <button
+              type="button"
+              class="forgot-btn"
+              onclick="verificationLogout()">
+              Use another account
+            </button>
+
+          </div>
         </div>
 
+      </div>
+    </div>
+  </section>
+
+
+  <!-- =========================
+       MAIN APP
+  ========================== -->
+
+  <section id="appScreen" class="hidden">
+
+    <header class="topbar">
+      <div class="topbar-inner">
+
+        <div class="mini-brand">
+          REAL ABBA <span>BOOSTING</span>
+        </div>
+
+        <button
+          class="logout-top"
+          onclick="logout()">
+          Logout
+        </button>
+
+      </div>
     </header>
 
 
-    <!-- APP CONTENT -->
+    <main class="content">
 
-    <main class="app-container">
+      <!-- HOME -->
+      <div id="page-home" class="page active">
 
+        <div class="welcome">
+          <small>Welcome back</small>
+          <h2 id="welcomeName">Creator</h2>
+        </div>
 
-        <!-- =================================================
-             HOME
-             ================================================= -->
+        <div class="balance-card">
+          <div class="balance-label">Wallet Balance</div>
+          <div class="balance">₦<span id="walletBalance">0</span></div>
 
-        <section
-            id="page-home"
-            class="app-page"
-        >
+          <button
+            class="secondary-btn"
+            style="background:rgba(255,255,255,.12);margin:0;color:white"
+            onclick="showPage('services')">
+            Place New Order
+          </button>
+        </div>
 
-            <div class="welcome">
+        <div class="quick-grid">
 
-                <small>
-                    Welcome back,
-                </small>
+          <div class="quick-card">
+            <strong>Fast Delivery</strong>
+            <span>Quick processing</span>
+          </div>
 
-                <h2>
-                    <span id="welcomeName">
-                        Creator
-                    </span>
-                    👋
-                </h2>
+          <div class="quick-card">
+            <strong>Secure Service</strong>
+            <span>Reliable ordering</span>
+          </div>
 
+          <div class="quick-card">
+            <strong>Easy Ordering</strong>
+            <span>Simple dashboard</span>
+          </div>
+
+          <div class="quick-card">
+            <strong>Support</strong>
+            <span>We're here to help</span>
+          </div>
+
+        </div>
+
+        <div class="section-title">
+          Popular Services
+        </div>
+
+        <div class="service-grid">
+
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">♪</div>
+              <div>
+                <strong>TikTok Followers</strong>
+                <small>₦6,000 / 1,000</small>
+              </div>
             </div>
 
+            <button
+              class="order-btn"
+              onclick="startOrder('TikTok Followers',6000)">
+              Order
+            </button>
+          </div>
 
-            <div class="balance-card">
-
-                <div class="balance-label">
-                    Wallet Balance
-                </div>
-
-                <div class="balance-value">
-                    ₦0
-                </div>
-
-                <div class="balance-note">
-                    Your wallet balance will appear here.
-                </div>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">◎</div>
+              <div>
+                <strong>Instagram Followers</strong>
+                <small>₦5,500 / 1,000</small>
+              </div>
             </div>
 
+            <button
+              class="order-btn"
+              onclick="startOrder('Instagram Followers',5500)">
+              Order
+            </button>
+          </div>
 
-            <div class="section-title">
-
-                <h3>
-                    Quick Services
-                </h3>
-
-                <span>
-                    Choose a platform
-                </span>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">▶</div>
+              <div>
+                <strong>YouTube Subscribers</strong>
+                <small>₦65,000 / 1,000</small>
+              </div>
             </div>
 
+            <button
+              class="order-btn"
+              onclick="startOrder('YouTube Subscribers',65000)">
+              Order
+            </button>
+          </div>
 
-            <div class="quick-grid">
-
-                <button
-                    class="quick-card"
-                    type="button"
-                    data-platform="TikTok"
-                >
-                    <div class="quick-icon">
-                        🎵
-                    </div>
-
-                    <strong>
-                        TikTok
-                    </strong>
-
-                    <small>
-                        Followers • Likes • Views
-                    </small>
-                </button>
+        </div>
+      </div>
 
 
-                <button
-                    class="quick-card"
-                    type="button"
-                    data-platform="Instagram"
-                >
-                    <div class="quick-icon">
-                        📸
-                    </div>
+      <!-- SERVICES -->
+      <div id="page-services" class="page">
 
-                    <strong>
-                        Instagram
-                    </strong>
+        <div class="welcome">
+          <small>REAL ABBA BOOSTING</small>
+          <h2>Services</h2>
+        </div>
 
-                    <small>
-                        Followers • Likes • Views
-                    </small>
-                </button>
+        <div class="service-grid">
 
-
-                <button
-                    class="quick-card"
-                    type="button"
-                    data-platform="YouTube"
-                >
-                    <div class="quick-icon">
-                        ▶️
-                    </div>
-
-                    <strong>
-                        YouTube
-                    </strong>
-
-                    <small>
-                        Subscribers • Views
-                    </small>
-                </button>
-
-
-                <button
-                    class="quick-card"
-                    type="button"
-                    data-platform="Facebook"
-                >
-                    <div class="quick-icon">
-                        f
-                    </div>
-
-                    <strong>
-                        Facebook
-                    </strong>
-
-                    <small>
-                        Followers
-                    </small>
-                </button>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">♪</div>
+              <div>
+                <strong>TikTok Followers</strong>
+                <small>₦6,000 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('TikTok Followers',6000)">Order</button>
+          </div>
 
-
-            <div class="section-title">
-
-                <h3>
-                    How it works
-                </h3>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">♪</div>
+              <div>
+                <strong>TikTok Likes</strong>
+                <small>₦1,000 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('TikTok Likes',1000)">Order</button>
+          </div>
 
-
-            <div class="info-card">
-
-                <p>
-                    <strong>1.</strong>
-                    Choose the social media service you want.
-                    <br>
-
-                    <strong>2.</strong>
-                    Enter the quantity and your account/post link.
-                    <br>
-
-                    <strong>3.</strong>
-                    Submit your order and track its status here.
-                </p>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">♪</div>
+              <div>
+                <strong>TikTok Views</strong>
+                <small>₦400 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('TikTok Views',400)">Order</button>
+          </div>
 
-        </section>
-
-
-        <!-- =================================================
-             SERVICES
-             ================================================= -->
-
-        <section
-            id="page-services"
-            class="app-page"
-        >
-
-            <div class="section-title">
-
-                <h3>
-                    Services
-                </h3>
-
-                <span>
-                    Select a service
-                </span>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">◎</div>
+              <div>
+                <strong>Instagram Followers</strong>
+                <small>₦5,500 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('Instagram Followers',5500)">Order</button>
+          </div>
 
-
-            <!-- TIKTOK -->
-
-            <div class="service-platform">
-
-                <div class="platform-heading">
-
-                    <div class="platform-icon">
-                        🎵
-                    </div>
-
-                    <div>
-                        <h3>TikTok</h3>
-                        <p>Grow your TikTok account</p>
-                    </div>
-
-                </div>
-
-
-                <div class="services-grid">
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="TikTok Followers"
-                    >
-                        <div>
-                            <strong>TikTok Followers</strong>
-                            <small>1,000 followers</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦6,000 / 1K
-                        </span>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="TikTok Likes"
-                    >
-                        <div>
-                            <strong>TikTok Likes</strong>
-                            <small>1,000 likes</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦1,000 / 1K
-                        </span>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="TikTok Views"
-                    >
-                        <div>
-                            <strong>TikTok Views</strong>
-                            <small>1,000 views</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦400 / 1K
-                        </span>
-                    </button>
-
-                </div>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">◎</div>
+              <div>
+                <strong>Instagram Likes</strong>
+                <small>₦800 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('Instagram Likes',800)">Order</button>
+          </div>
 
-
-            <!-- INSTAGRAM -->
-
-            <div class="service-platform">
-
-                <div class="platform-heading">
-
-                    <div class="platform-icon">
-                        📸
-                    </div>
-
-                    <div>
-                        <h3>Instagram</h3>
-                        <p>Build your Instagram presence</p>
-                    </div>
-
-                </div>
-
-
-                <div class="services-grid">
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="Instagram Followers"
-                    >
-                        <div>
-                            <strong>Instagram Followers</strong>
-                            <small>1,000 followers</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦5,500 / 1K
-                        </span>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="Instagram Likes"
-                    >
-                        <div>
-                            <strong>Instagram Likes</strong>
-                            <small>1,000 likes</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦800 / 1K
-                        </span>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="Instagram Views"
-                    >
-                        <div>
-                            <strong>Instagram Views</strong>
-                            <small>1,000 views</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦300 / 1K
-                        </span>
-                    </button>
-
-                </div>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">◎</div>
+              <div>
+                <strong>Instagram Views</strong>
+                <small>₦300 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('Instagram Views',300)">Order</button>
+          </div>
 
-
-            <!-- YOUTUBE -->
-
-            <div class="service-platform">
-
-                <div class="platform-heading">
-
-                    <div class="platform-icon">
-                        ▶️
-                    </div>
-
-                    <div>
-                        <h3>YouTube</h3>
-                        <p>Grow your YouTube channel</p>
-                    </div>
-
-                </div>
-
-
-                <div class="services-grid">
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="YouTube Subscribers"
-                    >
-                        <div>
-                            <strong>YouTube Subscribers</strong>
-                            <small>1,000 subscribers</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦65,000 / 1K
-                        </span>
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="YouTube Views"
-                    >
-                        <div>
-                            <strong>YouTube Views</strong>
-                            <small>1,000 views</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦2,500 / 1K
-                        </span>
-                    </button>
-
-                </div>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">▶</div>
+              <div>
+                <strong>YouTube Subscribers</strong>
+                <small>₦65,000 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('YouTube Subscribers',65000)">Order</button>
+          </div>
 
-
-            <!-- FACEBOOK -->
-
-            <div class="service-platform">
-
-                <div class="platform-heading">
-
-                    <div class="platform-icon">
-                        f
-                    </div>
-
-                    <div>
-                        <h3>Facebook</h3>
-                        <p>Grow your Facebook page</p>
-                    </div>
-
-                </div>
-
-
-                <div class="services-grid">
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="Facebook Followers"
-                    >
-                        <div>
-                            <strong>Facebook Followers</strong>
-                            <small>1,000 followers</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦5,300 / 1K
-                        </span>
-                    </button>
-
-                </div>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">▶</div>
+              <div>
+                <strong>YouTube Views</strong>
+                <small>₦2,500 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('YouTube Views',2500)">Order</button>
+          </div>
 
-
-            <!-- TELEGRAM -->
-
-            <div class="service-platform">
-
-                <div class="platform-heading">
-
-                    <div class="platform-icon">
-                        ✈️
-                    </div>
-
-                    <div>
-                        <h3>Telegram</h3>
-                        <p>Grow your Telegram community</p>
-                    </div>
-
-                </div>
-
-
-                <div class="services-grid">
-
-                    <button
-                        type="button"
-                        class="service-card"
-                        data-service="Telegram Members"
-                    >
-                        <div>
-                            <strong>Telegram Members</strong>
-                            <small>1,000 members</small>
-                        </div>
-
-                        <span class="service-price">
-                            ₦5,000 / 1K
-                        </span>
-                    </button>
-
-                </div>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">f</div>
+              <div>
+                <strong>Facebook Followers</strong>
+                <small>₦5,300 / 1,000</small>
+              </div>
             </div>
+            <button class="order-btn"
+              onclick="startOrder('Facebook Followers',5300)">Order</button>
+          </div>
 
-        </section>
-
-
-        <!-- =================================================
-             ORDER
-             ================================================= -->
-
-        <section
-            id="page-order"
-            class="app-page"
-        >
-
-            <div class="section-title">
-
-                <h3>
-                    New Order
-                </h3>
-
-                <span>
-                    Place your order
-                </span>
-
+          <div class="service-card">
+            <div class="service-left">
+              <div class="service-icon">✈</div>
+              <div>
+                <strong>Telegram Members</strong>
+                <small>₦5,000 / 1,000</small>
+              </div>
             </div>
-
-
-            <div class="form-card">
-
-                <form id="orderForm">
-
-                    <div class="field">
-
-                        <label for="serviceType">
-                            Service
-                        </label>
-
-                        <select
-                            id="serviceType"
-                            class="input"
-                            required
-                        >
-                            <option value="">
-                                Select a service
-                            </option>
-
-                            <option value="TikTok Followers">
-                                TikTok Followers — ₦6,000 / 1,000
-                            </option>
-
-                            <option value="TikTok Likes">
-                                TikTok Likes — ₦1,000 / 1,000
-                            </option>
-
-                            <option value="TikTok Views">
-                                TikTok Views — ₦400 / 1,000
-                            </option>
-
-                            <option value="Instagram Followers">
-                                Instagram Followers — ₦5,500 / 1,000
-                            </option>
-
-                            <option value="Instagram Likes">
-                                Instagram Likes — ₦800 / 1,000
-                            </option>
-
-                            <option value="Instagram Views">
-                                Instagram Views — ₦300 / 1,000
-                            </option>
-
-                            <option value="YouTube Subscribers">
-                                YouTube Subscribers — ₦65,000 / 1,000
-                            </option>
-
-                            <option value="YouTube Views">
-                                YouTube Views — ₦2,500 / 1,000
-                            </option>
-
-                            <option value="Facebook Followers">
-                                Facebook Followers — ₦5,300 / 1,000
-                            </option>
-
-                            <option value="Telegram Members">
-                                Telegram Members — ₦5,000 / 1,000
-                            </option>
-
-                        </select>
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="orderQuantity">
-                            Quantity
-                        </label>
-
-                        <input
-                            class="input"
-                            type="number"
-                            id="orderQuantity"
-                            placeholder="Example: 1000"
-                            min="1"
-                            step="1"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="orderLink">
-                            Link
-                        </label>
-
-                        <input
-                            class="input"
-                            type="url"
-                            id="orderLink"
-                            placeholder="https://..."
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="field">
-
-                        <label for="orderMessage">
-                            Additional note
-                            <span style="color:#627b91;">
-                                (optional)
-                            </span>
-                        </label>
-
-                        <textarea
-                            class="input"
-                            id="orderMessage"
-                            placeholder="Any additional information..."
-                        ></textarea>
-
-                    </div>
-
-
-                    <div class="order-total">
-
-                        <div class="order-total-label">
-                            Total amount
-                        </div>
-
-                        <div id="orderTotal">
-                            ₦0
-                        </div>
-
-                        <input
-                            type="hidden"
-                            id="orderTotalInput"
-                            value="0"
-                        >
-
-                    </div>
-
-
-                    <button
-                        type="submit"
-                        id="placeOrderButton"
-                        class="primary-btn"
-                    >
-                        Place Order
-                    </button>
-
-                </form>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             ORDERS
-             ================================================= -->
-
-        <section
-            id="page-orders"
-            class="app-page"
-        >
-
-            <div class="section-title">
-
-                <h3>
-                    My Orders
-                </h3>
-
-                <span>
-                    Order history
-                </span>
-
-            </div>
-
-
-            <div id="ordersList">
-
-                <div class="empty-state">
-                    Your orders will appear here.
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <!-- =================================================
-             ACCOUNT
-             ================================================= -->
-
-        <section
-            id="page-account"
-            class="app-page"
-        >
-
-            <div class="section-title">
-
-                <h3>
-                    Account
-                </h3>
-
-            </div>
-
-
-            <div class="profile-card">
-
-                <div class="profile-avatar">
-                    RA
-                </div>
-
-                <div class="profile-name">
-                    <span id="accountName">
-                        Creator
-                    </span>
-                </div>
-
-                <div class="profile-email">
-                    <span id="accountEmail">
-                        —
-                    </span>
-                </div>
-
-                <div style="height:18px;"></div>
-
-                <button
-                    type="button"
-                    id="logoutButton"
-                    class="secondary-btn"
-                >
-                    Logout
-                </button>
-
-            </div>
-
-        </section>
-
+            <button class="order-btn"
+              onclick="startOrder('Telegram Members',5000)">Order</button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <!-- ORDER -->
+      <div id="page-order" class="page">
+
+        <div class="welcome">
+          <small>Place your order</small>
+          <h2>New Order</h2>
+        </div>
+
+        <div class="order-form">
+
+          <div class="field">
+            <label>Service</label>
+            <select id="orderService" onchange="calculateTotal()">
+              <option value="">Select a service</option>
+              <option value="TikTok Followers|6000">TikTok Followers — ₦6,000 / 1,000</option>
+              <option value="TikTok Likes|1000">TikTok Likes — ₦1,000 / 1,000</option>
+              <option value="TikTok Views|400">TikTok Views — ₦400 / 1,000</option>
+              <option value="Instagram Followers|5500">Instagram Followers — ₦5,500 / 1,000</option>
+              <option value="Instagram Likes|800">Instagram Likes — ₦800 / 1,000</option>
+              <option value="Instagram Views|300">Instagram Views — ₦300 / 1,000</option>
+              <option value="YouTube Subscribers|65000">YouTube Subscribers — ₦65,000 / 1,000</option>
+              <option value="YouTube Views|2500">YouTube Views — ₦2,500 / 1,000</option>
+              <option value="Facebook Followers|5300">Facebook Followers — ₦5,300 / 1,000</option>
+              <option value="Telegram Members|5000">Telegram Members — ₦5,000 / 1,000</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>Quantity</label>
+            <input
+              id="orderQuantity"
+              type="number"
+              min="100"
+              step="100"
+              value="1000"
+              oninput="calculateTotal()">
+          </div>
+
+          <div class="field">
+            <label>Profile / Post / Channel Link</label>
+            <input
+              id="orderLink"
+              type="url"
+              placeholder="https://..."
+              required>
+          </div>
+
+          <div class="price-box">
+            <span>Total Price</span>
+            <strong id="orderTotal">₦0</strong>
+          </div>
+
+          <button
+            class="primary-btn"
+            onclick="submitOrder()">
+            Place Order
+          </button>
+
+        </div>
+      </div>
+
+
+      <!-- ORDERS -->
+      <div id="page-orders" class="page">
+
+        <div class="welcome">
+          <small>Your activity</small>
+          <h2>My Orders</h2>
+        </div>
+
+        <div id="ordersList">
+          <div class="account-card" style="text-align:center;color:#71889d">
+            No orders yet.
+          </div>
+        </div>
+
+      </div>
+
+
+      <!-- ACCOUNT -->
+      <div id="page-account" class="page">
+
+        <div class="welcome">
+          <small>Your account</small>
+          <h2>Account</h2>
+        </div>
+
+        <div class="account-card">
+
+          <div class="account-row">
+            <small>Name</small>
+            <strong id="accountName">-</strong>
+          </div>
+
+          <div class="account-row">
+            <small>Email</small>
+            <strong id="accountEmail">-</strong>
+          </div>
+
+          <div class="account-row">
+            <small>Account Status</small>
+            <strong style="color:#35d8a6">
+              Verified
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
 
     </main>
 
 
-    <!-- =====================================================
-         BOTTOM NAVIGATION
-         ===================================================== -->
-
+    <!-- BOTTOM NAV -->
     <nav class="bottom-nav">
 
-        <div class="bottom-nav-inner">
+      <div class="bottom-nav-inner">
 
-            <button
-                type="button"
-                class="nav-item active"
-                data-page="home"
-            >
-                <span class="nav-icon">⌂</span>
-                Home
-            </button>
+        <button
+          id="nav-home"
+          class="nav-btn active"
+          onclick="showPage('home')">
+          <span>⌂</span>
+          Home
+        </button>
 
+        <button
+          id="nav-services"
+          class="nav-btn"
+          onclick="showPage('services')">
+          <span>◈</span>
+          Services
+        </button>
 
-            <button
-                type="button"
-                class="nav-item"
-                data-page="services"
-            >
-                <span class="nav-icon">⚡</span>
-                Services
-            </button>
+        <button
+          id="nav-orders"
+          class="nav-btn"
+          onclick="showPage('orders')">
+          <span>▤</span>
+          Orders
+        </button>
 
+        <button
+          id="nav-account"
+          class="nav-btn"
+          onclick="showPage('account')">
+          <span>●</span>
+          Account
+        </button>
 
-            <button
-                type="button"
-                class="nav-item"
-                data-page="orders"
-            >
-                <span class="nav-icon">▣</span>
-                Orders
-            </button>
-
-
-            <button
-                type="button"
-                class="nav-item"
-                data-page="account"
-            >
-                <span class="nav-icon">●</span>
-                Account
-            </button>
-
-        </div>
+      </div>
 
     </nav>
 
-</section>
+  </section>
 
 
-<!-- =========================================================
-     SCRIPTS
-     ========================================================= -->
+  <!-- SUPABASE -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="supabase.js"></script>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!--
+    IMPORTANT:
+    We intentionally DO NOT load the old script.js or app.js here.
+    This prevents old Firebase code from interfering with Supabase.
+  -->
 
-<script src="supabase.js"></script>
+  <script>
 
-<script src="script.js"></script>
+    /* ==========================================
+       GLOBALS
+    ========================================== */
+
+    let currentUser = null;
+    let currentServicePrice = 0;
+
+    const authScreen = document.getElementById("authScreen");
+    const verificationScreen = document.getElementById("verificationScreen");
+    const appScreen = document.getElementById("appScreen");
+
+    const loginForm = document.getElementById("loginForm");
+    const signupForm = document.getElementById("signupForm");
+
+    const authMessage = document.getElementById("authMessage");
+
+
+    /* ==========================================
+       MESSAGE
+    ========================================== */
+
+    function showMessage(text, type = "error") {
+
+      authMessage.textContent = text;
+      authMessage.className = "message show " + type;
+
+    }
+
+
+    function clearMessage() {
+
+      authMessage.textContent = "";
+      authMessage.className = "message";
+
+    }
+
+
+    /* ==========================================
+       LOGIN / SIGNUP TABS
+       THIS IS INLINE SO IT CANNOT DEPEND ON
+       THE OLD script.js
+    ========================================== */
+
+    function showAuthForm(type) {
+
+      clearMessage();
+
+      const loginTab = document.getElementById("loginTab");
+      const signupTab = document.getElementById("signupTab");
+
+      if (type === "signup") {
+
+        loginForm.classList.add("hidden");
+        signupForm.classList.remove("hidden");
+
+        loginTab.classList.remove("active");
+        signupTab.classList.add("active");
+
+      } else {
+
+        signupForm.classList.add("hidden");
+        loginForm.classList.remove("hidden");
+
+        signupTab.classList.remove("active");
+        loginTab.classList.add("active");
+
+      }
+
+    }
+
+
+    /* ==========================================
+       SUPABASE CHECK
+    ========================================== */
+
+    function getSupabase() {
+
+      if (!window.supabaseClient) {
+
+        showMessage(
+          "Supabase is not connected. Please check supabase.js."
+        );
+
+        return null;
+
+      }
+
+      return window.supabaseClient;
+
+    }
+
+
+    /* ==========================================
+       SIGN UP
+    ========================================== */
+
+    signupForm.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      clearMessage();
+
+      const supabase = getSupabase();
+
+      if (!supabase) return;
+
+      const name =
+        document.getElementById("signupName").value.trim();
+
+      const email =
+        document.getElementById("signupEmail").value.trim();
+
+      const password =
+        document.getElementById("signupPassword").value;
+
+      const confirm =
+        document.getElementById("signupConfirm").value;
+
+      const button =
+        document.getElementById("signupButton");
+
+
+      if (!name) {
+
+        showMessage("Please enter your name.");
+        return;
+
+      }
+
+
+      if (!email) {
+
+        showMessage("Please enter your email.");
+        return;
+
+      }
+
+
+      if (password.length < 6) {
+
+        showMessage("Password must be at least 6 characters.");
+        return;
+
+      }
+
+
+      if (password !== confirm) {
+
+        showMessage("Passwords do not match.");
+        return;
+
+      }
+
+
+      button.disabled = true;
+      button.textContent = "Creating Account...";
+
+
+      try {
+
+        const redirectUrl =
+          window.location.origin +
+          window.location.pathname;
+
+
+        const { data, error } =
+          await supabase.auth.signUp({
+
+            email: email,
+
+            password: password,
+
+            options: {
+
+              emailRedirectTo: redirectUrl,
+
+              data: {
+
+                full_name: name,
+
+                display_name: name
+
+              }
+
+            }
+
+          });
+
+
+        if (error) {
+
+          throw error;
+
+        }
+
+
+        /*
+          Supabase normally returns no session when
+          email confirmation is required.
+        */
+
+        if (data && data.user) {
+
+          currentUser = data.user;
+
+          document.getElementById("verificationEmail").textContent =
+            email;
+
+          authScreen.classList.add("hidden");
+
+          verificationScreen.classList.remove("hidden");
+
+          showMessage(
+            "Account created. Check your email for the verification link.",
+            "success"
+          );
+
+        } else {
+
+          showMessage(
+            "Account created. Please check your email.",
+            "success"
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error("SIGNUP ERROR:", error);
+
+        showMessage(
+          error.message || "Unable to create account."
+        );
+
+      } finally {
+
+        button.disabled = false;
+        button.textContent = "Create Account";
+
+      }
+
+    });
+
+
+    /* ==========================================
+       LOGIN
+    ========================================== */
+
+    loginForm.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      clearMessage();
+
+      const supabase = getSupabase();
+
+      if (!supabase) return;
+
+      const email =
+        document.getElementById("loginEmail").value.trim();
+
+      const password =
+        document.getElementById("loginPassword").value;
+
+      const button =
+        document.getElementById("loginButton");
+
+
+      if (!email || !password) {
+
+        showMessage("Enter your email and password.");
+        return;
+
+      }
+
+
+      button.disabled = true;
+      button.textContent = "Logging in...";
+
+
+      try {
+
+        const { data, error } =
+          await supabase.auth.signInWithPassword({
+
+            email,
+            password
+
+          });
+
+
+        if (error) {
+
+          throw error;
+
+        }
+
+
+        if (!data.user) {
+
+          throw new Error("Login failed.");
+
+        }
+
+
+        currentUser = data.user;
+
+
+        /*
+          Supabase will reject login when email confirmation
+          is required and the account has not been verified.
+        */
+
+        if (!data.user.email_confirmed_at) {
+
+          document.getElementById("verificationEmail").textContent =
+            data.user.email;
+
+          authScreen.classList.add("hidden");
+
+          appScreen.classList.add("hidden");
+
+          verificationScreen.classList.remove("hidden");
+
+          return;
+
+        }
+
+
+        openApp(data.user);
+
+
+      } catch (error) {
+
+        console.error("LOGIN ERROR:", error);
+
+        /*
+          If Supabase says the email is not confirmed,
+          send the user to verification.
+        */
+
+        if (
+          error.message &&
+          error.message.toLowerCase().includes("email not confirmed")
+        ) {
+
+          document.getElementById("verificationEmail").textContent =
+            email;
+
+          authScreen.classList.add("hidden");
+          appScreen.classList.add("hidden");
+          verificationScreen.classList.remove("hidden");
+
+        } else {
+
+          showMessage(
+            error.message || "Login failed."
+          );
+
+        }
+
+      } finally {
+
+        button.disabled = false;
+        button.textContent = "Login";
+
+      }
+
+    });
+
+
+    /* ==========================================
+       FORGOT PASSWORD
+    ========================================== */
+
+    async function forgotPassword() {
+
+      clearMessage();
+
+      const supabase = getSupabase();
+
+      if (!supabase) return;
+
+      const email =
+        document.getElementById("loginEmail").value.trim();
+
+
+      if (!email) {
+
+        showMessage(
+          "Enter your email address first, then tap Forgot password."
+        );
+
+        return;
+
+      }
+
+
+      try {
+
+        const redirectUrl =
+          window.location.origin +
+          window.location.pathname;
+
+
+        const { error } =
+          await supabase.auth.resetPasswordForEmail(
+
+            email,
+
+            {
+              redirectTo: redirectUrl
+            }
+
+          );
+
+
+        if (error) {
+
+          throw error;
+
+        }
+
+
+        showMessage(
+          "Password reset email sent. Check your inbox.",
+          "success"
+        );
+
+      } catch (error) {
+
+        console.error("PASSWORD RESET:", error);
+
+        showMessage(
+          error.message || "Could not send password reset email."
+        );
+
+      }
+
+    }
+
+
+    /* ==========================================
+       CHECK VERIFICATION
+    ========================================== */
+
+    async function checkVerification() {
+
+      const supabase = getSupabase();
+
+      if (!supabase) return;
+
+
+      const button =
+        document.getElementById("checkVerificationButton");
+
+      button.disabled = true;
+      button.textContent = "Checking...";
+
+
+      try {
+
+        /*
+          Refresh the session first.
+        */
+
+        await supabase.auth.refreshSession();
+
+
+        const { data, error } =
+          await supabase.auth.getUser();
+
+
+        if (error) {
+
+          throw error;
+
+        }
+
+
+        if (!data.user) {
+
+          throw new Error("No account session found.");
+
+        }
+
+
+        currentUser = data.user;
+
+
+        if (data.user.email_confirmed_at) {
+
+          verificationScreen.classList.add("hidden");
+
+          openApp(data.user);
+
+        } else {
+
+          alert(
+            "Your email is not verified yet. Open the verification email and click the link first."
+          );
+
+        }
+
+      } catch (error) {
+
+        console.error("VERIFY CHECK:", error);
+
+        alert(
+          error.message ||
+          "Unable to check verification status."
+        );
+
+      } finally {
+
+        button.disabled = false;
+        button.textContent = "I've Verified My Email";
+
+      }
+
+    }
+
+
+    /* ==========================================
+       RESEND VERIFICATION
+    ========================================== */
+
+    async function resendVerification() {
+
+      const supabase = getSupabase();
+
+      if (!supabase) return;
+
+
+      const email =
+        document.getElementById("verificationEmail").textContent.trim();
+
+
+      if (!email) {
+
+        alert("Email address not found.");
+        return;
+
+      }
+
+
+      try {
+
+        const { error } =
+          await supabase.auth.resend({
+
+            type: "signup",
+
+            email: email,
+
+            options: {
+
+              emailRedirectTo:
+                window.location.origin +
+                window.location.pathname
+
+            }
+
+          });
+
+
+        if (error) {
+
+          throw error;
+
+        }
+
+
+        alert(
+          "Verification email sent again. Check your inbox."
+        );
+
+      } catch (error) {
+
+        console.error("RESEND:", error);
+
+        alert(
+          error.message ||
+          "Unable to resend verification email."
+        );
+
+      }
+
+    }
+
+
+    /* ==========================================
+       VERIFICATION LOGOUT
+    ========================================== */
+
+    async function verificationLogout() {
+
+      const supabase = getSupabase();
+
+      if (supabase) {
+
+        try {
+
+          await supabase.auth.signOut();
+
+        } catch (error) {
+
+          console.error(error);
+
+        }
+
+      }
+
+
+      currentUser = null;
+
+      verificationScreen.classList.add("hidden");
+
+      appScreen.classList.add("hidden");
+
+      authScreen.classList.remove("hidden");
+
+      showAuthForm("login");
+
+    }
+
+
+    /* ==========================================
+       OPEN APP
+    ========================================== */
+
+    function openApp(user) {
+
+      currentUser = user;
+
+      authScreen.classList.add("hidden");
+
+      verificationScreen.classList.add("hidden");
+
+      appScreen.classList.remove("hidden");
+
+
+      const name =
+        user.user_metadata?.full_name ||
+        user.user_metadata?.display_name ||
+        user.email?.split("@")[0] ||
+        "Creator";
+
+
+      document.getElementById("welcomeName").textContent =
+        name;
+
+      document.getElementById("accountName").textContent =
+        name;
+
+      document.getElementById("accountEmail").textContent =
+        user.email || "-";
+
+
+      showPage("home");
+
+    }
+
+
+    /* ==========================================
+       LOGOUT
+    ========================================== */
+
+    async function logout() {
+
+      const supabase = getSupabase();
+
+      if (supabase) {
+
+        await supabase.auth.signOut();
+
+      }
+
+
+      currentUser = null;
+
+      appScreen.classList.add("hidden");
+
+      verificationScreen.classList.add("hidden");
+
+      authScreen.classList.remove("hidden");
+
+      showAuthForm("login");
+
+      document.getElementById("loginPassword").value = "";
+
+    }
+
+
+    /* ==========================================
+       PAGE NAVIGATION
+    ========================================== */
+
+    function showPage(page) {
+
+      document.querySelectorAll(".page")
+        .forEach(function(item) {
+
+          item.classList.remove("active");
+
+        });
+
+
+      const target =
+        document.getElementById("page-" + page);
+
+      if (target) {
+
+        target.classList.add("active");
+
+      }
+
+
+      document.querySelectorAll(".nav-btn")
+        .forEach(function(item) {
+
+          item.classList.remove("active");
+
+        });
+
+
+      const nav =
+        document.getElementById("nav-" + page);
+
+      if (nav) {
+
+        nav.classList.add("active");
+
+      }
+
+
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+
+    }
+
+
+    /* ==========================================
+       START ORDER
+    ========================================== */
+
+    function startOrder(service, price) {
+
+      currentServicePrice = price;
+
+      const select =
+        document.getElementById("orderService");
+
+      const options =
+        Array.from(select.options);
+
+      const matching =
+        options.find(function(option) {
+
+          return option.value.startsWith(service + "|");
+
+        });
+
+
+      if (matching) {
+
+        select.value = matching.value;
+
+      }
+
+
+      document.getElementById("orderQuantity").value =
+        1000;
+
+      calculateTotal();
+
+      showPage("order");
+
+    }
+
+
+    /* ==========================================
+       CALCULATE PRICE
+    ========================================== */
+
+    function calculateTotal() {
+
+      const service =
+        document.getElementById("orderService").value;
+
+      const quantity =
+        Number(
+          document.getElementById("orderQuantity").value
+        ) || 0;
+
+
+      if (!service) {
+
+        currentServicePrice = 0;
+
+      } else {
+
+        const parts = service.split("|");
+
+        currentServicePrice =
+          Number(parts[1]) || 0;
+
+      }
+
+
+      const total =
+        (quantity / 1000) *
+        currentServicePrice;
+
+
+      document.getElementById("orderTotal").textContent =
+        "₦" +
+        Math.max(0, total).toLocaleString(
+          "en-NG",
+          {
+            maximumFractionDigits: 2
+          }
+        );
+
+    }
+
+
+    /* ==========================================
+       SUBMIT ORDER
+    ========================================== */
+
+    function submitOrder() {
+
+      if (!currentUser) {
+
+        alert("Please login first.");
+        return;
+
+      }
+
+
+      const serviceValue =
+        document.getElementById("orderService").value;
+
+      const quantity =
+        Number(
+          document.getElementById("orderQuantity").value
+        );
+
+      const link =
+        document.getElementById("orderLink").value.trim();
+
+
+      if (!serviceValue) {
+
+        alert("Please select a service.");
+        return;
+
+      }
+
+
+      if (!quantity || quantity < 100) {
+
+        alert("Minimum quantity is 100.");
+        return;
+
+      }
+
+
+      if (!link) {
+
+        alert("Please enter your link.");
+        return;
+
+      }
+
+
+      const parts =
+        serviceValue.split("|");
+
+      const service =
+        parts[0];
+
+      const price =
+        Number(parts[1]);
+
+
+      const total =
+        (quantity / 1000) * price;
+
+
+      /*
+        Temporary local display.
+        Supabase orders table will be connected
+        after the authentication is confirmed working.
+      */
+
+      const orders =
+        JSON.parse(
+          localStorage.getItem(
+            "realAbbaOrders_" + currentUser.id
+          ) || "[]"
+        );
+
+
+      orders.unshift({
+
+        id: Date.now(),
+
+        service: service,
+
+        quantity: quantity,
+
+        link: link,
+
+        total: total,
+
+        status: "Pending",
+
+        createdAt: new Date().toISOString()
+
+      });
+
+
+      localStorage.setItem(
+        "realAbbaOrders_" + currentUser.id,
+        JSON.stringify(orders)
+      );
+
+
+      document.getElementById("orderLink").value = "";
+
+      loadOrders();
+
+      alert(
+        "Order submitted successfully."
+      );
+
+      showPage("orders");
+
+    }
+
+
+    /* ==========================================
+       LOAD ORDERS
+    ========================================== */
+
+    function loadOrders() {
+
+      if (!currentUser) return;
+
+
+      const orders =
+        JSON.parse(
+          localStorage.getItem(
+            "realAbbaOrders_" + currentUser.id
+          ) || "[]"
+        );
+
+
+      const container =
+        document.getElementById("ordersList");
+
+
+      if (!orders.length) {
+
+        container.innerHTML = `
+          <div class="account-card"
+               style="text-align:center;color:#71889d">
+            No orders yet.
+          </div>
+        `;
+
+        return;
+
+      }
+
+
+      container.innerHTML =
+        orders.map(function(order) {
+
+          return `
+
+            <div class="order-card">
+
+              <div class="order-card-top">
+
+                <strong>
+                  ${escapeHtml(order.service)}
+                </strong>
+
+                <span class="status">
+                  ${escapeHtml(order.status)}
+                </span>
+
+              </div>
+
+              <div class="order-info">
+
+                Quantity:
+                ${Number(order.quantity).toLocaleString()}
+
+                <br>
+
+                Amount:
+                ₦${Number(order.total).toLocaleString(
+                  "en-NG",
+                  { maximumFractionDigits: 2 }
+                )}
+
+                <br>
+
+                Link:
+                ${escapeHtml(order.link)}
+
+              </div>
+
+            </div>
+
+          `;
+
+        }).join("");
+
+    }
+
+
+    /* ==========================================
+       HTML ESCAPE
+    ========================================== */
+
+    function escapeHtml(value) {
+
+      return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    }
+
+
+    /* ==========================================
+       INITIAL AUTH CHECK
+    ========================================== */
+
+    async function initializeApp() {
+
+      const supabase = getSupabase();
+
+      if (!supabase) {
+
+        /*
+          Auth tabs still work even if Supabase
+          has a configuration problem.
+        */
+
+        return;
+
+      }
+
+
+      try {
+
+        const { data } =
+          await supabase.auth.getSession();
+
+
+        if (data && data.session) {
+
+          const user =
+            data.session.user;
+
+
+          if (user.email_confirmed_at) {
+
+            openApp(user);
+
+          } else {
+
+            currentUser = user;
+
+            document.getElementById(
+              "verificationEmail"
+            ).textContent = user.email || "";
+
+            authScreen.classList.add("hidden");
+
+            verificationScreen.classList.remove("hidden");
+
+          }
+
+        }
+
+      } catch (error) {
+
+        console.error(
+          "INITIAL SESSION ERROR:",
+          error
+        );
+
+      }
+
+
+      calculateTotal();
+
+    }
+
+
+    /* ==========================================
+       SUPABASE AUTH STATE
+    ========================================== */
+
+    if (window.supabaseClient) {
+
+      window.supabaseClient.auth.onAuthStateChange(
+        function(event, session) {
+
+          console.log(
+            "Supabase auth event:",
+            event
+          );
+
+        }
+      );
+
+    }
+
+
+    /* ==========================================
+       START
+    ========================================== */
+
+    showAuthForm("login");
+
+    calculateTotal();
+
+    initializeApp();
+
+  </script>
 
 </body>
-  </html>
+    </html>
