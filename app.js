@@ -1,27 +1,73 @@
 /* =========================================================
    REAL ABBA BOOSTING
-   SUPABASE APP JAVASCRIPT
-========================================================= */
+   Supabase Authentication + Dashboard + Orders
+   ========================================================= */
 
-const supabase = window.supabaseClient;
+const supabaseClient = window.supabaseClient;
 
+let currentUser = null;
+let selectedPlatform = "";
+let selectedService = "";
 
-/* =========================================================
+/* -----------------------------
    HELPERS
-========================================================= */
+----------------------------- */
 
-const $ = (id) => document.getElementById(id);
+function $(id) {
+  return document.getElementById(id);
+}
 
-const $$ = (selector) =>
-  [...document.querySelectorAll(selector)];
+function showMessage(message, type = "") {
+  const msg = $("msg");
+  if (!msg) return;
 
+  msg.textContent = message;
+  msg.className = "form-message " + type;
+}
 
-/* =========================================================
-   SERVICES & PRICES
-========================================================= */
+function showToast(message) {
+  const toast = $("toast");
 
-const SERVICES = {
+  if (!toast) {
+    alert(message);
+    return;
+  }
 
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(window.__toastTimer);
+
+  window.__toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+}
+
+function formatNaira(amount) {
+  return "₦" + Number(amount || 0).toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, function (char) {
+    return {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    }[char];
+  });
+}
+
+/* -----------------------------
+   SERVICE PRICES
+   Exact prices supplied
+----------------------------- */
+
+const SERVICE_PRICES = {
   TikTok: {
     Followers: 6000,
     Likes: 1000,
@@ -46,1982 +92,1349 @@ const SERVICES = {
   Telegram: {
     Members: 5000
   }
-
 };
 
-
-/* =========================================================
-   APP STATE
-========================================================= */
-
-let currentUser = null;
-let currentProfile = null;
-let selectedPlatform = "";
-
-
-/* =========================================================
-   MESSAGE
-========================================================= */
-
-function showMessage(message) {
-
-  const element = $("msg");
-
-  if (!element) return;
-
-  element.textContent = message || "";
-
+function getServicePrice(platform, service) {
+  return SERVICE_PRICES[platform]?.[service] || 0;
 }
 
+function calculateOrderPrice() {
+  const quantity = Number($("quantity")?.value || 0);
 
-/* =========================================================
-   TOAST
-========================================================= */
+  if (!selectedPlatform || !selectedService || quantity <= 0) {
+    return 0;
+  }
 
-function showToast(message) {
-
-  const toast = $("toast");
-
-  if (!toast) return;
-
-  toast.textContent = message || "";
-
-  toast.classList.add("show");
-
-  setTimeout(() => {
-
-    toast.classList.remove("show");
-
-  }, 3000);
-
-}
-
-
-/* =========================================================
-   MONEY
-========================================================= */
-
-function formatMoney(amount) {
-
-  return (
-    "₦" +
-    Number(amount || 0).toLocaleString("en-NG", {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
-    })
+  const pricePer1000 = getServicePrice(
+    selectedPlatform,
+    selectedService
   );
 
+  return (quantity / 1000) * pricePer1000;
 }
 
-
-/* =========================================================
-   AUTH TAB
-========================================================= */
+/* -----------------------------
+   AUTH TAB SWITCHING
+----------------------------- */
 
 function switchAuthTab(tab) {
-
   const loginBox = $("loginBox");
   const signupBox = $("signupBox");
 
-  const tabs = $$(".tab");
-
   if (!loginBox || !signupBox) return;
 
-
-  tabs.forEach((button) => {
-
-    button.classList.remove("active");
-
-  });
-
-
   if (tab === "signup") {
-
     loginBox.classList.add("hide");
-
     signupBox.classList.remove("hide");
-
-    const signupTab =
-      document.querySelector(
-        '[data-tab="signup"]'
-      );
-
-    if (signupTab) {
-
-      signupTab.classList.add("active");
-
-    }
-
   } else {
-
     signupBox.classList.add("hide");
-
     loginBox.classList.remove("hide");
-
-    const loginTab =
-      document.querySelector(
-        '[data-tab="login"]'
-      );
-
-    if (loginTab) {
-
-      loginTab.classList.add("active");
-
-    }
-
   }
 
+  const tabs = document.querySelectorAll(".tab");
+
+  tabs.forEach(tabButton => {
+    tabButton.classList.toggle(
+      "active",
+      tabButton.dataset.tab === tab
+    );
+  });
 
   showMessage("");
-
 }
-
-
-/* Make available to the HTML onclick */
 
 window.switchAuthTab = switchAuthTab;
 
+/* -----------------------------
+   AUTH UI
+----------------------------- */
 
-/* =========================================================
-   PAGE NAVIGATION
-========================================================= */
-
-function showPage(page) {
-
-  $$(".page").forEach((p) => {
-
-    p.classList.remove("active");
-
-  });
-
-
-  const target = $(page);
-
-  if (target) {
-
-    target.classList.add("active");
-
-  }
-
-
-  $$("nav button").forEach((button) => {
-
-    button.classList.toggle(
-      "active",
-      button.dataset.page === page
-    );
-
-  });
-
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-}
-
-
-/* =========================================================
-   OPEN APP
-========================================================= */
-
-function openApp(profile) {
-
-  currentProfile = profile || null;
-
-
+function showAuth() {
   const auth = $("auth");
   const app = $("app");
 
-
-  if (auth) {
-
-    auth.classList.add("hide");
-
-  }
-
-
-  if (app) {
-
-    app.classList.remove("hide");
-
-  }
-
-
-  const name =
-
-    profile?.full_name ||
-
-    profile?.display_name ||
-
-    currentUser?.user_metadata?.full_name ||
-
-    currentUser?.user_metadata?.display_name ||
-
-    currentUser?.email?.split("@")[0] ||
-
-    "Abba";
-
-
-  const email =
-
-    currentUser?.email ||
-
-    profile?.email ||
-
-    "";
-
-
-  if ($("welcome")) {
-
-    $("welcome").textContent =
-      name + " 👋";
-
-  }
-
-
-  if ($("acctName")) {
-
-    $("acctName").textContent =
-      name;
-
-  }
-
-
-  if ($("acctEmail")) {
-
-    $("acctEmail").textContent =
-      email;
-
-  }
-
-
-  if ($("acctEmail2")) {
-
-    $("acctEmail2").textContent =
-      email;
-
-  }
-
-
-  updateWallet(
-    profile?.wallet_balance || 0
-  );
-
-
-  showPage("home");
-
+  if (auth) auth.classList.remove("hide");
+  if (app) app.classList.add("hide");
 }
 
+function showApp() {
+  const auth = $("auth");
+  const app = $("app");
 
-/* =========================================================
-   CLOSE APP
-========================================================= */
-
-function closeApp() {
-
-  if ($("app")) {
-
-    $("app").classList.add("hide");
-
-  }
-
-
-  if ($("auth")) {
-
-    $("auth").classList.remove("hide");
-
-  }
-
+  if (auth) auth.classList.add("hide");
+  if (app) app.classList.remove("hide");
 }
 
+/* -----------------------------
+   SIGN UP
+----------------------------- */
 
-/* =========================================================
-   WALLET
-========================================================= */
+async function handleSignup(event) {
+  if (event) event.preventDefault();
 
-function updateWallet(balance) {
+  if (!supabaseClient) {
+    showMessage(
+      "Supabase is not connected. Please check supabase.js.",
+      "error"
+    );
+    return;
+  }
 
-  const walletAmount =
-    formatMoney(balance);
+  const name = $("name")?.value.trim() || "";
+  const email = $("email")?.value.trim() || "";
+  const password = $("pass")?.value || "";
 
+  if (!name) {
+    showMessage("Please enter your full name.");
+    return;
+  }
 
-  document
-    .querySelectorAll(".wallet b")
-    .forEach((element) => {
+  if (!email) {
+    showMessage("Please enter your email address.");
+    return;
+  }
 
-      element.textContent =
-        walletAmount;
+  if (!password) {
+    showMessage("Please enter a password.");
+    return;
+  }
 
+  if (password.length < 6) {
+    showMessage("Password must be at least 6 characters.");
+    return;
+  }
+
+  showMessage("Creating your account...");
+
+  const signupButton = $("signup");
+
+  if (signupButton) {
+    signupButton.disabled = true;
+    signupButton.textContent = "Creating Account...";
+  }
+
+  try {
+    const redirectUrl =
+      window.location.origin + window.location.pathname;
+
+    const { data, error } = await supabaseClient.auth.signUp({
+      email: email,
+      password: password,
+
+      options: {
+        emailRedirectTo: redirectUrl,
+
+        data: {
+          full_name: name,
+          display_name: name,
+          name: name
+        }
+      }
     });
 
-}
-
-
-/* =========================================================
-   SERVICE OPTIONS
-========================================================= */
-
-function updateServiceOptions(platform) {
-
-  const serviceSelect =
-    $("service");
-
-  if (!serviceSelect) return;
-
-
-  serviceSelect.innerHTML = "";
-
-
-  const services =
-    SERVICES[platform] || {};
-
-
-  Object.keys(services).forEach(
-    (serviceName) => {
-
-      const option =
-        document.createElement("option");
-
-      option.value =
-        serviceName;
-
-      option.textContent =
-        serviceName;
-
-      serviceSelect.appendChild(
-        option
-      );
-
-    }
-  );
-
-
-  calculateTotal();
-
-}
-
-
-/* =========================================================
-   CALCULATE TOTAL
-========================================================= */
-
-function calculateTotal() {
-
-  const quantityElement =
-    $("quantity");
-
-  const serviceElement =
-    $("service");
-
-  const totalElement =
-    $("total");
-
-
-  if (
-    !quantityElement ||
-    !serviceElement ||
-    !totalElement
-  ) {
-
-    return;
-
-  }
-
-
-  const quantity =
-    Number(quantityElement.value) || 0;
-
-
-  const service =
-    serviceElement.value;
-
-
-  const pricePerThousand =
-    SERVICES[selectedPlatform]?.[service] || 0;
-
-
-  const total =
-    (quantity / 1000) *
-    pricePerThousand;
-
-
-  totalElement.textContent =
-    formatMoney(total);
-
-}
-
-
-/* =========================================================
-   LOAD PROFILE
-========================================================= */
-
-async function loadProfile() {
-
-  if (!currentUser) {
-
-    return null;
-
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabase
-      .from("profiles")
-      .select("*")
-      .eq("id", currentUser.id)
-      .single();
-
-
     if (error) {
+      console.error("Supabase signup error:", error);
 
-      console.error(
-        "Profile error:",
-        error
+      showMessage(
+        error.message || "Unable to create account.",
+        "error"
       );
-
-      return null;
-
-    }
-
-
-    return data;
-
-  } catch (error) {
-
-    console.error(
-      "Profile exception:",
-      error
-    );
-
-    return null;
-
-  }
-
-}
-
-
-/* =========================================================
-   LOAD ORDERS
-========================================================= */
-
-async function loadOrders() {
-
-  if (!currentUser) return;
-
-
-  const list =
-    $("ordersList");
-
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabase
-      .from("orders")
-      .select("*")
-      .eq(
-        "user_id",
-        currentUser.id
-      )
-      .order(
-        "created_at",
-        {
-          ascending: false
-        }
-      );
-
-
-    if (error) {
-
-      console.error(
-        "Orders error:",
-        error
-      );
-
-
-      if (list) {
-
-        list.innerHTML = `
-          <div class="card empty">
-            Unable to load orders right now.
-          </div>
-        `;
-
-      }
-
 
       return;
-
     }
 
+    if (!data || !data.user) {
+      showMessage(
+        "Account was not created. Please try again.",
+        "error"
+      );
 
-    renderOrders(
-      data || []
-    );
+      return;
+    }
+
+    currentUser = data.user;
+
+    /*
+      IMPORTANT:
+
+      When Supabase email confirmation is enabled,
+      signUp() normally returns a user but NO session.
+
+      We must NOT send the user back to Login.
+
+      Instead we show the confirmation message.
+    */
+
+    if (!data.session) {
+      showEmailConfirmationScreen(email);
+      return;
+    }
+
+    /*
+      If email confirmation is disabled,
+      Supabase gives us a session immediately.
+    */
+
+    await openDashboard(data.user);
 
   } catch (error) {
+    console.error("Signup exception:", error);
 
-    console.error(
-      "Orders exception:",
-      error
+    showMessage(
+      error?.message || "Something went wrong while creating your account.",
+      "error"
     );
 
+  } finally {
+    if (signupButton) {
+      signupButton.disabled = false;
+      signupButton.textContent = "Create Account";
+    }
   }
-
 }
 
+window.handleSignup = handleSignup;
 
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
+/* -----------------------------
+   EMAIL CONFIRMATION SCREEN
+----------------------------- */
 
-function escapeHtml(value) {
+function showEmailConfirmationScreen(email) {
+  const loginBox = $("loginBox");
+  const signupBox = $("signupBox");
 
-  return String(value ?? "").replace(
-    /[&<>"']/g,
-    (character) => ({
+  if (loginBox) loginBox.classList.add("hide");
+  if (signupBox) signupBox.classList.add("hide");
 
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
+  let verificationBox = $("verificationBox");
 
-    })[character]
-  );
+  /*
+    Create the screen automatically if the current
+    index.html doesn't already contain one.
+  */
 
-}
+  if (!verificationBox) {
+    verificationBox = document.createElement("div");
 
+    verificationBox.id = "verificationBox";
 
-/* =========================================================
-   RENDER ORDERS
-========================================================= */
+    verificationBox.className = "auth-card";
 
-function renderOrders(orders) {
+    verificationBox.innerHTML = `
+      <div style="
+        text-align:center;
+        padding:10px 0;
+      ">
 
-  const list =
-    $("ordersList");
+        <div style="
+          font-size:48px;
+          margin-bottom:15px;
+        ">📧</div>
 
+        <h2>Check your email</h2>
 
-  if (!list) return;
+        <p style="
+          margin:12px 0;
+          opacity:.8;
+        ">
+          We created your REAL ABBA BOOSTING account.
+        </p>
 
+        <p style="
+          font-weight:700;
+          word-break:break-word;
+          margin:15px 0;
+        " id="verificationEmail">
+          ${escapeHtml(email)}
+        </p>
 
-  if (!orders.length) {
+        <p style="
+          opacity:.75;
+          line-height:1.6;
+        ">
+          We sent a confirmation link to your email.
+          Open the email and tap the confirmation link.
+        </p>
 
-    list.innerHTML = `
-      <div class="card empty">
-        No orders yet.
-        Start boosting to see your orders here.
+        <button
+          id="checkVerificationBtn"
+          type="button"
+          class="primary"
+          style="margin-top:20px;"
+        >
+          I've Confirmed My Email
+        </button>
+
+        <button
+          id="backToLoginBtn"
+          type="button"
+          style="
+            width:100%;
+            margin-top:10px;
+            background:transparent;
+            border:0;
+            color:#4da3ff;
+          "
+        >
+          Back to Login
+        </button>
+
+        <p
+          id="verificationMessage"
+          style="
+            margin-top:15px;
+            line-height:1.5;
+          "
+        ></p>
+
       </div>
     `;
 
-    return;
+    const authContainer = $("auth");
 
+    if (authContainer) {
+      authContainer.appendChild(verificationBox);
+    }
   }
 
+  verificationBox.classList.remove("hide");
 
-  list.innerHTML =
-    orders
-      .map((order) => {
+  const verificationEmail = $("verificationEmail");
+
+  if (verificationEmail) {
+    verificationEmail.textContent = email;
+  }
+
+  const verificationMessage = $("verificationMessage");
+
+  if (verificationMessage) {
+    verificationMessage.textContent =
+      "📧 Confirmation email sent. Check your inbox and spam folder.";
+  }
+
+  const checkButton = $("checkVerificationBtn");
+
+  if (checkButton && !checkButton.dataset.bound) {
+    checkButton.dataset.bound = "true";
+
+    checkButton.addEventListener("click", checkEmailVerification);
+  }
+
+  const backButton = $("backToLoginBtn");
+
+  if (backButton && !backButton.dataset.bound) {
+    backButton.dataset.bound = "true";
+
+    backButton.addEventListener("click", async () => {
+      await supabaseClient.auth.signOut();
+
+      verificationBox.classList.add("hide");
+
+      switchAuthTab("login");
+
+      if ($("loginEmail")) {
+        $("loginEmail").value = email;
+      }
+    });
+  }
+}
+
+/* -----------------------------
+   CHECK EMAIL VERIFICATION
+----------------------------- */
+
+async function checkEmailVerification() {
+  const message = $("verificationMessage");
+
+  if (message) {
+    message.textContent = "Checking your email verification...";
+  }
+
+  try {
+    const {
+      data: {
+        user
+      }
+    } = await supabaseClient.auth.getUser();
+
+    if (!user) {
+      if (message) {
+        message.textContent =
+          "Please log in after confirming your email.";
+      }
+
+      return;
+    }
+
+    currentUser = user;
+
+    if (!user.email_confirmed_at) {
+      if (message) {
+        message.textContent =
+          "Your email is not confirmed yet. Open the confirmation email and tap the link first.";
+      }
+
+      return;
+    }
+
+    if (message) {
+      message.textContent =
+        "Email confirmed! Opening your dashboard...";
+    }
+
+    setTimeout(() => {
+      openDashboard(user);
+    }, 700);
+
+  } catch (error) {
+    console.error(error);
+
+    if (message) {
+      message.textContent =
+        error?.message ||
+        "Could not check your email verification.";
+    }
+  }
+}
+
+/* -----------------------------
+   LOGIN
+----------------------------- */
+
+async function handleLogin(event) {
+  if (event) event.preventDefault();
+
+  if (!supabaseClient) {
+    showMessage(
+      "Supabase is not connected.",
+      "error"
+    );
+    return;
+  }
+
+  const email = $("loginEmail")?.value.trim() || "";
+  const password = $("loginPass")?.value || "";
+
+  if (!email || !password) {
+    showMessage("Enter your email and password.");
+    return;
+  }
+
+  showMessage("Signing in...");
+
+  const loginButton = $("login");
+
+  if (loginButton) {
+    loginButton.disabled = true;
+    loginButton.textContent = "Logging in...";
+  }
+
+  try {
+    const { data, error } =
+      await supabaseClient.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      console.error("Login error:", error);
+
+      showMessage(
+        error.message || "Login failed.",
+        "error"
+      );
+
+      return;
+    }
+
+    if (!data?.user) {
+      showMessage(
+        "Login failed. Please try again.",
+        "error"
+      );
+
+      return;
+    }
+
+    currentUser = data.user;
+
+    if (!data.user.email_confirmed_at) {
+      showEmailConfirmationScreen(email);
+      return;
+    }
+
+    await openDashboard(data.user);
+
+  } catch (error) {
+    console.error(error);
+
+    showMessage(
+      error?.message || "Unable to log in.",
+      "error"
+    );
+
+  } finally {
+    if (loginButton) {
+      loginButton.disabled = false;
+      loginButton.textContent = "Login";
+    }
+  }
+}
+
+/* -----------------------------
+   FORGOT PASSWORD
+----------------------------- */
+
+async function handleForgotPassword() {
+  const email = $("loginEmail")?.value.trim() || "";
+
+  if (!email) {
+    showMessage(
+      "Enter your email address first."
+    );
+
+    return;
+  }
+
+  showMessage("Sending password reset email...");
+
+  try {
+    const redirectUrl =
+      window.location.origin +
+      window.location.pathname;
+
+    const { error } =
+      await supabaseClient.auth.resetPasswordForEmail(
+        email,
+        {
+          redirectTo: redirectUrl
+        }
+      );
+
+    if (error) {
+      showMessage(
+        error.message,
+        "error"
+      );
+
+      return;
+    }
+
+    showMessage(
+      "Password reset email sent. Check your inbox and spam folder."
+    );
+
+  } catch (error) {
+    showMessage(
+      error?.message ||
+      "Could not send password reset email.",
+      "error"
+    );
+  }
+}
+
+/* -----------------------------
+   PROFILE
+----------------------------- */
+
+async function loadProfile(user) {
+  try {
+    const { data, error } =
+      await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .maybeSingle();
+
+    if (error) {
+      console.warn("Profile lookup:", error.message);
+      return null;
+    }
+
+    return data;
+  } catch (error) {
+    console.warn(error);
+    return null;
+  }
+}
+
+/* -----------------------------
+   OPEN DASHBOARD
+----------------------------- */
+
+async function openDashboard(user) {
+  currentUser = user;
+
+  showApp();
+
+  const metadata = user.user_metadata || {};
+
+  const profile = await loadProfile(user);
+
+  const name =
+    profile?.full_name ||
+    profile?.display_name ||
+    profile?.name ||
+    metadata.full_name ||
+    metadata.display_name ||
+    metadata.name ||
+    "Creator";
+
+  const email =
+    user.email ||
+    "Account";
+
+  if ($("welcome")) {
+    $("welcome").textContent =
+      `${name} 👋`;
+  }
+
+  if ($("acctName")) {
+    $("acctName").textContent =
+      name;
+  }
+
+  if ($("acctEmail")) {
+    $("acctEmail").textContent =
+      email;
+  }
+
+  if ($("acctEmail2")) {
+    $("acctEmail2").textContent =
+      email;
+  }
+
+  if (profile?.wallet_balance !== undefined) {
+    updateWallet(profile.wallet_balance);
+  } else {
+    updateWallet(0);
+  }
+
+  showPage("home");
+
+  await loadOrders();
+
+  showMessage("");
+}
+
+/* -----------------------------
+   WALLET
+----------------------------- */
+
+function updateWallet(balance) {
+  const formatted = formatNaira(balance);
+
+  document
+    .querySelectorAll(".wallet-mini strong, #walletBalance")
+    .forEach(element => {
+      element.textContent = formatted;
+    });
+}
+
+/* -----------------------------
+   NAVIGATION
+----------------------------- */
+
+function showPage(page) {
+  document
+    .querySelectorAll(".app-page")
+    .forEach(section => {
+      section.classList.remove("active");
+    });
+
+  const target =
+    $("page-" + page);
+
+  if (target) {
+    target.classList.add("active");
+  }
+
+  document
+    .querySelectorAll(".nav-item")
+    .forEach(button => {
+      button.classList.toggle(
+        "active",
+        button.dataset.page === page
+      );
+    });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "instant"
+  });
+}
+
+window.showPage = showPage;
+
+/* -----------------------------
+   SERVICE SELECTION
+----------------------------- */
+
+function openOrder(platform) {
+  selectedPlatform = platform;
+
+  const serviceSelect = $("service");
+
+  if (serviceSelect) {
+    serviceSelect.innerHTML = "";
+
+    const services =
+      Object.keys(
+        SERVICE_PRICES[platform] || {}
+      );
+
+    services.forEach(service => {
+      const option =
+        document.createElement("option");
+
+      option.value = service;
+      option.textContent =
+        `${service} — ${formatNaira(
+          SERVICE_PRICES[platform][service]
+        )} / 1,000`;
+
+      serviceSelect.appendChild(option);
+    });
+
+    selectedService =
+      services[0] || "";
+
+    serviceSelect.value =
+      selectedService;
+  }
+
+  if ($("platform")) {
+    $("platform").value =
+      platform;
+  }
+
+  updateOrderTotal();
+
+  showPage("order");
+}
+
+function updateOrderTotal() {
+  const quantity =
+    Number($("quantity")?.value || 0);
+
+  const service =
+    $("service")?.value || selectedService;
+
+  selectedService = service;
+
+  const pricePer1000 =
+    getServicePrice(
+      selectedPlatform,
+      service
+    );
+
+  const total =
+    quantity > 0
+      ? (quantity / 1000) * pricePer1000
+      : 0;
+
+  if ($("total")) {
+    $("total").textContent =
+      formatNaira(total);
+  }
+
+  return total;
+}
+
+/* -----------------------------
+   PLACE ORDER
+----------------------------- */
+
+async function handleOrder(event) {
+  if (event) event.preventDefault();
+
+  if (!currentUser) {
+    showToast("Please log in first.");
+    return;
+  }
+
+  const platform =
+    selectedPlatform ||
+    $("platform")?.value ||
+    "";
+
+  const service =
+    $("service")?.value ||
+    selectedService ||
+    "";
+
+  const quantity =
+    Number($("quantity")?.value || 0);
+
+  const link =
+    $("url")?.value.trim() || "";
+
+  const total =
+    calculateOrderPrice();
+
+  if (!platform) {
+    showMessage("Please select a platform.");
+    return;
+  }
+
+  if (!service) {
+    showMessage("Please select a service.");
+    return;
+  }
+
+  if (!quantity || quantity < 1) {
+    showMessage("Enter a valid quantity.");
+    return;
+  }
+
+  if (!link) {
+    showMessage("Enter your profile, post or video link.");
+    return;
+  }
+
+  if (!supabaseClient) {
+    showMessage("Supabase is not connected.");
+    return;
+  }
+
+  showMessage("Submitting order...");
+
+  try {
+    const { error } =
+      await supabaseClient
+        .from("orders")
+        .insert({
+          uid: currentUser.id,
+          name:
+            currentUser.user_metadata?.full_name ||
+            currentUser.user_metadata?.display_name ||
+            "Customer",
+          email: currentUser.email,
+          platform: platform,
+          service: service,
+          quantity: quantity,
+          link: link,
+          amount: total,
+          status: "pending",
+          adminNote: ""
+        });
+
+    if (error) {
+      console.error("Order error:", error);
+
+      showMessage(
+        error.message ||
+        "Could not place order.",
+        "error"
+      );
+
+      return;
+    }
+
+    showToast(
+      "Order submitted successfully."
+    );
+
+    $("orderForm")?.reset();
+
+    selectedService = "";
+
+    if ($("total")) {
+      $("total").textContent =
+        formatNaira(0);
+    }
+
+    await loadOrders();
+
+    showPage("orders");
+
+  } catch (error) {
+    console.error(error);
+
+    showMessage(
+      error?.message ||
+      "Something went wrong while placing your order.",
+      "error"
+    );
+  }
+}
+
+/* -----------------------------
+   LOAD ORDERS
+----------------------------- */
+
+async function loadOrders() {
+  const list = $("ordersList");
+
+  if (!list || !currentUser) {
+    return;
+  }
+
+  list.innerHTML = `
+    <div class="empty-state">
+      <div>⏳</div>
+      <h3>Loading orders...</h3>
+      <p>Please wait.</p>
+    </div>
+  `;
+
+  try {
+    const { data, error } =
+      await supabaseClient
+        .from("orders")
+        .select("*")
+        .eq("uid", currentUser.id)
+        .order("created_at", {
+          ascending: false
+        });
+
+    if (error) {
+      console.warn(
+        "Orders could not be loaded:",
+        error.message
+      );
+
+      list.innerHTML = `
+        <div class="empty-state">
+          <div>📦</div>
+          <h3>No orders yet</h3>
+          <p>Your submitted orders will appear here.</p>
+        </div>
+      `;
+
+      return;
+    }
+
+    if (!data || data.length === 0) {
+      list.innerHTML = `
+        <div class="empty-state">
+          <div>📦</div>
+          <h3>No orders yet</h3>
+          <p>Start by choosing a service and placing your first order.</p>
+          <button
+            class="primary-btn"
+            type="button"
+            data-go="services"
+          >
+            Browse Services
+          </button>
+        </div>
+      `;
+
+      const browse =
+        list.querySelector("[data-go]");
+
+      if (browse) {
+        browse.addEventListener(
+          "click",
+          () => showPage("services")
+        );
+      }
+
+      return;
+    }
+
+    list.innerHTML =
+      data.map(order => {
+
+        const status =
+          order.status || "pending";
+
+        const amount =
+          order.amount || 0;
 
         const date =
           order.created_at
             ? new Date(
                 order.created_at
-              ).toLocaleString(
-                "en-NG"
-              )
+              ).toLocaleString()
             : "";
 
-
         return `
-          <article class="card order-card">
+          <div class="order-item">
 
-            <div>
-
-              <strong>
-                ${escapeHtml(
-                  order.platform
-                )}
-                —
-                ${escapeHtml(
-                  order.service
-                )}
-              </strong>
-
-              <small>
-                Quantity:
-                ${Number(
-                  order.quantity || 0
-                ).toLocaleString()}
-              </small>
-
-              <small>
-                Total:
-                ${formatMoney(
-                  order.amount
-                )}
-              </small>
-
-              <small>
-                ${escapeHtml(
-                  order.link
-                )}
-              </small>
-
-              <small>
-                ${escapeHtml(
-                  date
-                )}
-              </small>
-
-            </div>
-
-
-            <span class="status">
-
+            <strong>
               ${escapeHtml(
-                String(
-                  order.status ||
-                  "pending"
-                ).toUpperCase()
+                order.platform || ""
               )}
+              —
+              ${escapeHtml(
+                order.service || ""
+              )}
+            </strong>
 
+            <span>
+              Quantity:
+              ${Number(
+                order.quantity || 0
+              ).toLocaleString()}
             </span>
 
+            <span>
+              Amount:
+              ${formatNaira(amount)}
+            </span>
+
+            <span>
+              Status:
+              ${escapeHtml(status)}
+            </span>
+
+            <span>
+              ${escapeHtml(date)}
+            </span>
+
+            <span>
+              ${escapeHtml(
+                order.link || ""
+              )}
+            </span>
 
             ${
-              order.admin_note
+              order.adminNote
                 ? `
                   <small>
                     Admin note:
                     ${escapeHtml(
-                      order.admin_note
+                      order.adminNote
                     )}
                   </small>
                 `
                 : ""
             }
 
-          </article>
+          </div>
         `;
+      }).join("");
 
-      })
-      .join("");
+  } catch (error) {
+    console.error(error);
 
+    list.innerHTML = `
+      <div class="empty-state">
+        <div>📦</div>
+        <h3>Unable to load orders</h3>
+        <p>Please try again later.</p>
+      </div>
+    `;
+  }
 }
 
+/* -----------------------------
+   LOGOUT
+----------------------------- */
 
-/* =========================================================
-   SIGN UP
-========================================================= */
-
-async function handleSignup() {
-
-  console.log(
-    "REAL ABBA: signup button clicked"
-  );
-
-
-  const name =
-    $("name")?.value.trim() || "";
-
-
-  const email =
-    $("email")?.value.trim() || "";
-
-
-  const password =
-    $("pass")?.value || "";
-
-
-  /* -----------------------------------------
-     VALIDATION
-  ----------------------------------------- */
-
-  if (!name) {
-
-    showMessage(
-      "Please enter your name."
-    );
-
-    return;
-
-  }
-
-
-  if (!email) {
-
-    showMessage(
-      "Please enter your email."
-    );
-
-    return;
-
-  }
-
-
-  if (password.length < 6) {
-
-    showMessage(
-      "Password must be at least 6 characters."
-    );
-
-    return;
-
-  }
-
-
-  if (!supabase) {
-
-    showMessage(
-      "Supabase is not connected. Please refresh the page."
-    );
-
-    console.error(
-      "Supabase client is missing."
-    );
-
-    return;
-
-  }
-
-
-  /* -----------------------------------------
-     LOADING
-  ----------------------------------------- */
-
-  showMessage(
-    "Creating your account..."
-  );
-
-
-  const signupButton =
-    $("signup");
-
-
-  if (signupButton) {
-
-    signupButton.disabled = true;
-
-    signupButton.textContent =
-      "Creating account...";
-
-  }
-
-
+async function logoutUser() {
   try {
+    await supabaseClient.auth.signOut();
+  } catch (error) {
+    console.error(error);
+  }
 
-    console.log(
-      "REAL ABBA: sending signup request"
-    );
+  currentUser = null;
 
+  showAuth();
 
-    const {
-      data,
-      error
-    } =
-      await supabase.auth.signUp({
+  switchAuthTab("login");
 
-        email: email,
+  if ($("loginPass")) {
+    $("loginPass").value = "";
+  }
 
-        password: password,
+  showToast("You have been logged out.");
+}
 
-        options: {
+window.logoutUser = logoutUser;
 
-          emailRedirectTo:
-            window.location.origin +
-            window.location.pathname,
+/* -----------------------------
+   WHATSAPP
+----------------------------- */
 
-          data: {
+function contactWhatsApp() {
+  /*
+    Replace this number with your REAL ABBA BOOSTING
+    WhatsApp number when you are ready.
+  */
 
-            full_name:
-              name,
+  const phone =
+    "2340000000000";
 
-            display_name:
-              name
+  window.open(
+    `https://wa.me/${phone}`,
+    "_blank"
+  );
+}
 
-          }
+window.contactWhatsApp =
+  contactWhatsApp;
 
-        }
+/* -----------------------------
+   INITIALIZATION
+----------------------------- */
 
-      });
+document.addEventListener(
+  "DOMContentLoaded",
+  async () => {
 
-
-    console.log(
-      "REAL ABBA: signup response",
-      data,
-      error
-    );
-
-
-    /* -----------------------------------------
-       SUPABASE ERROR
-    ----------------------------------------- */
-
-    if (error) {
-
+    if (!supabaseClient) {
       console.error(
-        "Signup error:",
-        error
+        "supabaseClient is missing."
       );
 
-
       showMessage(
-        error.message
-      );
-
-
-      return;
-
-    }
-
-
-    /* -----------------------------------------
-       NO USER
-    ----------------------------------------- */
-
-    if (!data?.user) {
-
-      showMessage(
-        "Account could not be created. Please try again."
+        "Supabase connection is missing. Check supabase.js.",
+        "error"
       );
 
       return;
-
     }
 
+    /* AUTH TABS */
 
-    /* -----------------------------------------
-       EMAIL CONFIRMATION REQUIRED
-    ----------------------------------------- */
+    document
+      .querySelectorAll(".tab")
+      .forEach(tab => {
 
-    if (!data.session) {
-
-      showMessage(
-        "Account created successfully! 📧 Check your email and click the confirmation link before logging in."
-      );
-
-
-      /*
-        Switch back to Login after signup.
-      */
-
-      setTimeout(() => {
-
-        switchAuthTab("login");
-
-        if ($("loginEmail")) {
-
-          $("loginEmail").value =
-            email;
-
-        }
-
-        showMessage(
-          "Your account was created. 📧 Check your email and confirm your email address, then log in."
+        tab.addEventListener(
+          "click",
+          () => {
+            switchAuthTab(
+              tab.dataset.tab
+            );
+          }
         );
 
-      }, 1500);
+      });
 
+    /* LOGIN FORM */
 
-      return;
+    const loginForm =
+      $("loginForm");
 
+    if (loginForm) {
+      loginForm.addEventListener(
+        "submit",
+        handleLogin
+      );
     }
 
+    /* SIGNUP FORM */
 
-    /* -----------------------------------------
-       SESSION CREATED
-       EMAIL CONFIRMATION MAY BE DISABLED
-    ----------------------------------------- */
+    const signupForm =
+      $("signupForm");
 
-    currentUser =
-      data.user;
-
-
-    const profile =
-      await loadProfile();
-
-
-    openApp(
-
-      profile || {
-
-        full_name:
-          name,
-
-        email:
-          email,
-
-        wallet_balance:
-          0
-
-      }
-
-    );
-
-
-    await loadOrders();
-
-
-  } catch (error) {
-
-    console.error(
-      "Signup exception:",
-      error
-    );
-
-
-    showMessage(
-      error?.message ||
-      "Something went wrong while creating your account."
-    );
-
-  } finally {
-
-    if (signupButton) {
-
-      signupButton.disabled =
-        false;
-
-      signupButton.textContent =
-        "Create Account";
-
+    if (signupForm) {
+      signupForm.addEventListener(
+        "submit",
+        handleSignup
+      );
     }
 
-  }
+    /* SIGNUP BUTTON FALLBACK */
 
-}
+    const signupButton =
+      $("signup");
 
+    if (
+      signupButton &&
+      !signupButton.dataset.bound
+    ) {
+      signupButton.dataset.bound =
+        "true";
 
-/* Make available globally */
+      signupButton.addEventListener(
+        "click",
+        handleSignup
+      );
+    }
 
-window.handleSignup =
-  handleSignup;
+    /* FORGOT PASSWORD */
 
+    const forgot =
+      $("forgot");
 
-/* =========================================================
-   LOGIN
-========================================================= */
+    if (forgot) {
+      forgot.addEventListener(
+        "click",
+        handleForgotPassword
+      );
+    }
 
-async function handleLogin() {
+    /* NAVIGATION */
 
-  const email =
-    $("loginEmail")?.value.trim() || "";
+    document
+      .querySelectorAll(".nav-item")
+      .forEach(button => {
 
-
-  const password =
-    $("loginPass")?.value || "";
-
-
-  if (!email) {
-
-    showMessage(
-      "Enter your email."
-    );
-
-    return;
-
-  }
-
-
-  if (!password) {
-
-    showMessage(
-      "Enter your password."
-    );
-
-    return;
-
-  }
-
-
-  if (!supabase) {
-
-    showMessage(
-      "Supabase is not connected."
-    );
-
-    return;
-
-  }
-
-
-  showMessage(
-    "Logging in..."
-  );
-
-
-  const loginButton =
-    $("login");
-
-
-  if (loginButton) {
-
-    loginButton.disabled =
-      true;
-
-    loginButton.textContent =
-      "Logging in...";
-
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabase.auth.signInWithPassword({
-
-        email:
-          email,
-
-        password:
-          password
+        button.addEventListener(
+          "click",
+          () => {
+            showPage(
+              button.dataset.page
+            );
+          }
+        );
 
       });
 
+    /* DATA-GO BUTTONS */
 
-    if (error) {
+    document
+      .querySelectorAll("[data-go]")
+      .forEach(button => {
 
-      console.error(
-        "Login error:",
-        error
+        button.addEventListener(
+          "click",
+          () => {
+            showPage(
+              button.dataset.go
+            );
+          }
+        );
+
+      });
+
+    /* SERVICE CARDS */
+
+    document
+      .querySelectorAll(".service-card")
+      .forEach(card => {
+
+        card.addEventListener(
+          "click",
+          () => {
+            openOrder(
+              card.dataset.platform ||
+              card.dataset.service
+            );
+          }
+        );
+
+      });
+
+    /* ORDER FORM */
+
+    const orderForm =
+      $("orderForm");
+
+    if (orderForm) {
+      orderForm.addEventListener(
+        "submit",
+        handleOrder
       );
-
-
-      showMessage(
-        error.message
-      );
-
-
-      return;
-
     }
 
+    /* QUANTITY */
 
-    if (!data?.user) {
+    const quantity =
+      $("quantity");
 
-      showMessage(
-        "Login failed. Please try again."
+    if (quantity) {
+      quantity.addEventListener(
+        "input",
+        updateOrderTotal
       );
-
-      return;
-
     }
 
+    /* SERVICE */
 
-    if (!data.user.email_confirmed_at) {
+    const service =
+      $("service");
 
-      showMessage(
-        "Please confirm your email before logging in."
+    if (service) {
+      service.addEventListener(
+        "change",
+        updateOrderTotal
       );
-
-
-      await supabase.auth.signOut();
-
-
-      return;
-
     }
 
+    /* LOGOUT BUTTONS */
 
-    currentUser =
-      data.user;
-
-
-    const profile =
-      await loadProfile();
-
-
-    openApp(
-
-      profile || {
-
-        full_name:
-          data.user.user_metadata?.full_name ||
-          data.user.user_metadata?.display_name ||
-          email.split("@")[0] ||
-          "Abba",
-
-        email:
-          email,
-
-        wallet_balance:
-          0
-
-      }
-
+    $("logout")?.addEventListener(
+      "click",
+      logoutUser
     );
 
-
-    await loadOrders();
-
-
-  } catch (error) {
-
-    console.error(
-      "Login exception:",
-      error
+    $("logout2")?.addEventListener(
+      "click",
+      logoutUser
     );
 
+    /* WHATSAPP */
 
-    showMessage(
-      error?.message ||
-      "Something went wrong while logging in."
+    $("homeWhatsapp")?.addEventListener(
+      "click",
+      contactWhatsApp
     );
 
-  } finally {
-
-    if (loginButton) {
-
-      loginButton.disabled =
-        false;
-
-      loginButton.textContent =
-        "Login";
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   FORGOT PASSWORD
-========================================================= */
-
-async function handleForgotPassword() {
-
-  const email =
-    $("loginEmail")?.value.trim() || "";
-
-
-  if (!email) {
-
-    showMessage(
-      "Enter your email first."
+    $("accountWhatsapp")?.addEventListener(
+      "click",
+      contactWhatsApp
     );
 
-    return;
+    /* EXISTING SESSION */
 
-  }
+    try {
 
-
-  if (!supabase) {
-
-    showMessage(
-      "Supabase is not connected."
-    );
-
-    return;
-
-  }
-
-
-  showMessage(
-    "Sending password reset email..."
-  );
-
-
-  try {
-
-    const {
-      error
-    } =
-      await supabase.auth.resetPasswordForEmail(
-        email,
-        {
-
-          redirectTo:
-            window.location.origin +
-            window.location.pathname
-
+      const {
+        data: {
+          session
         }
-      );
+      } =
+        await supabaseClient.auth.getSession();
 
-
-    if (error) {
-
-      console.error(
-        "Password reset error:",
-        error
-      );
-
-
-      showMessage(
-        error.message
-      );
-
-
-      return;
-
-    }
-
-
-    showMessage(
-      "Password reset email sent. Check your inbox."
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Password reset exception:",
-      error
-    );
-
-
-    showMessage(
-      "Unable to send password reset email."
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   PLACE ORDER
-========================================================= */
-
-async function handlePlaceOrder() {
-
-  if (!currentUser) {
-
-    showToast(
-      "Please log in first."
-    );
-
-    return;
-
-  }
-
-
-  const quantity =
-    Number(
-      $("quantity")?.value
-    );
-
-
-  const link =
-    $("url")?.value.trim() || "";
-
-
-  const service =
-    $("service")?.value || "";
-
-
-  if (
-    !selectedPlatform ||
-    !service ||
-    !quantity ||
-    quantity < 1 ||
-    !link
-  ) {
-
-    showToast(
-      "Please complete all order fields."
-    );
-
-    return;
-
-  }
-
-
-  const pricePerThousand =
-    SERVICES[selectedPlatform]?.[service];
-
-
-  if (!pricePerThousand) {
-
-    showToast(
-      "This service is not available."
-    );
-
-    return;
-
-  }
-
-
-  const amount =
-    (quantity / 1000) *
-    pricePerThousand;
-
-
-  const placeButton =
-    $("place");
-
-
-  if (placeButton) {
-
-    placeButton.disabled =
-      true;
-
-    placeButton.textContent =
-      "Submitting...";
-
-  }
-
-
-  try {
-
-    const {
-      error
-    } =
-      await supabase
-        .from("orders")
-        .insert({
-
-          user_id:
-            currentUser.id,
-
-          platform:
-            selectedPlatform,
-
-          service:
-            service,
-
-          quantity:
-            quantity,
-
-          link:
-            link,
-
-          amount:
-            amount,
-
-          status:
-            "pending",
-
-          admin_note:
-            ""
-
-        });
-
-
-    if (error) {
-
-      console.error(
-        "Order error:",
-        error
-      );
-
-
-      showToast(
-        "Order could not be submitted."
-      );
-
-
-      return;
-
-    }
-
-
-    if ($("quantity")) {
-
-      $("quantity").value =
-        "";
-
-    }
-
-
-    if ($("url")) {
-
-      $("url").value =
-        "";
-
-    }
-
-
-    calculateTotal();
-
-
-    await loadOrders();
-
-
-    showToast(
-      "Order submitted successfully."
-    );
-
-
-    showPage(
-      "orders"
-    );
-
-
-  } catch (error) {
-
-    console.error(
-      "Order exception:",
-      error
-    );
-
-
-    showToast(
-      "Something went wrong submitting the order."
-    );
-
-
-  } finally {
-
-    if (placeButton) {
-
-      placeButton.disabled =
-        false;
-
-      placeButton.textContent =
-        "Place Order";
-
-    }
-
-  }
-
-}
-
-
-/* =========================================================
-   LOGOUT
-========================================================= */
-
-async function logout() {
-
-  try {
-
-    await supabase.auth.signOut();
-
-  } catch (error) {
-
-    console.error(
-      "Logout error:",
-      error
-    );
-
-  }
-
-
-  currentUser =
-    null;
-
-  currentProfile =
-    null;
-
-
-  closeApp();
-
-
-  showMessage("");
-
-}
-
-
-/* Make available globally */
-
-window.logout =
-  logout;
-
-
-/* =========================================================
-   AUTH STATE LISTENER
-========================================================= */
-
-function setupAuthListener() {
-
-  if (!supabase) return;
-
-
-  supabase.auth.onAuthStateChange(
-    (event, session) => {
-
-      console.log(
-        "Auth event:",
-        event
-      );
-
-
-      if (
-        event === "SIGNED_OUT"
-      ) {
+      if (session?.user) {
 
         currentUser =
-          null;
+          session.user;
 
-        currentProfile =
-          null;
+        if (
+          session.user.email_confirmed_at
+        ) {
+          await openDashboard(
+            session.user
+          );
+        } else {
+          showAuth();
 
-        closeApp();
+          showEmailConfirmationScreen(
+            session.user.email
+          );
+        }
 
-        return;
-
+      } else {
+        showAuth();
       }
 
-
-      if (
-        event === "PASSWORD_RECOVERY"
-      ) {
-
-        showMessage(
-          "Password recovery link opened."
-        );
-
-        return;
-
-      }
-
-
-      if (
-        event === "SIGNED_IN" &&
-        session?.user
-      ) {
-
-        setTimeout(
-          async () => {
-
-            if (!session.user) {
-              return;
-            }
-
-
-            if (
-              !session.user.email_confirmed_at
-            ) {
-
-              showMessage(
-                "Please confirm your email before continuing."
-              );
-
-              return;
-
-            }
-
-
-            currentUser =
-              session.user;
-
-
-            const profile =
-              await loadProfile();
-
-
-            openApp(
-
-              profile || {
-
-                full_name:
-                  session.user.user_metadata?.full_name ||
-                  session.user.user_metadata?.display_name ||
-                  session.user.email?.split("@")[0] ||
-                  "Abba",
-
-                email:
-                  session.user.email,
-
-                wallet_balance:
-                  0
-
-              }
-
-            );
-
-
-            await loadOrders();
-
-          },
-          0
-        );
-
-      }
-
-    }
-  );
-
-}
-
-
-/* =========================================================
-   EVENT LISTENERS
-========================================================= */
-
-function setupEventListeners() {
-
-
-  /* -----------------------------------------
-     AUTH TABS
-  ----------------------------------------- */
-
-  $$(".tab").forEach(
-    (button) => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          const tab =
-            button.dataset.tab;
-
-
-          switchAuthTab(
-            tab
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-  /* -----------------------------------------
-     LOGIN
-  ----------------------------------------- */
-
-  const loginButton =
-    $("login");
-
-
-  if (loginButton) {
-
-    loginButton.addEventListener(
-      "click",
-      handleLogin
-    );
-
-  }
-
-
-  /* -----------------------------------------
-     SIGN UP
-  ----------------------------------------- */
-
-  const signupButton =
-    $("signup");
-
-
-  if (signupButton) {
-
-    signupButton.addEventListener(
-      "click",
-      handleSignup
-    );
-
-  }
-
-
-  /* -----------------------------------------
-     FORGOT PASSWORD
-  ----------------------------------------- */
-
-  const forgotButton =
-    $("forgot");
-
-
-  if (forgotButton) {
-
-    forgotButton.addEventListener(
-      "click",
-      handleForgotPassword
-    );
-
-  }
-
-
-  /* -----------------------------------------
-     NAVIGATION
-  ----------------------------------------- */
-
-  $$("[data-page]").forEach(
-    (button) => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          const page =
-            button.dataset.page;
-
-
-          if (page) {
-
-            showPage(
-              page
-            );
-
-          }
-
-        }
-      );
-
-    }
-  );
-
-
-  /* -----------------------------------------
-     PLATFORM
-  ----------------------------------------- */
-
-  $$(".service[data-platform]").forEach(
-    (button) => {
-
-      button.addEventListener(
-        "click",
-        () => {
-
-          selectedPlatform =
-            button.dataset.platform;
-
-
-          if ($("platform")) {
-
-            $("platform").value =
-              selectedPlatform;
-
-          }
-
-
-          if ($("orderTitle")) {
-
-            $("orderTitle").textContent =
-              selectedPlatform +
-              " order";
-
-          }
-
-
-          updateServiceOptions(
-            selectedPlatform
-          );
-
-
-          showPage(
-            "order"
-          );
-
-        }
-      );
-
-    }
-  );
-
-
-  /* -----------------------------------------
-     QUANTITY
-  ----------------------------------------- */
-
-  $("quantity")?.addEventListener(
-    "input",
-    calculateTotal
-  );
-
-
-  /* -----------------------------------------
-     SERVICE
-  ----------------------------------------- */
-
-  $("service")?.addEventListener(
-    "change",
-    calculateTotal
-  );
-
-
-  /* -----------------------------------------
-     PLACE ORDER
-  ----------------------------------------- */
-
-  $("place")?.addEventListener(
-    "click",
-    handlePlaceOrder
-  );
-
-
-  /* -----------------------------------------
-     LOGOUT
-  ----------------------------------------- */
-
-  $("logout")?.addEventListener(
-    "click",
-    logout
-  );
-
-
-  $("logout2")?.addEventListener(
-    "click",
-    logout
-  );
-
-}
-
-
-/* =========================================================
-   INITIALIZE
-========================================================= */
-
-async function initialize() {
-
-  if (!supabase) {
-
-    console.error(
-      "Supabase client was not found."
-    );
-
-
-    showMessage(
-      "Supabase is not connected. Please check supabase.js."
-    );
-
-
-    return;
-
-  }
-
-
-  try {
-
-    const {
-      data,
-      error
-    } =
-      await supabase.auth.getSession();
-
-
-    if (error) {
-
+    } catch (error) {
       console.error(
         "Session error:",
         error
       );
 
-      return;
-
+      showAuth();
     }
 
+    /* AUTH STATE */
 
-    const session =
-      data?.session;
+    supabaseClient.auth.onAuthStateChange(
+      async (event, session) => {
 
+        console.log(
+          "Auth event:",
+          event
+        );
 
-    if (!session) {
-
-      return;
-
-    }
-
-
-    const user =
-      session.user;
-
-
-    if (!user) {
-
-      return;
-
-    }
-
-
-    if (!user.email_confirmed_at) {
-
-      await supabase.auth.signOut();
-
-
-      showMessage(
-        "Please confirm your email before logging in."
-      );
-
-
-      return;
-
-    }
-
-
-    currentUser =
-      user;
-
-
-    const profile =
-      await loadProfile();
-
-
-    openApp(
-
-      profile || {
-
-        full_name:
-          user.user_metadata?.full_name ||
-          user.user_metadata?.display_name ||
-          user.email?.split("@")[0] ||
-          "Abba",
-
-        email:
-          user.email,
-
-        wallet_balance:
-          0
+        if (
+          session?.user &&
+          session.user.email_confirmed_at
+        ) {
+          currentUser =
+            session.user;
+        }
 
       }
-
     );
-
-
-    await loadOrders();
-
-
-  } catch (error) {
-
-    console.error(
-      "Initialization error:",
-      error
-    );
-
-  }
-
-}
-
-
-/* =========================================================
-   START
-========================================================= */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    console.log(
-      "REAL ABBA BOOSTING: app started"
-    );
-
-
-    if (!supabase) {
-
-      console.error(
-        "Supabase client missing."
-      );
-
-
-      showMessage(
-        "Supabase is not connected. Please check supabase.js."
-      );
-
-
-      return;
-
-    }
-
-
-    setupEventListeners();
-
-    setupAuthListener();
-
-    initialize();
 
   }
 );
