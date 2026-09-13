@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>REAL ABBA BOOSTING</title>
+
+  <meta name="theme-color" content="#06111f">
+  <meta name="description" content="REAL ABBA BOOSTING - Social media boosting services">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <!-- =========================
+       AUTH SCREEN
+  ========================== -->
+
+  <section id="authScreen" class="auth-screen">
+
+    <div class="auth-container">
+
+      <div class="brand-logo">
+        RAB
+      </div>
+
+      <div class="eyebrow">
+        SOCIAL MEDIA GROWTH
+      </div>
+
+      <h1 class="auth-title">
+        REAL ABBA
+        <span>BOOSTING</span>
+      </h1>
+
+      <p class="auth-description">
+        Grow your social media presence with fast,
+        simple and reliable boosting services.
+      </p>
+
+      <div class="auth-card">
+
+        <div class="auth-tabs">
+
+          <button
+            class="auth-tab active"
+            id="loginTab"
+            type="button"
+          >
+            Login
+          </button>
+
+          <button
+            class="auth-tab"
+            id="signupTab"
+            type="button"
+          >
+            Sign Up
+          </button>
+
+        </div>
+
+
+        <!-- LOGIN -->
+
+        <div id="loginForm">
+
+          <h2>Welcome back 👋</h2>
+
+          <p class="form-description">
+            Login to continue to your dashboard.
+          </p>
+
+          <label for="loginEmail">
+            Email address
+          </label>
+
+          <input
+            id="loginEmail"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+          >
+
+
+          <label for="loginPassword">
+            Password
+          </label>
+
+          <input
+            id="loginPassword"
+            type="password"
+            placeholder="••••••••"
+            autocomplete="current-password"
+          >
+
+
+          <button
+            id="loginBtn"
+            class="primary-btn"
+            type="button"
+          >
+            Login
+          </button>
+
+
+          <button
+            id="forgotPasswordBtn"
+            class="text-btn"
+            type="button"
+          >
+            Forgot password?
+          </button>
+
+        </div>
+
+
+        <!-- SIGN UP -->
+
+        <div
+          id="signupForm"
+          class="hidden"
+        >
+
+          <h2>Create your account 🚀</h2>
+
+          <p class="form-description">
+            Join REAL ABBA BOOSTING today.
+          </p>
+
+
+          <label for="signupName">
+            Your name
+          </label>
+
+          <input
+            id="signupName"
+            type="text"
+            placeholder="Your name"
+            autocomplete="name"
+          >
+
+
+          <label for="signupEmail">
+            Email address
+          </label>
+
+          <input
+            id="signupEmail"
+            type="email"
+            placeholder="you@example.com"
+            autocomplete="email"
+          >
+
+
+          <label for="signupPassword">
+            Password
+          </label>
+
+          <input
+            id="signupPassword"
+            type="password"
+            placeholder="At least 6 characters"
+            autocomplete="new-password"
+          >
+
+
+          <button
+            id="signupBtn"
+            class="primary-btn"
+            type="button"
+          >
+            Create Account
+          </button>
+
+        </div>
+
+
+        <div
+          id="authMessage"
+          class="auth-message"
+        ></div>
+
+      </div>
+
+
+      <div class="trust-row">
+
+        <div>
+          <strong>🛡️</strong>
+          <span>Secure</span>
+        </div>
+
+        <div>
+          <strong>⚡</strong>
+          <span>Fast</span>
+        </div>
+
+        <div>
+          <strong>👍</strong>
+          <span>Trusted</span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- =========================
+       MAIN APPLICATION
+  ========================== -->
+
+  <section
+    id="appScreen"
+    class="app-screen hidden"
+  >
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+      <div class="brand-mini">
+
+        <div class="brand-logo small">
+          RAB
+        </div>
+
+        <div>
+          <strong>REAL ABBA</strong>
+          <span>BOOSTING</span>
+        </div>
+
+      </div>
+
+
+      <button
+        id="logoutBtn"
+        class="icon-btn"
+        type="button"
+      >
+        ↪
+      </button>
+
+    </header>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main-content">
+
+
+      <!-- HOME -->
+
+      <section
+        id="homePage"
+        class="app-page active"
+      >
+
+        <div class="welcome-row">
+
+          <div>
+
+            <div class="eyebrow">
+              WELCOME BACK
+            </div>
+
+            <h2 id="welcomeName">
+              Abba 👋
+            </h2>
+
+            <p class="muted">
+              Ready to grow your social media?
+            </p>
+
+          </div>
+
+
+          <div class="wallet-card">
+
+            <span>
+              Wallet
+            </span>
+
+            <strong id="walletBalance">
+              ₦0.00
+            </strong>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="topup-btn"
+          data-page="account"
+          type="button"
+        >
+          + Top Up
+        </button>
+
+
+        <!-- HERO -->
+
+        <div class="hero-card">
+
+          <div class="hero-pill">
+            🔥 FAST & SIMPLE
+          </div>
+
+          <h1>
+            Grow your
+            <span>social presence.</span>
+          </h1>
+
+          <p>
+            Choose a platform, select a service
+            and place your order in a few taps.
+          </p>
+
+
+          <button
+            class="primary-btn"
+            data-page="services"
+            type="button"
+          >
+            Start Boosting 🚀
+          </button>
+
+        </div>
+
+
+        <!-- STATS -->
+
+        <div class="section-heading">
+
+          <div class="eyebrow">
+            OVERVIEW
+          </div>
+
+          <h2>
+            At a glance
+          </h2>
+
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <strong>50K+</strong>
+            <span>Clients</span>
+          </div>
+
+          <div class="stat-card">
+            <strong>200K+</strong>
+            <span>Orders</span>
+          </div>
+
+          <div class="stat-card">
+            <strong>24/7</strong>
+            <span>Support</span>
+          </div>
+
+        </div>
+
+
+        <!-- SUPPORT -->
+
+        <div class="support-card">
+
+          <div class="support-icon">
+            💬
+          </div>
+
+          <div>
+            <strong>
+              Need help?
+            </strong>
+
+            <span>
+              Chat with REAL ABBA BOOSTING support.
+            </span>
+          </div>
+
+          <a
+            href="https://wa.me/"
+            target="_blank"
+            rel="noopener"
+          >
+            Chat
+          </a>
+
+        </div>
+
+      </section>
+
+
+      <!-- SERVICES -->
+
+      <section
+        id="servicesPage"
+        class="app-page"
+      >
+
+        <div class="eyebrow">
+          SERVICES
+        </div>
+
+        <h2 class="page-title">
+          Choose a platform
+        </h2>
+
+        <p class="muted">
+          Select a platform to start your order.
+        </p>
+
+
+        <div class="services-list">
+
+
+          <button
+            class="service-card"
+            data-platform="TikTok"
+            type="button"
+          >
+
+            <div class="service-icon">
+              ♪
+            </div>
+
+            <div>
+              <strong>TikTok</strong>
+
+              <span>
+                Followers, likes, views & shares
+              </span>
+            </div>
+
+            <b>›</b>
+
+          </button>
+
+
+          <button
+            class="service-card"
+            data-platform="Instagram"
+            type="button"
+          >
+
+            <div class="service-icon">
+              ◎
+            </div>
+
+            <div>
+              <strong>Instagram</strong>
+
+              <span>
+                Followers, likes, views & engagement
+              </span>
+            </div>
+
+            <b>›</b>
+
+          </button>
+
+
+          <button
+            class="service-card"
+            data-platform="YouTube"
+            type="button"
+          >
+
+            <div class="service-icon">
+              ▶
+            </div>
+
+            <div>
+              <strong>YouTube</strong>
+
+              <span>
+                Views, subscribers & likes
+              </span>
+            </div>
+
+            <b>›</b>
+
+          </button>
+
+
+          <button
+            class="service-card"
+            data-platform="Facebook"
+            type="button"
+          >
+
+            <div class="service-icon">
+              f
+            </div>
+
+            <div>
+              <strong>Facebook</strong>
+
+              <span>
+                Followers, page likes & engagement
+              </span>
+            </div>
+
+            <b>›</b>
+
+          </button>
+
+
+          <button
+            class="service-card disabled"
+            type="button"
+          >
+
+            <div class="service-icon">
+              𝕏
+            </div>
+
+            <div>
+              <strong>X / Twitter</strong>
+
+              <span>
+                Pricing not available yet
+              </span>
+            </div>
+
+            <b>›</b>
+
+          </button>
+
+
+          <button
+            class="service-card"
+            data-platform="Telegram"
+            type="button"
+          >
+
+            <div class="service-icon">
+              ✈
+            </div>
+
+            <div>
+              <strong>Telegram</strong>
+
+              <span>
+                Members, views & reactions
+              </span>
+            </div>
+
+            <b>›</b>
+
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ORDER -->
+
+      <section
+        id="orderPage"
+        class="app-page"
+      >
+
+        <div class="eyebrow">
+          NEW ORDER
+        </div>
+
+        <h2
+          id="orderTitle"
+          class="page-title"
+        >
+          Place an order
+        </h2>
+
+        <p class="muted">
+          Enter the details below.
+        </p>
+
+
+        <div class="form-card">
+
+          <label>
+            Platform
+          </label>
+
+          <input
+            id="orderPlatform"
+            readonly
+          >
+
+
+          <label>
+            Service
+          </label>
+
+          <select id="orderService">
+
+            <option>
+              Followers
+            </option>
+
+            <option>
+              Likes
+            </option>
+
+            <option>
+              Views
+            </option>
+
+            <option>
+              Shares
+            </option>
+
+            <option>
+              Subscribers
+            </option>
+
+          </select>
+
+
+          <label>
+            Quantity
+          </label>
+
+          <input
+            id="orderQuantity"
+            type="number"
+            min="1"
+            placeholder="1000"
+          >
+
+
+          <label>
+            Post / Profile link
+          </label>
+
+          <input
+            id="orderLink"
+            type="url"
+            placeholder="https://..."
+          >
+
+
+          <div class="price-box">
+
+            <span>
+              Estimated total
+            </span>
+
+            <strong id="orderTotal">
+              ₦0.00
+            </strong>
+
+          </div>
+
+
+          <button
+            id="placeOrderBtn"
+            class="primary-btn"
+            type="button"
+          >
+            Place Order
+          </button>
+
+        </div>
+
+      </section>
+
+
+      <!-- ORDERS -->
+
+      <section
+        id="ordersPage"
+        class="app-page"
+      >
+
+        <div class="eyebrow">
+          MY ORDERS
+        </div>
+
+        <h2 class="page-title">
+          Recent orders
+        </h2>
+
+        <p class="muted">
+          Your submitted orders will appear here.
+        </p>
+
+
+        <div
+          id="ordersList"
+          class="orders-list"
+        >
+
+          <div class="empty-card">
+            No orders yet. Start boosting to see
+            your orders here.
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- ACCOUNT -->
+
+      <section
+        id="accountPage"
+        class="app-page"
+      >
+
+        <div class="eyebrow">
+          ACCOUNT
+        </div>
+
+        <h2 class="page-title">
+          My account
+        </h2>
+
+        <p
+          id="accountEmail"
+          class="muted"
+        >
+          —
+        </p>
+
+
+        <div class="profile-card">
+
+          <div class="avatar">
+            R
+          </div>
+
+          <div>
+
+            <strong id="accountName">
+              ABBA
+            </strong>
+
+            <span id="accountEmail2">
+              —
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <div class="info-card">
+
+          <div class="eyebrow">
+            HOW IT WORKS
+          </div>
+
+          <h2>
+            Boost in 3 easy steps
+          </h2>
+
+
+          <div class="step">
+
+            <b>01</b>
+
+            <div>
+              <strong>
+                Create account
+              </strong>
+
+              <span>
+                Register and access your dashboard.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <b>02</b>
+
+            <div>
+              <strong>
+                Add funds
+              </strong>
+
+              <span>
+                Top up your wallet and wait for approval.
+              </span>
+            </div>
+
+          </div>
+
+
+          <div class="step">
+
+            <b>03</b>
+
+            <div>
+              <strong>
+                Place your order
+              </strong>
+
+              <span>
+                Choose a platform, service and quantity.
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <button
+          class="secondary-btn"
+          type="button"
+        >
+          💳 Top Up Wallet
+        </button>
+
+
+        <a
+          class="whatsapp-btn"
+          href="https://wa.me/"
+          target="_blank"
+          rel="noopener"
+        >
+          💬 WhatsApp Support
+        </a>
+
+
+        <button
+          id="logoutBtn2"
+          class="danger-btn"
+          type="button"
+        >
+          Logout
+        </button>
+
+      </section>
+
+    </main>
+
+
+    <!-- BOTTOM NAVIGATION -->
+
+    <nav class="bottom-nav">
+
+      <button
+        class="nav-item active"
+        data-page="home"
+        type="button"
+      >
+        <span>⌂</span>
+        <small>Home</small>
+      </button>
+
+
+      <button
+        class="nav
