@@ -44,15 +44,30 @@
 
     <div class="card auth-card">
 
+      <!-- AUTH TABS -->
+
       <div class="tabs">
-        <button class="tab active" data-tab="login">
+
+        <button
+          type="button"
+          class="tab active"
+          data-tab="login"
+          onclick="switchAuthTab('login')"
+        >
           Login
         </button>
 
-        <button class="tab" data-tab="signup">
+        <button
+          type="button"
+          class="tab"
+          data-tab="signup"
+          onclick="switchAuthTab('signup')"
+        >
           Sign Up
         </button>
+
       </div>
+
 
       <!-- LOGIN -->
 
@@ -64,35 +79,53 @@
           Login to continue to your dashboard.
         </p>
 
-        <label>Email address</label>
+        <label>
+          Email address
+        </label>
 
         <input
           id="loginEmail"
           type="email"
           placeholder="you@example.com"
+          autocomplete="email"
         >
 
-        <label>Password</label>
+        <label>
+          Password
+        </label>
 
         <input
           id="loginPass"
           type="password"
           placeholder="••••••••"
+          autocomplete="current-password"
         >
 
-        <button id="login" class="primary">
+        <button
+          id="login"
+          type="button"
+          class="primary"
+        >
           Login
         </button>
 
-        <button id="forgot" class="link">
+        <button
+          id="forgot"
+          type="button"
+          class="link"
+        >
           Forgot password?
         </button>
 
       </div>
 
+
       <!-- SIGN UP -->
 
-      <div id="signupBox" class="hide">
+      <div
+        id="signupBox"
+        class="hide"
+      >
 
         <h2>Create your account 🚀</h2>
 
@@ -100,39 +133,57 @@
           Join REAL ABBA BOOSTING today.
         </p>
 
-        <label>Your name</label>
+        <label>
+          Your name
+        </label>
 
         <input
           id="name"
           type="text"
           placeholder="Your name"
+          autocomplete="name"
         >
 
-        <label>Email address</label>
+        <label>
+          Email address
+        </label>
 
         <input
           id="email"
           type="email"
           placeholder="you@example.com"
+          autocomplete="email"
         >
 
-        <label>Password</label>
+        <label>
+          Password
+        </label>
 
         <input
           id="pass"
           type="password"
           placeholder="At least 6 characters"
+          autocomplete="new-password"
         >
 
-        <button id="signup" class="primary">
+        <button
+          id="signup"
+          type="button"
+          class="primary"
+        >
           Create Account
         </button>
 
       </div>
 
-      <div id="msg" class="msg"></div>
+
+      <div
+        id="msg"
+        class="msg"
+      ></div>
 
     </div>
+
 
     <div class="trust">
 
@@ -160,7 +211,10 @@
        MAIN APP
   ========================== -->
 
-  <section id="app" class="hide app">
+  <section
+    id="app"
+    class="hide app"
+  >
 
     <header>
 
@@ -177,7 +231,11 @@
 
       </div>
 
-      <button id="logout" class="icon">
+      <button
+        id="logout"
+        type="button"
+        class="icon"
+      >
         ↪
       </button>
 
@@ -186,9 +244,14 @@
 
     <main>
 
-      <!-- HOME -->
+      <!-- =========================
+           HOME
+      ========================== -->
 
-      <section id="home" class="page active">
+      <section
+        id="home"
+        class="page active"
+      >
 
         <div class="welcome">
 
@@ -208,11 +271,16 @@
 
           </div>
 
+
           <div class="wallet">
 
-            <small>Wallet</small>
+            <small>
+              Wallet
+            </small>
 
-            <b>₦0.00</b>
+            <b>
+              ₦0.00
+            </b>
 
           </div>
 
@@ -220,6 +288,7 @@
 
 
         <button
+          type="button"
           class="topup"
           data-page="account"
         >
@@ -244,6 +313,7 @@
           </p>
 
           <button
+            type="button"
             class="primary"
             data-page="services"
           >
@@ -291,17 +361,22 @@
           <b>💬</b>
 
           <div>
-            <strong>Need help?</strong>
+
+            <strong>
+              Need help?
+            </strong>
 
             <small>
               Chat with REAL ABBA BOOSTING
               support on WhatsApp.
             </small>
+
           </div>
 
           <a
             href="https://wa.me/"
             target="_blank"
+            rel="noopener"
           >
             Chat
           </a>
@@ -311,9 +386,14 @@
       </section>
 
 
-      <!-- SERVICES -->
+      <!-- =========================
+           SERVICES
+      ========================== -->
 
-      <section id="services" class="page">
+      <section
+        id="services"
+        class="page"
+      >
 
         <div class="eyebrow">
           SERVICES
@@ -331,6 +411,7 @@
         <div class="services">
 
           <button
+            type="button"
             class="service"
             data-platform="TikTok"
           >
@@ -351,6 +432,7 @@
 
 
           <button
+            type="button"
             class="service"
             data-platform="Instagram"
           >
@@ -371,6 +453,7 @@
 
 
           <button
+            type="button"
             class="service"
             data-platform="YouTube"
           >
@@ -391,6 +474,7 @@
 
 
           <button
+            type="button"
             class="service"
             data-platform="Facebook"
           >
@@ -410,7 +494,10 @@
           </button>
 
 
-          <button class="service disabled">
+          <button
+            type="button"
+            class="service disabled"
+          >
 
             <i>𝕏</i>
 
@@ -428,6 +515,7 @@
 
 
           <button
+            type="button"
             class="service"
             data-platform="Telegram"
           >
@@ -451,9 +539,14 @@
       </section>
 
 
-      <!-- ORDER -->
+      <!-- =========================
+           ORDER
+      ========================== -->
 
-      <section id="order" class="page">
+      <section
+        id="order"
+        class="page"
+      >
 
         <div class="eyebrow">
           NEW ORDER
@@ -547,6 +640,7 @@
 
           <button
             id="place"
+            type="button"
             class="primary"
           >
             Place Order
@@ -557,9 +651,14 @@
       </section>
 
 
-      <!-- ORDERS -->
+      <!-- =========================
+           ORDERS
+      ========================== -->
 
-      <section id="orders" class="page">
+      <section
+        id="orders"
+        class="page"
+      >
 
         <div class="eyebrow">
           MY ORDERS
@@ -589,9 +688,14 @@
       </section>
 
 
-      <!-- ACCOUNT -->
+      <!-- =========================
+           ACCOUNT
+      ========================== -->
 
-      <section id="account" class="page">
+      <section
+        id="account"
+        class="page"
+      >
 
         <div class="eyebrow">
           ACCOUNT
@@ -642,6 +746,7 @@
 
 
           <div>
+
             <b>01</b>
 
             <strong>
@@ -651,10 +756,12 @@
             <small>
               Register and access your dashboard.
             </small>
+
           </div>
 
 
           <div>
+
             <b>02</b>
 
             <strong>
@@ -664,10 +771,12 @@
             <small>
               Top up your wallet and wait for approval.
             </small>
+
           </div>
 
 
           <div>
+
             <b>03</b>
 
             <strong>
@@ -677,12 +786,16 @@
             <small>
               Choose a platform, service and quantity.
             </small>
+
           </div>
 
         </div>
 
 
-        <button class="secondary">
+        <button
+          type="button"
+          class="secondary"
+        >
           💳 Top Up Wallet
         </button>
 
@@ -691,6 +804,7 @@
           class="whatsapp"
           href="https://wa.me/"
           target="_blank"
+          rel="noopener"
         >
           💬 WhatsApp Support
         </a>
@@ -698,6 +812,7 @@
 
         <button
           id="logout2"
+          type="button"
           class="danger"
         >
           Logout
@@ -708,11 +823,14 @@
     </main>
 
 
-    <!-- BOTTOM NAV -->
+    <!-- =========================
+         BOTTOM NAV
+    ========================== -->
 
     <nav>
 
       <button
+        type="button"
         data-page="home"
         class="active"
       >
@@ -721,19 +839,28 @@
       </button>
 
 
-      <button data-page="services">
+      <button
+        type="button"
+        data-page="services"
+      >
         ＋
         <small>Services</small>
       </button>
 
 
-      <button data-page="orders">
+      <button
+        type="button"
+        data-page="orders"
+      >
         □
         <small>Orders</small>
       </button>
 
 
-      <button data-page="account">
+      <button
+        type="button"
+        data-page="account"
+      >
         ◉
         <small>Account</small>
       </button>
@@ -743,6 +870,8 @@
   </section>
 
 
+  <!-- TOAST -->
+
   <div
     id="toast"
     class="toast"
@@ -751,12 +880,84 @@
 </div>
 
 
-<!-- SUPABASE -->
+<!-- =====================================================
+     SUPABASE
+===================================================== -->
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="supabase.js"></script>
 
-<!-- APP -->
+
+<!-- =====================================================
+     AUTH TAB FIX
+===================================================== -->
+
+<script>
+function switchAuthTab(tab) {
+
+  const loginBox =
+    document.getElementById("loginBox");
+
+  const signupBox =
+    document.getElementById("signupBox");
+
+  const tabs =
+    document.querySelectorAll(".tab");
+
+  if (!loginBox || !signupBox) {
+    return;
+  }
+
+  tabs.forEach(function(button) {
+    button.classList.remove("active");
+  });
+
+
+  if (tab === "signup") {
+
+    loginBox.classList.add("hide");
+    signupBox.classList.remove("hide");
+
+    const signupTab =
+      document.querySelector(
+        '[data-tab="signup"]'
+      );
+
+    if (signupTab) {
+      signupTab.classList.add("active");
+    }
+
+  } else {
+
+    signupBox.classList.add("hide");
+    loginBox.classList.remove("hide");
+
+    const loginTab =
+      document.querySelector(
+        '[data-tab="login"]'
+      );
+
+    if (loginTab) {
+      loginTab.classList.add("active");
+    }
+  }
+
+
+  const message =
+    document.getElementById("msg");
+
+  if (message) {
+    message.textContent = "";
+  }
+}
+</script>
+
+
+<!-- =====================================================
+     APP
+===================================================== -->
+
 <script src="app.js"></script>
 
 </body>
