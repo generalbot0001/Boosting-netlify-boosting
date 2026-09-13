@@ -1,63 +1,62 @@
+// ==========================================
 // REAL ABBA BOOSTING
-// Frontend service, pricing and navigation logic
+// Supabase Authentication + Website Logic
+// ==========================================
+
+const supabase = window.supabaseClient;
+
+// ==========================================
+// SERVICE PRICES
+// ==========================================
 
 const SERVICES = {
-  tiktok: [
-    { name: "TikTok Followers", price: 6000 },
-    { name: "TikTok Likes", price: 1000 },
-    { name: "TikTok Views", price: 400 }
-  ],
+  TikTok: {
+    "Followers": 6000,
+    "Likes": 1000,
+    "Views": 400
+  },
 
-  instagram: [
-    { name: "Instagram Followers", price: 5500 },
-    { name: "Instagram Likes", price: 800 },
-    { name: "Instagram Views", price: 300 }
-  ],
+  Instagram: {
+    "Followers": 5500,
+    "Likes": 800,
+    "Views": 300
+  },
 
-  youtube: [
-    { name: "YouTube Subscribers", price: 65000 },
-    { name: "YouTube Views", price: 2500 }
-  ],
+  YouTube: {
+    "Subscribers": 65000,
+    "Views": 2500
+  },
 
-  facebook: [
-    { name: "Facebook Followers", price: 5300 }
-  ],
+  Facebook: {
+    "Followers": 5300
+  },
 
-  telegram: [
-    { name: "Telegram Members", price: 5000 }
-  ]
+  Telegram: {
+    "Members": 5000
+  }
 };
 
-let selectedService = null;
-let orders = [];
+let selectedPlatform = "";
+let currentUser = null;
 
-function formatNaira(amount) {
-  return "₦" + Number(amount).toLocaleString("en-NG");
+// ==========================================
+// HELPERS
+// ==========================================
+
+function money(amount) {
+  return "₦" + Number(amount || 0).toLocaleString("en-NG", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
 }
 
-function showPage(pageName) {
-  document.querySelectorAll(".app-page").forEach(page => {
-    page.classList.remove("active");
-  });
+function showMessage(message, type = "info") {
+  const box = document.getElementById("msg");
 
-  const page = document.getElementById(pageName);
+  if (!box) return;
 
-  if (page) {
-    page.classList.add("active");
-  }
-
-  document.querySelectorAll(".nav-item").forEach(item => {
-    item.classList.remove("active");
-
-    if (item.dataset.page === pageName) {
-      item.classList.add("active");
-    }
-  });
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
+  box.textContent = message;
+  box.className = "msg " + type;
 }
 
 function showToast(message) {
@@ -73,277 +72,681 @@ function showToast(message) {
   }, 3000);
 }
 
-function selectService(serviceName, price) {
-  selectedService = {
-    name: serviceName,
-    price: Number(price)
-  };
+// ==========================================
+// AUTH TABS
+// ==========================================
 
-  const serviceInput = document.getElementById("orderService");
+document.querySelectorAll(".tab").forEach(tab => {
+  tab.addEventListener("click", () => {
 
-  if (serviceInput) {
-    serviceInput.value = serviceName;
-  }
-
-  updateOrderTotal();
-  showPage("order");
-}
-
-function updateOrderTotal() {
-  const quantityInput = document.getElementById("orderQuantity");
-  const totalElement = document.getElementById("orderTotal");
-
-  if (!quantityInput || !totalElement || !selectedService) {
-    return;
-  }
-
-  let quantity = Number(quantityInput.value) || 0;
-
-  if (quantity < 0) {
-    quantity = 0;
-  }
-
-  const total = (quantity / 1000) * selectedService.price;
-
-  totalElement.textContent = formatNaira(total);
-}
-
-function loadServices() {
-  const container = document.getElementById("servicesContainer");
-
-  if (!container) return;
-
-  container.innerHTML = "";
-
-  Object.keys(SERVICES).forEach(platform => {
-    SERVICES[platform].forEach(service => {
-      const card = document.createElement("div");
-
-      card.className = "service-card";
-
-      card.innerHTML = `
-        <div class="service-icon">📈</div>
-        <h3>${service.name}</h3>
-        <p>High-quality social media boosting service.</p>
-        <div class="price">
-          ${formatNaira(service.price)} / 1,000
-        </div>
-        <button
-          class="primary-btn"
-          style="margin-top:12px;"
-          onclick="selectService('${service.name}', ${service.price})"
-        >
-          Order Now
-        </button>
-      `;
-
-      container.appendChild(card);
+    document.querySelectorAll(".tab").forEach(t => {
+      t.classList.remove("active");
     });
+
+    tab.classList.add("active");
+
+    const target = tab.dataset.tab;
+
+    const loginBox = document.getElementById("loginBox");
+    const signupBox = document.getElementById("signupBox");
+
+    if (target === "login") {
+      loginBox?.classList.remove("hide");
+      signupBox?.classList.add("hide");
+    }
+
+    if (target === "signup") {
+      loginBox?.classList.add("hide");
+      signupBox?.classList.remove("hide");
+    }
+
+    showMessage("");
   });
-}
+});
 
-function submitOrder(event) {
-  event.preventDefault();
+// ==========================================
+// SIGN UP
+// ==========================================
 
-  if (!selectedService) {
-    showToast("Please select a service first.");
+document.getElementById("signup")?.addEventListener("click", async () => {
+
+  const name = document.getElementById("name")?.value.trim();
+  const email = document.getElementById("email")?.value.trim();
+  const password = document.getElementById("pass")?.value;
+
+  if (!name || !email || !password) {
+    showMessage("Please fill in all fields.", "error");
     return;
   }
 
-  const quantityInput = document.getElementById("orderQuantity");
-  const linkInput = document.getElementById("orderLink");
-
-  const quantity = Number(quantityInput?.value || 0);
-  const link = linkInput?.value.trim() || "";
-
-  if (quantity < 100) {
-    showToast("Minimum order quantity is 100.");
-    return;
-  }
-
-  if (!link) {
-    showToast("Please enter your social media link.");
-    return;
-  }
-
-  const total = (quantity / 1000) * selectedService.price;
-
-  const order = {
-    id: "RAB" + Date.now(),
-    service: selectedService.name,
-    quantity: quantity,
-    link: link,
-    amount: total,
-    status: "pending",
-    createdAt: new Date().toLocaleString("en-NG")
-  };
-
-  orders.unshift(order);
-
-  localStorage.setItem(
-    "realAbbaOrders",
-    JSON.stringify(orders)
-  );
-
-  showToast("Order submitted successfully!");
-
-  event.target.reset();
-
-  selectedService = null;
-
-  updateOrderList();
-
-  setTimeout(() => {
-    showPage("orders");
-  }, 700);
-}
-
-function loadOrders() {
-  try {
-    orders = JSON.parse(
-      localStorage.getItem("realAbbaOrders") || "[]"
+  if (password.length < 6) {
+    showMessage(
+      "Password must be at least 6 characters.",
+      "error"
     );
-  } catch (error) {
-    orders = [];
-  }
-
-  updateOrderList();
-}
-
-function updateOrderList() {
-  const container = document.getElementById("ordersContainer");
-
-  if (!container) return;
-
-  if (orders.length === 0) {
-    container.innerHTML = `
-      <div class="empty-state">
-        <div class="empty-state-icon">📦</div>
-        <h3>No orders yet</h3>
-        <p>Your orders will appear here.</p>
-      </div>
-    `;
-
     return;
   }
 
-  container.innerHTML = "";
+  showMessage("Creating your account...", "info");
 
-  orders.forEach(order => {
-    const item = document.createElement("div");
+  try {
 
-    item.className = "order-item";
+    const redirectUrl =
+      window.location.origin + window.location.pathname;
 
-    item.innerHTML = `
-      <div class="order-item-top">
-        <h3>${order.service}</h3>
-        <span class="status ${order.status}">
-          ${order.status}
-        </span>
-      </div>
+    const { data, error } = await supabase.auth.signUp({
+      email: email,
+      password: password,
 
-      <div class="order-meta">
-        <div>Order ID: ${order.id}</div>
-        <div>Quantity: ${Number(order.quantity).toLocaleString()}</div>
-        <div>Amount: ${formatNaira(order.amount)}</div>
-        <div>Date: ${order.createdAt}</div>
-      </div>
-    `;
+      options: {
+        emailRedirectTo: redirectUrl,
 
-    container.appendChild(item);
-  });
-}
-
-function setupNavigation() {
-  document.querySelectorAll(".nav-item").forEach(item => {
-    item.addEventListener("click", () => {
-      const page = item.dataset.page;
-
-      if (page) {
-        showPage(page);
+        data: {
+          full_name: name,
+          display_name: name
+        }
       }
     });
-  });
-}
 
-function setupOrderForm() {
-  const form = document.getElementById("orderForm");
+    if (error) {
+      throw error;
+    }
 
-  if (form) {
-    form.addEventListener("submit", submitOrder);
-  }
+    if (data.user) {
 
-  const quantity = document.getElementById("orderQuantity");
-
-  if (quantity) {
-    quantity.addEventListener("input", updateOrderTotal);
-  }
-}
-
-function setupAuthDemo() {
-  const loginForm = document.getElementById("loginForm");
-  const signupForm = document.getElementById("signupForm");
-
-  if (loginForm) {
-    loginForm.addEventListener("submit", event => {
-      event.preventDefault();
-
-      const authScreen = document.getElementById("authScreen");
-      const appScreen = document.getElementById("appScreen");
-
-      if (authScreen) authScreen.style.display = "none";
-      if (appScreen) appScreen.style.display = "block";
-
-      showPage("home");
-    });
-  }
-
-  if (signupForm) {
-    signupForm.addEventListener("submit", event => {
-      event.preventDefault();
-
-      const authScreen = document.getElementById("authScreen");
-      const appScreen = document.getElementById("appScreen");
-
-      if (authScreen) authScreen.style.display = "none";
-      if (appScreen) appScreen.style.display = "block";
-
-      showPage("home");
-    });
-  }
-}
-
-function setupTabs() {
-  document.querySelectorAll(".auth-tab").forEach(tab => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll(".auth-tab").forEach(t => {
-        t.classList.remove("active");
-      });
-
-      document.querySelectorAll(".auth-form").forEach(form => {
-        form.classList.remove("active");
-      });
-
-      tab.classList.add("active");
-
-      const target = document.getElementById(
-        tab.dataset.target
+      showMessage(
+        "Account created! Check your email and click the verification link before logging in.",
+        "success"
       );
 
-      if (target) {
-        target.classList.add("active");
-      }
-    });
+      document.getElementById("name").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("pass").value = "";
+    }
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      error.message || "Unable to create account.",
+      "error"
+    );
+  }
+});
+
+// ==========================================
+// LOGIN
+// ==========================================
+
+document.getElementById("login")?.addEventListener("click", async () => {
+
+  const email = document.getElementById("loginEmail")?.value.trim();
+  const password = document.getElementById("loginPass")?.value;
+
+  if (!email || !password) {
+    showMessage("Enter your email and password.", "error");
+    return;
+  }
+
+  showMessage("Logging in...", "info");
+
+  try {
+
+    const { data, error } =
+      await supabase.auth.signInWithPassword({
+        email,
+        password
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    currentUser = data.user;
+
+    // Supabase email verification check
+    if (!currentUser.email_confirmed_at) {
+
+      await supabase.auth.signOut();
+
+      showMessage(
+        "Please verify your email address before logging in.",
+        "error"
+      );
+
+      return;
+    }
+
+    openApp(currentUser);
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      error.message || "Login failed.",
+      "error"
+    );
+  }
+});
+
+// ==========================================
+// FORGOT PASSWORD
+// ==========================================
+
+document.getElementById("forgot")?.addEventListener("click", async () => {
+
+  const email = document.getElementById("loginEmail")?.value.trim();
+
+  if (!email) {
+
+    showMessage(
+      "Enter your email address first.",
+      "error"
+    );
+
+    return;
+  }
+
+  showMessage(
+    "Sending password reset email...",
+    "info"
+  );
+
+  try {
+
+    const redirectUrl =
+      window.location.origin + window.location.pathname;
+
+    const { error } =
+      await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: redirectUrl
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    showMessage(
+      "Password reset email sent. Check your inbox.",
+      "success"
+    );
+
+  } catch (error) {
+
+    console.error(error);
+
+    showMessage(
+      error.message || "Unable to send reset email.",
+      "error"
+    );
+  }
+});
+
+// ==========================================
+// OPEN APP
+// ==========================================
+
+function openApp(user) {
+
+  currentUser = user;
+
+  const auth = document.getElementById("auth");
+  const app = document.getElementById("app");
+
+  if (auth) {
+    auth.classList.add("hide");
+  }
+
+  if (app) {
+    app.classList.remove("hide");
+  }
+
+  const name =
+    user.user_metadata?.display_name ||
+    user.user_metadata?.full_name ||
+    "Creator";
+
+  const welcome = document.getElementById("welcome");
+  const acctName = document.getElementById("acctName");
+  const acctEmail = document.getElementById("acctEmail");
+  const acctEmail2 = document.getElementById("acctEmail2");
+
+  if (welcome) {
+    welcome.textContent = name + " 👋";
+  }
+
+  if (acctName) {
+    acctName.textContent = name;
+  }
+
+  if (acctEmail) {
+    acctEmail.textContent = user.email || "—";
+  }
+
+  if (acctEmail2) {
+    acctEmail2.textContent = user.email || "—";
+  }
+
+  showPage("home");
+}
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+async function logout() {
+
+  await supabase.auth.signOut();
+
+  currentUser = null;
+
+  const app = document.getElementById("app");
+  const auth = document.getElementById("auth");
+
+  if (app) {
+    app.classList.add("hide");
+  }
+
+  if (auth) {
+    auth.classList.remove("hide");
+  }
+
+  showMessage(
+    "You have been logged out.",
+    "success"
+  );
+}
+
+document.getElementById("logout")?.addEventListener(
+  "click",
+  logout
+);
+
+document.getElementById("logout2")?.addEventListener(
+  "click",
+  logout
+);
+
+// ==========================================
+// NAVIGATION
+// ==========================================
+
+function showPage(pageName) {
+
+  document.querySelectorAll(".page").forEach(page => {
+    page.classList.remove("active");
+  });
+
+  const page = document.getElementById(pageName);
+
+  if (page) {
+    page.classList.add("active");
+  }
+
+  document.querySelectorAll("nav button").forEach(button => {
+    button.classList.remove("active");
+
+    if (button.dataset.page === pageName) {
+      button.classList.add("active");
+    }
+  });
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
   });
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  loadServices();
-  loadOrders();
-  setupNavigation();
-  setupOrderForm();
-  setupAuthDemo();
-  setupTabs();
+document.querySelectorAll("[data-page]").forEach(button => {
 
-  showPage("home");
+  button.addEventListener("click", () => {
+
+    const page = button.dataset.page;
+
+    if (page) {
+      showPage(page);
+    }
+
+  });
+
 });
+
+// ==========================================
+// PLATFORM SELECTION
+// ==========================================
+
+document.querySelectorAll(".service[data-platform]").forEach(button => {
+
+  button.addEventListener("click", () => {
+
+    selectedPlatform =
+      button.dataset.platform;
+
+    const platformInput =
+      document.getElementById("platform");
+
+    if (platformInput) {
+      platformInput.value =
+        selectedPlatform;
+    }
+
+    setupServiceOptions();
+
+    showPage("order");
+  });
+
+});
+
+// ==========================================
+// SERVICE OPTIONS
+// ==========================================
+
+function setupServiceOptions() {
+
+  const select =
+    document.getElementById("service");
+
+  if (!select || !selectedPlatform) {
+    return;
+  }
+
+  select.innerHTML = "";
+
+  const services =
+    SERVICES[selectedPlatform];
+
+  if (!services) {
+    return;
+  }
+
+  Object.keys(services).forEach(service => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = service;
+    option.textContent =
+      `${service} — ${money(services[service])} / 1,000`;
+
+    select.appendChild(option);
+
+  });
+
+  calculateTotal();
+}
+
+document.getElementById("service")?.addEventListener(
+  "change",
+  calculateTotal
+);
+
+document.getElementById("quantity")?.addEventListener(
+  "input",
+  calculateTotal
+);
+
+// ==========================================
+// PRICE CALCULATOR
+// ==========================================
+
+function calculateTotal() {
+
+  const quantity =
+    Number(
+      document.getElementById("quantity")?.value || 0
+    );
+
+  const service =
+    document.getElementById("service")?.value;
+
+  const totalElement =
+    document.getElementById("total");
+
+  if (!totalElement) {
+    return;
+  }
+
+  if (
+    !selectedPlatform ||
+    !service ||
+    !SERVICES[selectedPlatform]?.[service]
+  ) {
+    totalElement.textContent = "₦0.00";
+    return;
+  }
+
+  const pricePerThousand =
+    SERVICES[selectedPlatform][service];
+
+  const total =
+    (quantity / 1000) * pricePerThousand;
+
+  totalElement.textContent =
+    money(total);
+}
+
+// ==========================================
+// PLACE ORDER
+// ==========================================
+
+document.getElementById("place")?.addEventListener(
+  "click",
+  async () => {
+
+    if (!currentUser) {
+      showToast("Please log in first.");
+      return;
+    }
+
+    const service =
+      document.getElementById("service")?.value;
+
+    const quantity =
+      Number(
+        document.getElementById("quantity")?.value || 0
+      );
+
+    const url =
+      document.getElementById("url")?.value.trim();
+
+    if (!selectedPlatform) {
+      showToast("Please select a platform.");
+      return;
+    }
+
+    if (!service) {
+      showToast("Please select a service.");
+      return;
+    }
+
+    if (quantity < 100) {
+      showToast("Minimum order is 100.");
+      return;
+    }
+
+    if (!url) {
+      showToast("Enter your post or profile link.");
+      return;
+    }
+
+    const pricePerThousand =
+      SERVICES[selectedPlatform][service];
+
+    const total =
+      (quantity / 1000) * pricePerThousand;
+
+    /*
+      Database orders will be connected after
+      we create the Supabase database tables.
+    */
+
+    const localOrder = {
+      id: "RAB-" + Date.now(),
+      user_id: currentUser.id,
+      platform: selectedPlatform,
+      service: service,
+      quantity: quantity,
+      link: url,
+      amount: total,
+      status: "pending",
+      created_at: new Date().toISOString()
+    };
+
+    const existingOrders =
+      JSON.parse(
+        localStorage.getItem("rab_orders") || "[]"
+      );
+
+    existingOrders.unshift(localOrder);
+
+    localStorage.setItem(
+      "rab_orders",
+      JSON.stringify(existingOrders)
+    );
+
+    showToast(
+      "Order submitted successfully."
+    );
+
+    document.getElementById("quantity").value = "";
+    document.getElementById("url").value = "";
+
+    calculateTotal();
+
+    loadOrders();
+
+    setTimeout(() => {
+      showPage("orders");
+    }, 500);
+  }
+);
+
+// ==========================================
+// LOAD ORDERS
+// ==========================================
+
+function loadOrders() {
+
+  const list =
+    document.getElementById("ordersList");
+
+  if (!list) {
+    return;
+  }
+
+  const orders =
+    JSON.parse(
+      localStorage.getItem("rab_orders") || "[]"
+    );
+
+  if (!orders.length) {
+
+    list.innerHTML = `
+      <div class="card empty">
+        No orders yet.
+        Start boosting to see your orders here.
+      </div>
+    `;
+
+    return;
+  }
+
+  list.innerHTML = "";
+
+  orders.forEach(order => {
+
+    const item =
+      document.createElement("div");
+
+    item.className = "card order-card";
+
+    item.innerHTML = `
+      <div>
+        <strong>${order.platform} ${order.service}</strong>
+      </div>
+
+      <p>
+        Quantity:
+        ${Number(order.quantity).toLocaleString()}
+      </p>
+
+      <p>
+        Amount:
+        ${money(order.amount)}
+      </p>
+
+      <p>
+        Status:
+        <strong>${order.status}</strong>
+      </p>
+
+      <small>
+        ${new Date(order.created_at).toLocaleString("en-NG")}
+      </small>
+    `;
+
+    list.appendChild(item);
+
+  });
+}
+
+// ==========================================
+// SUPABASE SESSION
+// ==========================================
+
+async function checkSession() {
+
+  try {
+
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    if (session?.user) {
+
+      currentUser = session.user;
+
+      if (currentUser.email_confirmed_at) {
+        openApp(currentUser);
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error(
+      "Session check error:",
+      error
+    );
+
+  }
+}
+
+// ==========================================
+// AUTH STATE CHANGES
+// ==========================================
+
+supabase.auth.onAuthStateChange(
+  (event, session) => {
+
+    if (
+      session?.user &&
+      session.user.email_confirmed_at
+    ) {
+      currentUser = session.user;
+    }
+
+  }
+);
+
+// ==========================================
+// START
+// ==========================================
+
+loadOrders();
+
+checkSession();
+
+showPage("home");
