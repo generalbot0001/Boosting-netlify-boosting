@@ -1,964 +1,2077 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#06111f">
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
 
-  <title>REAL ABBA BOOSTING</title>
+    <title>REAL ABBA BOOSTING</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <meta
+        name="description"
+        content="REAL ABBA BOOSTING - Social media growth services"
+    >
 
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  >
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-  <link rel="stylesheet" href="styles.css">
+        :root {
+            --bg: #07111f;
+            --bg2: #0a1728;
+            --card: #0e1d30;
+            --card2: #11243a;
+            --border: rgba(92, 193, 255, 0.12);
+            --text: #f4f9ff;
+            --muted: #8ea5bc;
+            --blue: #19bfff;
+            --blue2: #087dff;
+            --cyan: #3ddcff;
+            --green: #19d58b;
+            --red: #ff5c69;
+            --yellow: #ffc857;
+        }
+
+        body {
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at top right,
+                    rgba(0, 168, 255, 0.13),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    180deg,
+                    #06101d 0%,
+                    #071321 100%
+                );
+
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        button,
+        input,
+        select,
+        textarea {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* =====================================================
+           AUTH
+           ===================================================== */
+
+        #authScreen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px 16px;
+        }
+
+        .auth-wrapper {
+            width: 100%;
+            max-width: 430px;
+        }
+
+        .brand {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .brand-icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(35, 206, 255, 0.22),
+                    rgba(0, 103, 255, 0.18)
+                );
+
+            border: 1px solid rgba(66, 210, 255, 0.25);
+
+            box-shadow:
+                0 12px 35px rgba(0, 158, 255, 0.14);
+        }
+
+        .brand-icon span {
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--cyan);
+        }
+
+        .brand h1 {
+            font-size: 23px;
+            font-weight: 900;
+            letter-spacing: 0.8px;
+        }
+
+        .brand p {
+            margin-top: 6px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .auth-card {
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(16, 35, 57, 0.98),
+                    rgba(8, 22, 37, 0.98)
+                );
+
+            border: 1px solid var(--border);
+            border-radius: 25px;
+
+            padding: 22px;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.32);
+        }
+
+        .auth-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px;
+
+            padding: 5px;
+            background: #071523;
+            border-radius: 13px;
+            margin-bottom: 22px;
+        }
+
+        .auth-tab {
+            border: 0;
+            background: transparent;
+            color: var(--muted);
+
+            padding: 12px;
+            border-radius: 10px;
+
+            font-weight: 800;
+            transition: 0.2s;
+        }
+
+        .auth-tab.active {
+            background:
+                linear-gradient(
+                    135deg,
+                    var(--blue2),
+                    var(--blue)
+                );
+
+            color: white;
+
+            box-shadow:
+                0 7px 22px rgba(0, 155, 255, 0.22);
+        }
+
+        .form-title {
+            font-size: 22px;
+            font-weight: 900;
+            margin-bottom: 6px;
+        }
+
+        .form-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-bottom: 19px;
+            line-height: 1.5;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            color: #b9cce0;
+            font-size: 12px;
+            font-weight: 800;
+            margin-bottom: 7px;
+        }
+
+        .input {
+            width: 100%;
+
+            border: 1px solid rgba(108, 181, 230, 0.12);
+            outline: none;
+
+            background: #071625;
+            color: white;
+
+            border-radius: 13px;
+            padding: 13px 14px;
+
+            transition: 0.2s;
+        }
+
+        .input::placeholder {
+            color: #5d748a;
+        }
+
+        .input:focus {
+            border-color: rgba(35, 193, 255, 0.6);
+            box-shadow:
+                0 0 0 3px rgba(20, 178, 255, 0.08);
+        }
+
+        textarea.input {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        select.input {
+            appearance: auto;
+        }
+
+        .primary-btn {
+            width: 100%;
+
+            border: 0;
+            border-radius: 13px;
+
+            padding: 14px;
+
+            color: white;
+            font-weight: 900;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087eff,
+                    #18c4ff
+                );
+
+            box-shadow:
+                0 10px 26px rgba(0, 153, 255, 0.2);
+
+            transition:
+                transform 0.15s,
+                opacity 0.15s;
+        }
+
+        .primary-btn:active {
+            transform: scale(0.98);
+        }
+
+        .primary-btn:disabled {
+            opacity: 0.55;
+            cursor: wait;
+        }
+
+        .forgot-btn {
+            border: 0;
+            background: transparent;
+            color: var(--cyan);
+
+            font-size: 12px;
+            font-weight: 800;
+
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        /* =====================================================
+           VERIFICATION
+           ===================================================== */
+
+        #verificationScreen {
+            min-height: 100vh;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .verification-card {
+            width: 100%;
+            max-width: 430px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #10243a,
+                    #081725
+                );
+
+            border: 1px solid var(--border);
+            border-radius: 25px;
+
+            padding: 28px 22px;
+
+            text-align: center;
+
+            box-shadow:
+                0 25px 70px rgba(0, 0, 0, 0.35);
+        }
+
+        .verification-icon {
+            width: 72px;
+            height: 72px;
+
+            margin: 0 auto 18px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: rgba(25, 191, 255, 0.12);
+            border: 1px solid rgba(25, 191, 255, 0.25);
+
+            font-size: 32px;
+        }
+
+        .verification-card h2 {
+            font-size: 23px;
+            margin-bottom: 9px;
+        }
+
+        #verificationEmail {
+            color: var(--cyan);
+            font-weight: 800;
+            word-break: break-word;
+            margin: 12px 0;
+        }
+
+        #verificationMessage {
+            color: var(--muted);
+            line-height: 1.6;
+            font-size: 13px;
+            margin-bottom: 22px;
+        }
+
+        .secondary-btn {
+            width: 100%;
+            border: 1px solid rgba(91, 185, 235, 0.16);
+            background: #0b1c2d;
+            color: white;
+
+            padding: 13px;
+            border-radius: 13px;
+
+            font-weight: 800;
+            margin-top: 10px;
+        }
+
+        /* =====================================================
+           APP
+           ===================================================== */
+
+        #appScreen {
+            display: none;
+            min-height: 100vh;
+            padding-bottom: 88px;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            background:
+                rgba(6, 17, 30, 0.9);
+
+            backdrop-filter: blur(18px);
+
+            border-bottom:
+                1px solid rgba(92, 193, 255, 0.08);
+
+            padding: 14px 16px;
+        }
+
+        .topbar-inner {
+            max-width: 760px;
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .top-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-brand-icon {
+            width: 39px;
+            height: 39px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087eff,
+                    #17caff
+                );
+
+            font-weight: 900;
+        }
+
+        .top-brand-text {
+            font-weight: 900;
+            font-size: 14px;
+        }
+
+        .top-brand-sub {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .logout-mini {
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: #0c1d2e;
+            color: #a9bdd0;
+
+            border-radius: 10px;
+            padding: 8px 11px;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 760px;
+            margin: auto;
+            padding: 20px 15px;
+        }
+
+        .app-page {
+            display: none;
+        }
+
+        .app-page:first-child {
+            display: block;
+        }
+
+        /* =====================================================
+           HOME
+           ===================================================== */
+
+        .welcome {
+            margin-bottom: 18px;
+        }
+
+        .welcome small {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .welcome h2 {
+            font-size: 25px;
+            margin-top: 4px;
+            font-weight: 900;
+        }
+
+        .welcome h2 span {
+            color: var(--cyan);
+        }
+
+        .balance-card {
+            position: relative;
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087eff,
+                    #08b8ed
+                );
+
+            border-radius: 22px;
+
+            padding: 21px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 18px 42px rgba(0, 129, 255, 0.2);
+        }
+
+        .balance-card::after {
+            content: "";
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            border-radius: 50%;
+
+            right: -60px;
+            top: -75px;
+
+            background: rgba(255,255,255,0.12);
+        }
+
+        .balance-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .balance-value {
+            font-size: 31px;
+            font-weight: 950;
+            margin-top: 5px;
+        }
+
+        .balance-note {
+            margin-top: 10px;
+            font-size: 11px;
+            opacity: 0.78;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin: 21px 0 12px;
+        }
+
+        .section-title h3 {
+            font-size: 16px;
+        }
+
+        .section-title span {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .quick-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .quick-card {
+            border: 1px solid var(--border);
+            background: var(--card);
+
+            border-radius: 17px;
+            padding: 16px;
+
+            transition: 0.15s;
+        }
+
+        .quick-card:active {
+            transform: scale(0.98);
+        }
+
+        .quick-icon {
+            font-size: 22px;
+            margin-bottom: 11px;
+        }
+
+        .quick-card strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .quick-card small {
+            display: block;
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 4px;
+        }
+
+        .info-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 17px;
+            line-height: 1.6;
+        }
+
+        .info-card p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        /* =====================================================
+           SERVICES
+           ===================================================== */
+
+        .service-platform {
+            margin-bottom: 20px;
+        }
+
+        .platform-heading {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .platform-heading .platform-icon {
+            width: 38px;
+            height: 38px;
+
+            border-radius: 11px;
+
+            background: var(--card2);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 19px;
+        }
+
+        .platform-heading h3 {
+            font-size: 15px;
+        }
+
+        .platform-heading p {
+            color: var(--muted);
+            font-size: 10px;
+            margin-top: 2px;
+        }
+
+        .services-grid {
+            display: grid;
+            gap: 9px;
+        }
+
+        .service-card {
+            width: 100%;
+
+            border: 1px solid var(--border);
+            background: var(--card);
+
+            border-radius: 16px;
+
+            padding: 15px;
+
+            text-align: left;
+            color: white;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            transition: 0.15s;
+        }
+
+        .service-card:active {
+            transform: scale(0.985);
+        }
+
+        .service-card strong {
+            display: block;
+            font-size: 13px;
+        }
+
+        .service-card small {
+            display: block;
+            color: var(--muted);
+            margin-top: 4px;
+            font-size: 10px;
+        }
+
+        .service-price {
+            color: var(--cyan);
+            font-size: 11px;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        /* =====================================================
+           ORDER
+           ===================================================== */
+
+        .form-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .order-total {
+            margin: 16px 0;
+
+            padding: 17px;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(9, 126, 255, 0.15),
+                    rgba(19, 201, 255, 0.08)
+                );
+
+            border:
+                1px solid rgba(26, 193, 255, 0.14);
+        }
+
+        .order-total-label {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        #orderTotal,
+        #totalPrice {
+            color: var(--cyan);
+            font-size: 25px;
+            font-weight: 950;
+            margin-top: 3px;
+        }
+
+        /* =====================================================
+           ORDERS
+           ===================================================== */
+
+        .loading,
+        .empty-state {
+            padding: 35px 15px;
+            text-align: center;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .order-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 16px;
+            margin-bottom: 10px;
+        }
+
+        .order-card-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 13px;
+        }
+
+        .order-card-top strong {
+            font-size: 13px;
+        }
+
+        .order-status {
+            padding: 5px 8px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 900;
+            background: rgba(255, 200, 87, 0.12);
+            color: var(--yellow);
+        }
+
+        .order-status.completed {
+            color: var(--green);
+            background: rgba(25, 213, 139, 0.12);
+        }
+
+        .order-status.cancelled,
+        .order-status.failed {
+            color: var(--red);
+            background: rgba(255, 92, 105, 0.12);
+        }
+
+        .order-info {
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.9;
+        }
+
+        .order-info strong {
+            color: white;
+        }
+
+        .admin-note {
+            border-left: 2px solid var(--cyan);
+            padding-left: 10px;
+            margin-top: 8px;
+            color: #bcd2e5;
+        }
+
+        /* =====================================================
+           ACCOUNT
+           ===================================================== */
+
+        .profile-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 18px;
+        }
+
+        .profile-avatar {
+            width: 62px;
+            height: 62px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 18px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #087eff,
+                    #18caff
+                );
+
+            font-size: 23px;
+            font-weight: 950;
+
+            margin-bottom: 15px;
+        }
+
+        .profile-name {
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .profile-email {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 4px;
+        }
+
+        /* =====================================================
+           BOTTOM NAV
+           ===================================================== */
+
+        .bottom-nav {
+            position: fixed;
+            z-index: 500;
+
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            padding:
+                8px
+                10px
+                calc(8px + env(safe-area-inset-bottom));
+
+            background:
+                rgba(5, 15, 27, 0.94);
+
+            backdrop-filter: blur(20px);
+
+            border-top:
+                1px solid rgba(96, 190, 235, 0.1);
+        }
+
+        .bottom-nav-inner {
+            max-width: 760px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+
+        .nav-item {
+            border: 0;
+            background: transparent;
+
+            color: #667e94;
+
+            padding: 8px 4px;
+
+            border-radius: 12px;
+
+            font-size: 9px;
+            font-weight: 800;
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 3px;
+        }
+
+        .nav-item.active {
+            color: var(--cyan);
+            background: rgba(28, 190, 255, 0.08);
+        }
+
+        /* =====================================================
+           DESKTOP
+           ===================================================== */
+
+        @media (min-width: 700px) {
+            .app-container {
+                padding-top: 28px;
+            }
+
+            .quick-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="shell">
+<!-- =========================================================
+     AUTH SCREEN
+     ========================================================= -->
 
-  <!-- =========================
-       LOGIN / SIGN UP
-  ========================== -->
+<section id="authScreen">
 
-  <section id="auth" class="auth">
+    <div class="auth-wrapper">
 
-    <div class="mark">RAB</div>
+        <div class="brand">
 
-    <div class="eyebrow">SOCIAL MEDIA GROWTH</div>
+            <div class="brand-icon">
+                <span>RA</span>
+            </div>
 
-    <h1>
-      REAL ABBA<br>
-      <span>BOOSTING</span>
-    </h1>
+            <h1>REAL ABBA BOOSTING</h1>
 
-    <p>
-      Grow your social presence with a simple,
-      clean and easy-to-use dashboard.
-    </p>
+            <p>
+                Grow your social media presence faster
+            </p>
 
-    <div class="card auth-card">
-
-      <!-- AUTH TABS -->
-
-      <div class="tabs">
-
-        <button
-          type="button"
-          class="tab active"
-          data-tab="login"
-          onclick="switchAuthTab('login')"
-        >
-          Login
-        </button>
-
-        <button
-          type="button"
-          class="tab"
-          data-tab="signup"
-          onclick="switchAuthTab('signup')"
-        >
-          Sign Up
-        </button>
-
-      </div>
+        </div>
 
 
-      <!-- LOGIN -->
+        <div class="auth-card">
 
-      <div id="loginBox">
+            <div class="auth-tabs">
 
-        <h2>Welcome back 👋</h2>
+                <button
+                    type="button"
+                    id="loginTab"
+                    class="auth-tab active"
+                >
+                    Login
+                </button>
 
-        <p class="muted">
-          Login to continue to your dashboard.
-        </p>
+                <button
+                    type="button"
+                    id="signupTab"
+                    class="auth-tab"
+                >
+                    Sign Up
+                </button>
 
-        <label>
-          Email address
-        </label>
-
-        <input
-          id="loginEmail"
-          type="email"
-          placeholder="you@example.com"
-          autocomplete="email"
-        >
-
-        <label>
-          Password
-        </label>
-
-        <input
-          id="loginPass"
-          type="password"
-          placeholder="••••••••"
-          autocomplete="current-password"
-        >
-
-        <button
-          id="login"
-          type="button"
-          class="primary"
-        >
-          Login
-        </button>
-
-        <button
-          id="forgot"
-          type="button"
-          class="link"
-        >
-          Forgot password?
-        </button>
-
-      </div>
+            </div>
 
 
-      <!-- SIGN UP -->
+            <!-- LOGIN -->
 
-      <div
-        id="signupBox"
-        class="hide"
-      >
+            <form id="loginForm">
 
-        <h2>Create your account 🚀</h2>
+                <h2 class="form-title">
+                    Welcome back
+                </h2>
 
-        <p class="muted">
-          Join REAL ABBA BOOSTING today.
-        </p>
-
-        <label>
-          Your name
-        </label>
-
-        <input
-          id="name"
-          type="text"
-          placeholder="Your name"
-          autocomplete="name"
-        >
-
-        <label>
-          Email address
-        </label>
-
-        <input
-          id="email"
-          type="email"
-          placeholder="you@example.com"
-          autocomplete="email"
-        >
-
-        <label>
-          Password
-        </label>
-
-        <input
-          id="pass"
-          type="password"
-          placeholder="At least 6 characters"
-          autocomplete="new-password"
-        >
-
-        <button
-          id="signup"
-          type="button"
-          class="primary"
-        >
-          Create Account
-        </button>
-
-      </div>
+                <p class="form-subtitle">
+                    Login to manage your boosting orders.
+                </p>
 
 
-      <div
-        id="msg"
-        class="msg"
-      ></div>
+                <div class="field">
+
+                    <label for="loginEmail">
+                        Email address
+                    </label>
+
+                    <input
+                        class="input"
+                        type="email"
+                        id="loginEmail"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="loginPassword">
+                        Password
+                    </label>
+
+                    <input
+                        class="input"
+                        type="password"
+                        id="loginPassword"
+                        placeholder="Enter your password"
+                        autocomplete="current-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="loginButton"
+                    class="primary-btn"
+                >
+                    Login
+                </button>
+
+
+                <button
+                    type="button"
+                    id="forgotPasswordBtn"
+                    class="forgot-btn"
+                >
+                    Forgot your password?
+                </button>
+
+            </form>
+
+
+            <!-- SIGN UP -->
+
+            <form
+                id="signupForm"
+                style="display:none;"
+            >
+
+                <h2 class="form-title">
+                    Create account
+                </h2>
+
+                <p class="form-subtitle">
+                    Join REAL ABBA BOOSTING and start growing.
+                </p>
+
+
+                <div class="field">
+
+                    <label for="signupName">
+                        Full name
+                    </label>
+
+                    <input
+                        class="input"
+                        type="text"
+                        id="signupName"
+                        placeholder="Enter your name"
+                        autocomplete="name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signupEmail">
+                        Email address
+                    </label>
+
+                    <input
+                        class="input"
+                        type="email"
+                        id="signupEmail"
+                        placeholder="Enter your email"
+                        autocomplete="email"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signupPassword">
+                        Password
+                    </label>
+
+                    <input
+                        class="input"
+                        type="password"
+                        id="signupPassword"
+                        placeholder="Minimum 6 characters"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="field">
+
+                    <label for="signupConfirm">
+                        Confirm password
+                    </label>
+
+                    <input
+                        class="input"
+                        type="password"
+                        id="signupConfirm"
+                        placeholder="Enter password again"
+                        autocomplete="new-password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    id="signupButton"
+                    class="primary-btn"
+                >
+                    Create Account
+                </button>
+
+            </form>
+
+        </div>
 
     </div>
 
+</section>
 
-    <div class="trust">
 
-      <div>
-        🛡️
-        <small>Secure</small>
-      </div>
+<!-- =========================================================
+     EMAIL VERIFICATION
+     ========================================================= -->
 
-      <div>
-        ⚡
-        <small>Fast</small>
-      </div>
+<section id="verificationScreen">
 
-      <div>
-        👍
-        <small>Trusted</small>
-      </div>
+    <div class="verification-card">
+
+        <div class="verification-icon">
+            ✉️
+        </div>
+
+        <h2>
+            Verify your email
+        </h2>
+
+        <p id="verificationEmail"></p>
+
+        <p id="verificationMessage">
+            We sent a confirmation link to your email.
+            Open your email and click the confirmation link.
+        </p>
+
+
+        <button
+            type="button"
+            id="checkVerificationBtn"
+            class="primary-btn"
+        >
+            I've Confirmed My Email
+        </button>
+
+
+        <button
+            type="button"
+            id="resendVerificationBtn"
+            class="secondary-btn"
+        >
+            Resend Email
+        </button>
+
+
+        <button
+            type="button"
+            id="verificationLogoutBtn"
+            class="secondary-btn"
+        >
+            Use Another Account
+        </button>
 
     </div>
 
-  </section>
+</section>
 
 
-  <!-- =========================
-       MAIN APP
-  ========================== -->
+<!-- =========================================================
+     MAIN APP
+     ========================================================= -->
 
-  <section
-    id="app"
-    class="hide app"
-  >
+<section id="appScreen">
 
-    <header>
+    <!-- TOP BAR -->
 
-      <div class="brand">
+    <header class="topbar">
 
-        <div class="mark mini">
-          RAB
+        <div class="topbar-inner">
+
+            <div class="top-brand">
+
+                <div class="top-brand-icon">
+                    RA
+                </div>
+
+                <div>
+
+                    <div class="top-brand-text">
+                        REAL ABBA BOOSTING
+                    </div>
+
+                    <div class="top-brand-sub">
+                        Social Growth Platform
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                id="logoutBtn"
+                class="logout-mini"
+            >
+                Logout
+            </button>
+
         </div>
-
-        <div>
-          <b>REAL ABBA</b>
-          <span>BOOSTING</span>
-        </div>
-
-      </div>
-
-      <button
-        id="logout"
-        type="button"
-        class="icon"
-      >
-        ↪
-      </button>
 
     </header>
 
 
-    <main>
+    <!-- APP CONTENT -->
 
-      <!-- =========================
-           HOME
-      ========================== -->
+    <main class="app-container">
 
-      <section
-        id="home"
-        class="page active"
-      >
 
-        <div class="welcome">
+        <!-- =================================================
+             HOME
+             ================================================= -->
 
-          <div>
+        <section
+            id="page-home"
+            class="app-page"
+        >
 
-            <div class="eyebrow">
-              WELCOME BACK
+            <div class="welcome">
+
+                <small>
+                    Welcome back,
+                </small>
+
+                <h2>
+                    <span id="welcomeName">
+                        Creator
+                    </span>
+                    👋
+                </h2>
+
             </div>
 
-            <h2 id="welcome">
-              Abba 👋
-            </h2>
 
-            <p class="muted">
-              Ready to grow your social media?
-            </p>
+            <div class="balance-card">
 
-          </div>
+                <div class="balance-label">
+                    Wallet Balance
+                </div>
 
+                <div class="balance-value">
+                    ₦0
+                </div>
 
-          <div class="wallet">
+                <div class="balance-note">
+                    Your wallet balance will appear here.
+                </div>
 
-            <small>
-              Wallet
-            </small>
+            </div>
 
-            <b>
-              ₦0.00
-            </b>
 
-          </div>
+            <div class="section-title">
 
-        </div>
+                <h3>
+                    Quick Services
+                </h3>
 
+                <span>
+                    Choose a platform
+                </span>
 
-        <button
-          type="button"
-          class="topup"
-          data-page="account"
-        >
-          + Top Up
-        </button>
+            </div>
 
 
-        <div class="hero">
+            <div class="quick-grid">
 
-          <span class="pill">
-            🔥 FAST & SIMPLE
-          </span>
+                <button
+                    class="quick-card"
+                    type="button"
+                    data-platform="TikTok"
+                >
+                    <div class="quick-icon">
+                        🎵
+                    </div>
 
-          <h1>
-            Grow your<br>
-            <span>social presence.</span>
-          </h1>
+                    <strong>
+                        TikTok
+                    </strong>
 
-          <p>
-            Choose a platform, select a service
-            and place your order in a few taps.
-          </p>
+                    <small>
+                        Followers • Likes • Views
+                    </small>
+                </button>
 
-          <button
-            type="button"
-            class="primary"
-            data-page="services"
-          >
-            Start Boosting 🚀
-          </button>
 
-        </div>
+                <button
+                    class="quick-card"
+                    type="button"
+                    data-platform="Instagram"
+                >
+                    <div class="quick-icon">
+                        📸
+                    </div>
 
+                    <strong>
+                        Instagram
+                    </strong>
 
-        <div class="section">
+                    <small>
+                        Followers • Likes • Views
+                    </small>
+                </button>
 
-          <div class="eyebrow">
-            OVERVIEW
-          </div>
 
-          <h2>
-            At a glance
-          </h2>
+                <button
+                    class="quick-card"
+                    type="button"
+                    data-platform="YouTube"
+                >
+                    <div class="quick-icon">
+                        ▶️
+                    </div>
 
-        </div>
+                    <strong>
+                        YouTube
+                    </strong>
 
+                    <small>
+                        Subscribers • Views
+                    </small>
+                </button>
 
-        <div class="stats">
 
-          <div>
-            <b>50K+</b>
-            <small>Clients</small>
-          </div>
+                <button
+                    class="quick-card"
+                    type="button"
+                    data-platform="Facebook"
+                >
+                    <div class="quick-icon">
+                        f
+                    </div>
 
-          <div>
-            <b>200K+</b>
-            <small>Orders</small>
-          </div>
+                    <strong>
+                        Facebook
+                    </strong>
 
-          <div>
-            <b>24/7</b>
-            <small>Support</small>
-          </div>
+                    <small>
+                        Followers
+                    </small>
+                </button>
 
-        </div>
+            </div>
 
 
-        <div class="support">
+            <div class="section-title">
 
-          <b>💬</b>
+                <h3>
+                    How it works
+                </h3>
 
-          <div>
+            </div>
 
-            <strong>
-              Need help?
-            </strong>
 
-            <small>
-              Chat with REAL ABBA BOOSTING
-              support on WhatsApp.
-            </small>
+            <div class="info-card">
 
-          </div>
+                <p>
+                    <strong>1.</strong>
+                    Choose the social media service you want.
+                    <br>
 
-          <a
-            href="https://wa.me/"
-            target="_blank"
-            rel="noopener"
-          >
-            Chat
-          </a>
+                    <strong>2.</strong>
+                    Enter the quantity and your account/post link.
+                    <br>
 
-        </div>
+                    <strong>3.</strong>
+                    Submit your order and track its status here.
+                </p>
 
-      </section>
+            </div>
 
+        </section>
 
-      <!-- =========================
-           SERVICES
-      ========================== -->
 
-      <section
-        id="services"
-        class="page"
-      >
+        <!-- =================================================
+             SERVICES
+             ================================================= -->
 
-        <div class="eyebrow">
-          SERVICES
-        </div>
-
-        <h2>
-          Choose a platform
-        </h2>
-
-        <p class="muted">
-          Select a platform to start your order.
-        </p>
-
-
-        <div class="services">
-
-          <button
-            type="button"
-            class="service"
-            data-platform="TikTok"
-          >
-
-            <i>♪</i>
-
-            <span>
-              <b>TikTok</b>
-
-              <small>
-                Followers, likes & views
-              </small>
-            </span>
-
-            <em>›</em>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="service"
-            data-platform="Instagram"
-          >
-
-            <i>◎</i>
-
-            <span>
-              <b>Instagram</b>
-
-              <small>
-                Followers, likes & views
-              </small>
-            </span>
-
-            <em>›</em>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="service"
-            data-platform="YouTube"
-          >
-
-            <i>▶</i>
-
-            <span>
-              <b>YouTube</b>
-
-              <small>
-                Subscribers & views
-              </small>
-            </span>
-
-            <em>›</em>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="service"
-            data-platform="Facebook"
-          >
-
-            <i>f</i>
-
-            <span>
-              <b>Facebook</b>
-
-              <small>
-                Followers
-              </small>
-            </span>
-
-            <em>›</em>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="service disabled"
-          >
-
-            <i>𝕏</i>
-
-            <span>
-              <b>X / Twitter</b>
-
-              <small>
-                Pricing not available yet
-              </small>
-            </span>
-
-            <em>›</em>
-
-          </button>
-
-
-          <button
-            type="button"
-            class="service"
-            data-platform="Telegram"
-          >
-
-            <i>✈</i>
-
-            <span>
-              <b>Telegram</b>
-
-              <small>
-                Members
-              </small>
-            </span>
-
-            <em>›</em>
-
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           ORDER
-      ========================== -->
-
-      <section
-        id="order"
-        class="page"
-      >
-
-        <div class="eyebrow">
-          NEW ORDER
-        </div>
-
-        <h2 id="orderTitle">
-          Place an order
-        </h2>
-
-        <p class="muted">
-          Enter the details below.
-        </p>
-
-
-        <div class="card form">
-
-          <label>
-            Platform
-          </label>
-
-          <input
-            id="platform"
-            readonly
-          >
-
-
-          <label>
-            Service
-          </label>
-
-          <select id="service">
-
-            <option>
-              Followers
-            </option>
-
-            <option>
-              Likes
-            </option>
-
-            <option>
-              Views
-            </option>
-
-            <option>
-              Subscribers
-            </option>
-
-            <option>
-              Members
-            </option>
-
-          </select>
-
-
-          <label>
-            Quantity
-          </label>
-
-          <input
-            id="quantity"
-            type="number"
-            min="100"
-            placeholder="1000"
-          >
-
-
-          <label>
-            Post / Profile link
-          </label>
-
-          <input
-            id="url"
-            type="url"
-            placeholder="https://..."
-          >
-
-
-          <div class="price">
-
-            <span>
-              Estimated total
-            </span>
-
-            <b id="total">
-              ₦0.00
-            </b>
-
-          </div>
-
-
-          <button
-            id="place"
-            type="button"
-            class="primary"
-          >
-            Place Order
-          </button>
-
-        </div>
-
-      </section>
-
-
-      <!-- =========================
-           ORDERS
-      ========================== -->
-
-      <section
-        id="orders"
-        class="page"
-      >
-
-        <div class="eyebrow">
-          MY ORDERS
-        </div>
-
-        <h2>
-          Recent orders
-        </h2>
-
-        <p class="muted">
-          Your submitted orders will appear here.
-        </p>
-
-
-        <div
-          id="ordersList"
-          class="orders"
+        <section
+            id="page-services"
+            class="app-page"
         >
 
-          <div class="card empty">
-            No orders yet.
-            Start boosting to see your orders here.
-          </div>
+            <div class="section-title">
 
-        </div>
+                <h3>
+                    Services
+                </h3>
 
-      </section>
+                <span>
+                    Select a service
+                </span>
+
+            </div>
 
 
-      <!-- =========================
-           ACCOUNT
-      ========================== -->
+            <!-- TIKTOK -->
 
-      <section
-        id="account"
-        class="page"
-      >
+            <div class="service-platform">
 
-        <div class="eyebrow">
-          ACCOUNT
-        </div>
+                <div class="platform-heading">
 
-        <h2>
-          My account
-        </h2>
+                    <div class="platform-icon">
+                        🎵
+                    </div>
 
-        <p
-          id="acctEmail"
-          class="muted"
+                    <div>
+                        <h3>TikTok</h3>
+                        <p>Grow your TikTok account</p>
+                    </div>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="TikTok Followers"
+                    >
+                        <div>
+                            <strong>TikTok Followers</strong>
+                            <small>1,000 followers</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦6,000 / 1K
+                        </span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="TikTok Likes"
+                    >
+                        <div>
+                            <strong>TikTok Likes</strong>
+                            <small>1,000 likes</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦1,000 / 1K
+                        </span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="TikTok Views"
+                    >
+                        <div>
+                            <strong>TikTok Views</strong>
+                            <small>1,000 views</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦400 / 1K
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- INSTAGRAM -->
+
+            <div class="service-platform">
+
+                <div class="platform-heading">
+
+                    <div class="platform-icon">
+                        📸
+                    </div>
+
+                    <div>
+                        <h3>Instagram</h3>
+                        <p>Build your Instagram presence</p>
+                    </div>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="Instagram Followers"
+                    >
+                        <div>
+                            <strong>Instagram Followers</strong>
+                            <small>1,000 followers</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦5,500 / 1K
+                        </span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="Instagram Likes"
+                    >
+                        <div>
+                            <strong>Instagram Likes</strong>
+                            <small>1,000 likes</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦800 / 1K
+                        </span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="Instagram Views"
+                    >
+                        <div>
+                            <strong>Instagram Views</strong>
+                            <small>1,000 views</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦300 / 1K
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- YOUTUBE -->
+
+            <div class="service-platform">
+
+                <div class="platform-heading">
+
+                    <div class="platform-icon">
+                        ▶️
+                    </div>
+
+                    <div>
+                        <h3>YouTube</h3>
+                        <p>Grow your YouTube channel</p>
+                    </div>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="YouTube Subscribers"
+                    >
+                        <div>
+                            <strong>YouTube Subscribers</strong>
+                            <small>1,000 subscribers</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦65,000 / 1K
+                        </span>
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="YouTube Views"
+                    >
+                        <div>
+                            <strong>YouTube Views</strong>
+                            <small>1,000 views</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦2,500 / 1K
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- FACEBOOK -->
+
+            <div class="service-platform">
+
+                <div class="platform-heading">
+
+                    <div class="platform-icon">
+                        f
+                    </div>
+
+                    <div>
+                        <h3>Facebook</h3>
+                        <p>Grow your Facebook page</p>
+                    </div>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="Facebook Followers"
+                    >
+                        <div>
+                            <strong>Facebook Followers</strong>
+                            <small>1,000 followers</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦5,300 / 1K
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- TELEGRAM -->
+
+            <div class="service-platform">
+
+                <div class="platform-heading">
+
+                    <div class="platform-icon">
+                        ✈️
+                    </div>
+
+                    <div>
+                        <h3>Telegram</h3>
+                        <p>Grow your Telegram community</p>
+                    </div>
+
+                </div>
+
+
+                <div class="services-grid">
+
+                    <button
+                        type="button"
+                        class="service-card"
+                        data-service="Telegram Members"
+                    >
+                        <div>
+                            <strong>Telegram Members</strong>
+                            <small>1,000 members</small>
+                        </div>
+
+                        <span class="service-price">
+                            ₦5,000 / 1K
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ORDER
+             ================================================= -->
+
+        <section
+            id="page-order"
+            class="app-page"
         >
-          —
-        </p>
+
+            <div class="section-title">
+
+                <h3>
+                    New Order
+                </h3>
+
+                <span>
+                    Place your order
+                </span>
+
+            </div>
 
 
-        <div class="card profile">
+            <div class="form-card">
 
-          <div class="avatar">
-            R
-          </div>
+                <form id="orderForm">
 
-          <div>
+                    <div class="field">
 
-            <b id="acctName">
-              ABBA
-            </b>
+                        <label for="serviceType">
+                            Service
+                        </label>
 
-            <small id="acctEmail2">
-              —
-            </small>
+                        <select
+                            id="serviceType"
+                            class="input"
+                            required
+                        >
+                            <option value="">
+                                Select a service
+                            </option>
 
-          </div>
+                            <option value="TikTok Followers">
+                                TikTok Followers — ₦6,000 / 1,000
+                            </option>
 
-        </div>
+                            <option value="TikTok Likes">
+                                TikTok Likes — ₦1,000 / 1,000
+                            </option>
 
+                            <option value="TikTok Views">
+                                TikTok Views — ₦400 / 1,000
+                            </option>
 
-        <div class="card info">
+                            <option value="Instagram Followers">
+                                Instagram Followers — ₦5,500 / 1,000
+                            </option>
 
-          <div class="eyebrow">
-            HOW IT WORKS
-          </div>
+                            <option value="Instagram Likes">
+                                Instagram Likes — ₦800 / 1,000
+                            </option>
 
-          <h2>
-            Boost in 3 easy steps
-          </h2>
+                            <option value="Instagram Views">
+                                Instagram Views — ₦300 / 1,000
+                            </option>
 
+                            <option value="YouTube Subscribers">
+                                YouTube Subscribers — ₦65,000 / 1,000
+                            </option>
 
-          <div>
+                            <option value="YouTube Views">
+                                YouTube Views — ₦2,500 / 1,000
+                            </option>
 
-            <b>01</b>
+                            <option value="Facebook Followers">
+                                Facebook Followers — ₦5,300 / 1,000
+                            </option>
 
-            <strong>
-              Create account
-            </strong>
+                            <option value="Telegram Members">
+                                Telegram Members — ₦5,000 / 1,000
+                            </option>
 
-            <small>
-              Register and access your dashboard.
-            </small>
+                        </select>
 
-          </div>
-
-
-          <div>
-
-            <b>02</b>
-
-            <strong>
-              Add funds
-            </strong>
-
-            <small>
-              Top up your wallet and wait for approval.
-            </small>
-
-          </div>
-
-
-          <div>
-
-            <b>03</b>
-
-            <strong>
-              Place your order
-            </strong>
-
-            <small>
-              Choose a platform, service and quantity.
-            </small>
-
-          </div>
-
-        </div>
+                    </div>
 
 
-        <button
-          type="button"
-          class="secondary"
+                    <div class="field">
+
+                        <label for="orderQuantity">
+                            Quantity
+                        </label>
+
+                        <input
+                            class="input"
+                            type="number"
+                            id="orderQuantity"
+                            placeholder="Example: 1000"
+                            min="1"
+                            step="1"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="orderLink">
+                            Link
+                        </label>
+
+                        <input
+                            class="input"
+                            type="url"
+                            id="orderLink"
+                            placeholder="https://..."
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="orderMessage">
+                            Additional note
+                            <span style="color:#627b91;">
+                                (optional)
+                            </span>
+                        </label>
+
+                        <textarea
+                            class="input"
+                            id="orderMessage"
+                            placeholder="Any additional information..."
+                        ></textarea>
+
+                    </div>
+
+
+                    <div class="order-total">
+
+                        <div class="order-total-label">
+                            Total amount
+                        </div>
+
+                        <div id="orderTotal">
+                            ₦0
+                        </div>
+
+                        <input
+                            type="hidden"
+                            id="orderTotalInput"
+                            value="0"
+                        >
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        id="placeOrderButton"
+                        class="primary-btn"
+                    >
+                        Place Order
+                    </button>
+
+                </form>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ORDERS
+             ================================================= -->
+
+        <section
+            id="page-orders"
+            class="app-page"
         >
-          💳 Top Up Wallet
-        </button>
+
+            <div class="section-title">
+
+                <h3>
+                    My Orders
+                </h3>
+
+                <span>
+                    Order history
+                </span>
+
+            </div>
 
 
-        <a
-          class="whatsapp"
-          href="https://wa.me/"
-          target="_blank"
-          rel="noopener"
+            <div id="ordersList">
+
+                <div class="empty-state">
+                    Your orders will appear here.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             ACCOUNT
+             ================================================= -->
+
+        <section
+            id="page-account"
+            class="app-page"
         >
-          💬 WhatsApp Support
-        </a>
+
+            <div class="section-title">
+
+                <h3>
+                    Account
+                </h3>
+
+            </div>
 
 
-        <button
-          id="logout2"
-          type="button"
-          class="danger"
-        >
-          Logout
-        </button>
+            <div class="profile-card">
 
-      </section>
+                <div class="profile-avatar">
+                    RA
+                </div>
+
+                <div class="profile-name">
+                    <span id="accountName">
+                        Creator
+                    </span>
+                </div>
+
+                <div class="profile-email">
+                    <span id="accountEmail">
+                        —
+                    </span>
+                </div>
+
+                <div style="height:18px;"></div>
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                    class="secondary-btn"
+                >
+                    Logout
+                </button>
+
+            </div>
+
+        </section>
+
 
     </main>
 
 
-    <!-- =========================
-         BOTTOM NAV
-    ========================== -->
+    <!-- =====================================================
+         BOTTOM NAVIGATION
+         ===================================================== -->
 
-    <nav>
+    <nav class="bottom-nav">
 
-      <button
-        type="button"
-        data-page="home"
-        class="active"
-      >
-        ⌂
-        <small>Home</small>
-      </button>
+        <div class="bottom-nav-inner">
 
-
-      <button
-        type="button"
-        data-page="services"
-      >
-        ＋
-        <small>Services</small>
-      </button>
+            <button
+                type="button"
+                class="nav-item active"
+                data-page="home"
+            >
+                <span class="nav-icon">⌂</span>
+                Home
+            </button>
 
 
-      <button
-        type="button"
-        data-page="orders"
-      >
-        □
-        <small>Orders</small>
-      </button>
+            <button
+                type="button"
+                class="nav-item"
+                data-page="services"
+            >
+                <span class="nav-icon">⚡</span>
+                Services
+            </button>
 
 
-      <button
-        type="button"
-        data-page="account"
-      >
-        ◉
-        <small>Account</small>
-      </button>
+            <button
+                type="button"
+                class="nav-item"
+                data-page="orders"
+            >
+                <span class="nav-icon">▣</span>
+                Orders
+            </button>
+
+
+            <button
+                type="button"
+                class="nav-item"
+                data-page="account"
+            >
+                <span class="nav-icon">●</span>
+                Account
+            </button>
+
+        </div>
 
     </nav>
 
-  </section>
+</section>
 
 
-  <!-- TOAST -->
-
-  <div
-    id="toast"
-    class="toast"
-  ></div>
-
-</div>
-
-
-<!-- =====================================================
-     SUPABASE
-===================================================== -->
+<!-- =========================================================
+     SCRIPTS
+     ========================================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script src="supabase.js"></script>
 
-
-<!-- =====================================================
-     AUTH TAB FIX
-===================================================== -->
-
-<script>
-function switchAuthTab(tab) {
-
-  const loginBox =
-    document.getElementById("loginBox");
-
-  const signupBox =
-    document.getElementById("signupBox");
-
-  const tabs =
-    document.querySelectorAll(".tab");
-
-  if (!loginBox || !signupBox) {
-    return;
-  }
-
-  tabs.forEach(function(button) {
-    button.classList.remove("active");
-  });
-
-
-  if (tab === "signup") {
-
-    loginBox.classList.add("hide");
-    signupBox.classList.remove("hide");
-
-    const signupTab =
-      document.querySelector(
-        '[data-tab="signup"]'
-      );
-
-    if (signupTab) {
-      signupTab.classList.add("active");
-    }
-
-  } else {
-
-    signupBox.classList.add("hide");
-    loginBox.classList.remove("hide");
-
-    const loginTab =
-      document.querySelector(
-        '[data-tab="login"]'
-      );
-
-    if (loginTab) {
-      loginTab.classList.add("active");
-    }
-  }
-
-
-  const message =
-    document.getElementById("msg");
-
-  if (message) {
-    message.textContent = "";
-  }
-}
-</script>
-
-
-<!-- =====================================================
-     APP
-===================================================== -->
-
-<script src="app.js"></script>
+<script src="script.js"></script>
 
 </body>
-</html>
+  </html>
