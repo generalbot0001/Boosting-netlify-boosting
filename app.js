@@ -1,6 +1,6 @@
 /* =========================================================
    REAL ABBA BOOSTING
-   Supabase App JavaScript
+   SUPABASE APP JAVASCRIPT
 ========================================================= */
 
 const supabase = window.supabaseClient;
@@ -21,6 +21,7 @@ const $$ = (selector) =>
 ========================================================= */
 
 const SERVICES = {
+
   TikTok: {
     Followers: 6000,
     Likes: 1000,
@@ -45,6 +46,7 @@ const SERVICES = {
   Telegram: {
     Members: 5000
   }
+
 };
 
 
@@ -62,11 +64,13 @@ let selectedPlatform = "";
 ========================================================= */
 
 function showMessage(message) {
+
   const element = $("msg");
 
-  if (element) {
-    element.textContent = message || "";
-  }
+  if (!element) return;
+
+  element.textContent = message || "";
+
 }
 
 
@@ -75,6 +79,7 @@ function showMessage(message) {
 ========================================================= */
 
 function showToast(message) {
+
   const toast = $("toast");
 
   if (!toast) return;
@@ -84,8 +89,11 @@ function showToast(message) {
   toast.classList.add("show");
 
   setTimeout(() => {
+
     toast.classList.remove("show");
-  }, 2500);
+
+  }, 3000);
+
 }
 
 
@@ -94,6 +102,7 @@ function showToast(message) {
 ========================================================= */
 
 function formatMoney(amount) {
+
   return (
     "₦" +
     Number(amount || 0).toLocaleString("en-NG", {
@@ -101,7 +110,76 @@ function formatMoney(amount) {
       maximumFractionDigits: 2
     })
   );
+
 }
+
+
+/* =========================================================
+   AUTH TAB
+========================================================= */
+
+function switchAuthTab(tab) {
+
+  const loginBox = $("loginBox");
+  const signupBox = $("signupBox");
+
+  const tabs = $$(".tab");
+
+  if (!loginBox || !signupBox) return;
+
+
+  tabs.forEach((button) => {
+
+    button.classList.remove("active");
+
+  });
+
+
+  if (tab === "signup") {
+
+    loginBox.classList.add("hide");
+
+    signupBox.classList.remove("hide");
+
+    const signupTab =
+      document.querySelector(
+        '[data-tab="signup"]'
+      );
+
+    if (signupTab) {
+
+      signupTab.classList.add("active");
+
+    }
+
+  } else {
+
+    signupBox.classList.add("hide");
+
+    loginBox.classList.remove("hide");
+
+    const loginTab =
+      document.querySelector(
+        '[data-tab="login"]'
+      );
+
+    if (loginTab) {
+
+      loginTab.classList.add("active");
+
+    }
+
+  }
+
+
+  showMessage("");
+
+}
+
+
+/* Make available to the HTML onclick */
+
+window.switchAuthTab = switchAuthTab;
 
 
 /* =========================================================
@@ -109,27 +187,38 @@ function formatMoney(amount) {
 ========================================================= */
 
 function showPage(page) {
+
   $$(".page").forEach((p) => {
+
     p.classList.remove("active");
+
   });
+
 
   const target = $(page);
 
   if (target) {
+
     target.classList.add("active");
+
   }
 
+
   $$("nav button").forEach((button) => {
+
     button.classList.toggle(
       "active",
       button.dataset.page === page
     );
+
   });
+
 
   window.scrollTo({
     top: 0,
     behavior: "smooth"
   });
+
 }
 
 
@@ -138,53 +227,91 @@ function showPage(page) {
 ========================================================= */
 
 function openApp(profile) {
+
   currentProfile = profile || null;
+
 
   const auth = $("auth");
   const app = $("app");
 
+
   if (auth) {
+
     auth.classList.add("hide");
+
   }
+
 
   if (app) {
+
     app.classList.remove("hide");
+
   }
+
 
   const name =
+
     profile?.full_name ||
+
     profile?.display_name ||
+
     currentUser?.user_metadata?.full_name ||
+
     currentUser?.user_metadata?.display_name ||
+
     currentUser?.email?.split("@")[0] ||
+
     "Abba";
 
+
   const email =
+
     currentUser?.email ||
+
     profile?.email ||
+
     "";
 
+
   if ($("welcome")) {
-    $("welcome").textContent = name + " 👋";
+
+    $("welcome").textContent =
+      name + " 👋";
+
   }
+
 
   if ($("acctName")) {
-    $("acctName").textContent = name;
+
+    $("acctName").textContent =
+      name;
+
   }
+
 
   if ($("acctEmail")) {
-    $("acctEmail").textContent = email;
+
+    $("acctEmail").textContent =
+      email;
+
   }
 
+
   if ($("acctEmail2")) {
-    $("acctEmail2").textContent = email;
+
+    $("acctEmail2").textContent =
+      email;
+
   }
+
 
   updateWallet(
     profile?.wallet_balance || 0
   );
 
+
   showPage("home");
+
 }
 
 
@@ -193,13 +320,20 @@ function openApp(profile) {
 ========================================================= */
 
 function closeApp() {
+
   if ($("app")) {
+
     $("app").classList.add("hide");
+
   }
 
+
   if ($("auth")) {
+
     $("auth").classList.remove("hide");
+
   }
+
 }
 
 
@@ -208,13 +342,20 @@ function closeApp() {
 ========================================================= */
 
 function updateWallet(balance) {
-  const walletAmount = formatMoney(balance);
 
-  document.querySelectorAll(".wallet b").forEach(
-    (element) => {
-      element.textContent = walletAmount;
-    }
-  );
+  const walletAmount =
+    formatMoney(balance);
+
+
+  document
+    .querySelectorAll(".wallet b")
+    .forEach((element) => {
+
+      element.textContent =
+        walletAmount;
+
+    });
+
 }
 
 
@@ -223,73 +364,110 @@ function updateWallet(balance) {
 ========================================================= */
 
 function updateServiceOptions(platform) {
-  const serviceSelect = $("service");
+
+  const serviceSelect =
+    $("service");
 
   if (!serviceSelect) return;
 
+
   serviceSelect.innerHTML = "";
 
-  const services = SERVICES[platform] || {};
+
+  const services =
+    SERVICES[platform] || {};
+
 
   Object.keys(services).forEach(
     (serviceName) => {
+
       const option =
         document.createElement("option");
 
-      option.value = serviceName;
-      option.textContent = serviceName;
+      option.value =
+        serviceName;
 
-      serviceSelect.appendChild(option);
+      option.textContent =
+        serviceName;
+
+      serviceSelect.appendChild(
+        option
+      );
+
     }
   );
 
+
   calculateTotal();
+
 }
 
 
 /* =========================================================
-   CALCULATE ORDER TOTAL
+   CALCULATE TOTAL
 ========================================================= */
 
 function calculateTotal() {
-  const quantityElement = $("quantity");
-  const serviceElement = $("service");
-  const totalElement = $("total");
 
-  if (!quantityElement ||
-      !serviceElement ||
-      !totalElement) {
+  const quantityElement =
+    $("quantity");
+
+  const serviceElement =
+    $("service");
+
+  const totalElement =
+    $("total");
+
+
+  if (
+    !quantityElement ||
+    !serviceElement ||
+    !totalElement
+  ) {
+
     return;
+
   }
+
 
   const quantity =
     Number(quantityElement.value) || 0;
 
+
   const service =
     serviceElement.value;
 
+
   const pricePerThousand =
     SERVICES[selectedPlatform]?.[service] || 0;
+
 
   const total =
     (quantity / 1000) *
     pricePerThousand;
 
+
   totalElement.textContent =
     formatMoney(total);
+
 }
 
 
 /* =========================================================
-   LOAD USER PROFILE
+   LOAD PROFILE
 ========================================================= */
 
 async function loadProfile() {
+
   if (!currentUser) {
+
     return null;
+
   }
 
+
   try {
+
     const {
       data,
       error
@@ -299,25 +477,32 @@ async function loadProfile() {
       .eq("id", currentUser.id)
       .single();
 
+
     if (error) {
+
       console.error(
         "Profile error:",
         error
       );
 
       return null;
+
     }
+
 
     return data;
 
   } catch (error) {
+
     console.error(
       "Profile exception:",
       error
     );
 
     return null;
+
   }
+
 }
 
 
@@ -326,67 +511,93 @@ async function loadProfile() {
 ========================================================= */
 
 async function loadOrders() {
-  if (!currentUser) {
-    return;
-  }
 
-  const list = $("ordersList");
+  if (!currentUser) return;
+
+
+  const list =
+    $("ordersList");
+
 
   try {
+
     const {
       data,
       error
     } = await supabase
       .from("orders")
       .select("*")
-      .eq("user_id", currentUser.id)
-      .order("created_at", {
-        ascending: false
-      });
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
 
     if (error) {
+
       console.error(
         "Orders error:",
         error
       );
 
+
       if (list) {
+
         list.innerHTML = `
           <div class="card empty">
             Unable to load orders right now.
           </div>
         `;
+
       }
 
+
       return;
+
     }
 
-    renderOrders(data || []);
+
+    renderOrders(
+      data || []
+    );
 
   } catch (error) {
+
     console.error(
       "Orders exception:",
       error
     );
+
   }
+
 }
 
 
 /* =========================================================
-   HTML ESCAPE
+   ESCAPE HTML
 ========================================================= */
 
 function escapeHtml(value) {
+
   return String(value ?? "").replace(
     /[&<>"']/g,
     (character) => ({
+
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#039;"
+
     })[character]
   );
+
 }
 
 
@@ -395,13 +606,16 @@ function escapeHtml(value) {
 ========================================================= */
 
 function renderOrders(orders) {
-  const list = $("ordersList");
 
-  if (!list) {
-    return;
-  }
+  const list =
+    $("ordersList");
+
+
+  if (!list) return;
+
 
   if (!orders.length) {
+
     list.innerHTML = `
       <div class="card empty">
         No orders yet.
@@ -410,76 +624,99 @@ function renderOrders(orders) {
     `;
 
     return;
+
   }
 
-  list.innerHTML = orders
-    .map((order) => {
 
-      const date =
-        order.created_at
-          ? new Date(
-              order.created_at
-            ).toLocaleString("en-NG")
-          : "";
+  list.innerHTML =
+    orders
+      .map((order) => {
 
-      return `
-        <article class="card order-card">
+        const date =
+          order.created_at
+            ? new Date(
+                order.created_at
+              ).toLocaleString(
+                "en-NG"
+              )
+            : "";
 
-          <div>
 
-            <strong>
-              ${escapeHtml(order.platform)}
-              —
-              ${escapeHtml(order.service)}
-            </strong>
+        return `
+          <article class="card order-card">
 
-            <small>
-              Quantity:
-              ${Number(
-                order.quantity || 0
-              ).toLocaleString()}
-            </small>
+            <div>
 
-            <small>
-              Total:
-              ${formatMoney(order.amount)}
-            </small>
+              <strong>
+                ${escapeHtml(
+                  order.platform
+                )}
+                —
+                ${escapeHtml(
+                  order.service
+                )}
+              </strong>
 
-            <small>
-              ${escapeHtml(order.link)}
-            </small>
+              <small>
+                Quantity:
+                ${Number(
+                  order.quantity || 0
+                ).toLocaleString()}
+              </small>
 
-            <small>
-              ${escapeHtml(date)}
-            </small>
+              <small>
+                Total:
+                ${formatMoney(
+                  order.amount
+                )}
+              </small>
 
-          </div>
+              <small>
+                ${escapeHtml(
+                  order.link
+                )}
+              </small>
 
-          <span class="status">
-            ${escapeHtml(
-              String(
-                order.status || "pending"
-              ).toUpperCase()
-            )}
-          </span>
+              <small>
+                ${escapeHtml(
+                  date
+                )}
+              </small>
 
-          ${
-            order.admin_note
-              ? `
-                <small>
-                  Admin note:
-                  ${escapeHtml(
-                    order.admin_note
-                  )}
-                </small>
-              `
-              : ""
-          }
+            </div>
 
-        </article>
-      `;
-    })
-    .join("");
+
+            <span class="status">
+
+              ${escapeHtml(
+                String(
+                  order.status ||
+                  "pending"
+                ).toUpperCase()
+              )}
+
+            </span>
+
+
+            ${
+              order.admin_note
+                ? `
+                  <small>
+                    Admin note:
+                    ${escapeHtml(
+                      order.admin_note
+                    )}
+                  </small>
+                `
+                : ""
+            }
+
+          </article>
+        `;
+
+      })
+      .join("");
+
 }
 
 
@@ -489,105 +726,251 @@ function renderOrders(orders) {
 
 async function handleSignup() {
 
+  console.log(
+    "REAL ABBA: signup button clicked"
+  );
+
+
   const name =
     $("name")?.value.trim() || "";
+
 
   const email =
     $("email")?.value.trim() || "";
 
+
   const password =
     $("pass")?.value || "";
 
+
+  /* -----------------------------------------
+     VALIDATION
+  ----------------------------------------- */
+
   if (!name) {
+
     showMessage(
       "Please enter your name."
     );
 
     return;
+
   }
 
+
   if (!email) {
+
     showMessage(
       "Please enter your email."
     );
 
     return;
+
   }
 
+
   if (password.length < 6) {
+
     showMessage(
       "Password must be at least 6 characters."
     );
 
     return;
+
   }
+
+
+  if (!supabase) {
+
+    showMessage(
+      "Supabase is not connected. Please refresh the page."
+    );
+
+    console.error(
+      "Supabase client is missing."
+    );
+
+    return;
+
+  }
+
+
+  /* -----------------------------------------
+     LOADING
+  ----------------------------------------- */
 
   showMessage(
     "Creating your account..."
   );
 
-  const signupButton = $("signup");
+
+  const signupButton =
+    $("signup");
+
 
   if (signupButton) {
+
     signupButton.disabled = true;
+
     signupButton.textContent =
       "Creating account...";
+
   }
 
+
   try {
+
+    console.log(
+      "REAL ABBA: sending signup request"
+    );
+
 
     const {
       data,
       error
-    } = await supabase.auth.signUp({
-      email: email,
-      password: password,
+    } =
+      await supabase.auth.signUp({
 
-      options: {
-        emailRedirectTo:
-          window.location.origin +
-          window.location.pathname,
+        email: email,
 
-        data: {
-          full_name: name,
-          display_name: name
+        password: password,
+
+        options: {
+
+          emailRedirectTo:
+            window.location.origin +
+            window.location.pathname,
+
+          data: {
+
+            full_name:
+              name,
+
+            display_name:
+              name
+
+          }
+
         }
-      }
-    });
+
+      });
+
+
+    console.log(
+      "REAL ABBA: signup response",
+      data,
+      error
+    );
+
+
+    /* -----------------------------------------
+       SUPABASE ERROR
+    ----------------------------------------- */
 
     if (error) {
+
       console.error(
         "Signup error:",
         error
       );
 
+
       showMessage(
         error.message
       );
 
+
       return;
+
     }
 
-    console.log(
-      "Signup result:",
-      data
-    );
 
-    if (
-      data.user &&
-      !data.session
-    ) {
+    /* -----------------------------------------
+       NO USER
+    ----------------------------------------- */
+
+    if (!data?.user) {
 
       showMessage(
-        "Account created! Check your email and click the confirmation link before logging in."
+        "Account could not be created. Please try again."
       );
 
       return;
+
     }
 
-    showMessage(
-      "Account created successfully. You can now continue."
+
+    /* -----------------------------------------
+       EMAIL CONFIRMATION REQUIRED
+    ----------------------------------------- */
+
+    if (!data.session) {
+
+      showMessage(
+        "Account created successfully! 📧 Check your email and click the confirmation link before logging in."
+      );
+
+
+      /*
+        Switch back to Login after signup.
+      */
+
+      setTimeout(() => {
+
+        switchAuthTab("login");
+
+        if ($("loginEmail")) {
+
+          $("loginEmail").value =
+            email;
+
+        }
+
+        showMessage(
+          "Your account was created. 📧 Check your email and confirm your email address, then log in."
+        );
+
+      }, 1500);
+
+
+      return;
+
+    }
+
+
+    /* -----------------------------------------
+       SESSION CREATED
+       EMAIL CONFIRMATION MAY BE DISABLED
+    ----------------------------------------- */
+
+    currentUser =
+      data.user;
+
+
+    const profile =
+      await loadProfile();
+
+
+    openApp(
+
+      profile || {
+
+        full_name:
+          name,
+
+        email:
+          email,
+
+        wallet_balance:
+          0
+
+      }
+
     );
+
+
+    await loadOrders();
+
 
   } catch (error) {
 
@@ -596,19 +979,33 @@ async function handleSignup() {
       error
     );
 
+
     showMessage(
+      error?.message ||
       "Something went wrong while creating your account."
     );
 
   } finally {
 
     if (signupButton) {
-      signupButton.disabled = false;
+
+      signupButton.disabled =
+        false;
+
       signupButton.textContent =
-        "Sign Up";
+        "Create Account";
+
     }
+
   }
+
 }
+
+
+/* Make available globally */
+
+window.handleSignup =
+  handleSignup;
 
 
 /* =========================================================
@@ -620,46 +1017,80 @@ async function handleLogin() {
   const email =
     $("loginEmail")?.value.trim() || "";
 
+
   const password =
     $("loginPass")?.value || "";
 
+
   if (!email) {
+
     showMessage(
       "Enter your email."
     );
 
     return;
+
   }
 
+
   if (!password) {
+
     showMessage(
       "Enter your password."
     );
 
     return;
+
   }
+
+
+  if (!supabase) {
+
+    showMessage(
+      "Supabase is not connected."
+    );
+
+    return;
+
+  }
+
 
   showMessage(
     "Logging in..."
   );
 
-  const loginButton = $("login");
+
+  const loginButton =
+    $("login");
+
 
   if (loginButton) {
-    loginButton.disabled = true;
+
+    loginButton.disabled =
+      true;
+
     loginButton.textContent =
       "Logging in...";
+
   }
+
 
   try {
 
     const {
       data,
       error
-    } = await supabase.auth.signInWithPassword({
-      email: email,
-      password: password
-    });
+    } =
+      await supabase.auth.signInWithPassword({
+
+        email:
+          email,
+
+        password:
+          password
+
+      });
+
 
     if (error) {
 
@@ -668,27 +1099,27 @@ async function handleLogin() {
         error
       );
 
+
       showMessage(
         error.message
       );
 
+
       return;
+
     }
 
-    if (!data.user) {
+
+    if (!data?.user) {
 
       showMessage(
         "Login failed. Please try again."
       );
 
       return;
+
     }
 
-    /*
-      Supabase normally prevents unconfirmed
-      email users from signing in when email
-      confirmation is required.
-    */
 
     if (!data.user.email_confirmed_at) {
 
@@ -696,34 +1127,46 @@ async function handleLogin() {
         "Please confirm your email before logging in."
       );
 
+
       await supabase.auth.signOut();
 
+
       return;
+
     }
+
 
     currentUser =
       data.user;
 
+
     const profile =
       await loadProfile();
 
+
     openApp(
+
       profile || {
+
         full_name:
           data.user.user_metadata?.full_name ||
           data.user.user_metadata?.display_name ||
-          data.user.email?.split("@")[0] ||
+          email.split("@")[0] ||
           "Abba",
 
         email:
-          data.user.email,
+          email,
 
         wallet_balance:
           0
+
       }
+
     );
 
+
     await loadOrders();
+
 
   } catch (error) {
 
@@ -732,18 +1175,26 @@ async function handleLogin() {
       error
     );
 
+
     showMessage(
+      error?.message ||
       "Something went wrong while logging in."
     );
 
   } finally {
 
     if (loginButton) {
-      loginButton.disabled = false;
+
+      loginButton.disabled =
+        false;
+
       loginButton.textContent =
         "Login";
+
     }
+
   }
+
 }
 
 
@@ -756,6 +1207,7 @@ async function handleForgotPassword() {
   const email =
     $("loginEmail")?.value.trim() || "";
 
+
   if (!email) {
 
     showMessage(
@@ -763,11 +1215,25 @@ async function handleForgotPassword() {
     );
 
     return;
+
   }
+
+
+  if (!supabase) {
+
+    showMessage(
+      "Supabase is not connected."
+    );
+
+    return;
+
+  }
+
 
   showMessage(
     "Sending password reset email..."
   );
+
 
   try {
 
@@ -777,11 +1243,14 @@ async function handleForgotPassword() {
       await supabase.auth.resetPasswordForEmail(
         email,
         {
+
           redirectTo:
             window.location.origin +
             window.location.pathname
+
         }
       );
+
 
     if (error) {
 
@@ -790,16 +1259,21 @@ async function handleForgotPassword() {
         error
       );
 
+
       showMessage(
         error.message
       );
 
+
       return;
+
     }
+
 
     showMessage(
       "Password reset email sent. Check your inbox."
     );
+
 
   } catch (error) {
 
@@ -808,10 +1282,13 @@ async function handleForgotPassword() {
       error
     );
 
+
     showMessage(
       "Unable to send password reset email."
     );
+
   }
+
 }
 
 
@@ -828,18 +1305,23 @@ async function handlePlaceOrder() {
     );
 
     return;
+
   }
+
 
   const quantity =
     Number(
       $("quantity")?.value
     );
 
+
   const link =
     $("url")?.value.trim() || "";
 
+
   const service =
     $("service")?.value || "";
+
 
   if (
     !selectedPlatform ||
@@ -854,10 +1336,13 @@ async function handlePlaceOrder() {
     );
 
     return;
+
   }
+
 
   const pricePerThousand =
     SERVICES[selectedPlatform]?.[service];
+
 
   if (!pricePerThousand) {
 
@@ -866,52 +1351,65 @@ async function handlePlaceOrder() {
     );
 
     return;
+
   }
+
 
   const amount =
     (quantity / 1000) *
     pricePerThousand;
 
+
   const placeButton =
     $("place");
 
+
   if (placeButton) {
-    placeButton.disabled = true;
+
+    placeButton.disabled =
+      true;
+
     placeButton.textContent =
       "Submitting...";
+
   }
+
 
   try {
 
     const {
       error
-    } = await supabase
-      .from("orders")
-      .insert({
-        user_id:
-          currentUser.id,
+    } =
+      await supabase
+        .from("orders")
+        .insert({
 
-        platform:
-          selectedPlatform,
+          user_id:
+            currentUser.id,
 
-        service:
-          service,
+          platform:
+            selectedPlatform,
 
-        quantity:
-          quantity,
+          service:
+            service,
 
-        link:
-          link,
+          quantity:
+            quantity,
 
-        amount:
-          amount,
+          link:
+            link,
 
-        status:
-          "pending",
+          amount:
+            amount,
 
-        admin_note:
-          ""
-      });
+          status:
+            "pending",
+
+          admin_note:
+            ""
+
+        });
+
 
     if (error) {
 
@@ -920,30 +1418,48 @@ async function handlePlaceOrder() {
         error
       );
 
+
       showToast(
         "Order could not be submitted."
       );
 
+
       return;
+
     }
+
 
     if ($("quantity")) {
-      $("quantity").value = "";
+
+      $("quantity").value =
+        "";
+
     }
 
+
     if ($("url")) {
-      $("url").value = "";
+
+      $("url").value =
+        "";
+
     }
+
 
     calculateTotal();
 
+
     await loadOrders();
+
 
     showToast(
       "Order submitted successfully."
     );
 
-    showPage("orders");
+
+    showPage(
+      "orders"
+    );
+
 
   } catch (error) {
 
@@ -952,18 +1468,26 @@ async function handlePlaceOrder() {
       error
     );
 
+
     showToast(
       "Something went wrong submitting the order."
     );
 
+
   } finally {
 
     if (placeButton) {
-      placeButton.disabled = false;
+
+      placeButton.disabled =
+        false;
+
       placeButton.textContent =
         "Place Order";
+
     }
+
   }
+
 }
 
 
@@ -983,96 +1507,29 @@ async function logout() {
       "Logout error:",
       error
     );
+
   }
 
-  currentUser = null;
-  currentProfile = null;
+
+  currentUser =
+    null;
+
+  currentProfile =
+    null;
+
 
   closeApp();
+
+
   showMessage("");
+
 }
 
 
-/* =========================================================
-   INITIALIZE APP
-========================================================= */
+/* Make available globally */
 
-async function initialize() {
-
-  try {
-
-    const {
-      data,
-      error
-    } = await supabase.auth.getSession();
-
-    if (error) {
-
-      console.error(
-        "Session error:",
-        error
-      );
-
-      return;
-    }
-
-    const session =
-      data?.session;
-
-    if (!session) {
-      return;
-    }
-
-    const user =
-      session.user;
-
-    if (!user) {
-      return;
-    }
-
-    if (!user.email_confirmed_at) {
-
-      await supabase.auth.signOut();
-
-      showMessage(
-        "Please confirm your email before logging in."
-      );
-
-      return;
-    }
-
-    currentUser =
-      user;
-
-    const profile =
-      await loadProfile();
-
-    openApp(
-      profile || {
-        full_name:
-          user.user_metadata?.full_name ||
-          user.user_metadata?.display_name ||
-          user.email?.split("@")[0] ||
-          "Abba",
-
-        email:
-          user.email,
-
-        wallet_balance:
-          0
-      }
-    );
-
-    await loadOrders();
-
-  } catch (error) {
-
-    console.error(
-      "Initialization error:",
-      error
-    );
-  }
-}
+window.logout =
+  logout;
 
 
 /* =========================================================
@@ -1080,6 +1537,9 @@ async function initialize() {
 ========================================================= */
 
 function setupAuthListener() {
+
+  if (!supabase) return;
+
 
   supabase.auth.onAuthStateChange(
     (event, session) => {
@@ -1089,15 +1549,23 @@ function setupAuthListener() {
         event
       );
 
-      if (event === "SIGNED_OUT") {
 
-        currentUser = null;
-        currentProfile = null;
+      if (
+        event === "SIGNED_OUT"
+      ) {
+
+        currentUser =
+          null;
+
+        currentProfile =
+          null;
 
         closeApp();
 
         return;
+
       }
+
 
       if (
         event === "PASSWORD_RECOVERY"
@@ -1108,73 +1576,89 @@ function setupAuthListener() {
         );
 
         return;
+
       }
+
 
       if (
         event === "SIGNED_IN" &&
         session?.user
       ) {
 
-        /*
-          Delay database work until after
-          the auth callback returns.
-        */
+        setTimeout(
+          async () => {
 
-        setTimeout(async () => {
+            if (!session.user) {
+              return;
+            }
 
-          if (!session.user) {
-            return;
-          }
 
-          if (
-            !session.user.email_confirmed_at
-          ) {
+            if (
+              !session.user.email_confirmed_at
+            ) {
 
-            showMessage(
-              "Please confirm your email before continuing."
+              showMessage(
+                "Please confirm your email before continuing."
+              );
+
+              return;
+
+            }
+
+
+            currentUser =
+              session.user;
+
+
+            const profile =
+              await loadProfile();
+
+
+            openApp(
+
+              profile || {
+
+                full_name:
+                  session.user.user_metadata?.full_name ||
+                  session.user.user_metadata?.display_name ||
+                  session.user.email?.split("@")[0] ||
+                  "Abba",
+
+                email:
+                  session.user.email,
+
+                wallet_balance:
+                  0
+
+              }
+
             );
 
-            return;
-          }
 
-          currentUser =
-            session.user;
+            await loadOrders();
 
-          const profile =
-            await loadProfile();
+          },
+          0
+        );
 
-          openApp(
-            profile || {
-              full_name:
-                session.user.user_metadata?.full_name ||
-                session.user.user_metadata?.display_name ||
-                session.user.email?.split("@")[0] ||
-                "Abba",
-
-              email:
-                session.user.email,
-
-              wallet_balance:
-                0
-            }
-          );
-
-          await loadOrders();
-
-        }, 0);
       }
+
     }
   );
+
 }
 
 
 /* =========================================================
-   DOM EVENT SETUP
+   EVENT LISTENERS
 ========================================================= */
 
 function setupEventListeners() {
 
-  /* LOGIN / SIGN UP TABS */
+
+  /* -----------------------------------------
+     AUTH TABS
+  ----------------------------------------- */
 
   $$(".tab").forEach(
     (button) => {
@@ -1183,74 +1667,78 @@ function setupEventListeners() {
         "click",
         () => {
 
-          $$(".tab").forEach(
-            (tab) => {
-              tab.classList.remove(
-                "active"
-              );
-            }
+          const tab =
+            button.dataset.tab;
+
+
+          switchAuthTab(
+            tab
           );
 
-          button.classList.add(
-            "active"
-          );
-
-          const isSignup =
-            button.dataset.tab ===
-            "signup";
-
-          const loginBox =
-            $("loginBox");
-
-          const signupBox =
-            $("signupBox");
-
-          if (loginBox) {
-            loginBox.classList.toggle(
-              "hide",
-              isSignup
-            );
-          }
-
-          if (signupBox) {
-            signupBox.classList.toggle(
-              "hide",
-              !isSignup
-            );
-          }
-
-          showMessage("");
         }
       );
+
     }
   );
 
 
-  /* LOGIN */
+  /* -----------------------------------------
+     LOGIN
+  ----------------------------------------- */
 
-  $("login")?.addEventListener(
-    "click",
-    handleLogin
-  );
-
-
-  /* SIGN UP */
-
-  $("signup")?.addEventListener(
-    "click",
-    handleSignup
-  );
+  const loginButton =
+    $("login");
 
 
-  /* FORGOT PASSWORD */
+  if (loginButton) {
 
-  $("forgot")?.addEventListener(
-    "click",
-    handleForgotPassword
-  );
+    loginButton.addEventListener(
+      "click",
+      handleLogin
+    );
+
+  }
 
 
-  /* NAVIGATION */
+  /* -----------------------------------------
+     SIGN UP
+  ----------------------------------------- */
+
+  const signupButton =
+    $("signup");
+
+
+  if (signupButton) {
+
+    signupButton.addEventListener(
+      "click",
+      handleSignup
+    );
+
+  }
+
+
+  /* -----------------------------------------
+     FORGOT PASSWORD
+  ----------------------------------------- */
+
+  const forgotButton =
+    $("forgot");
+
+
+  if (forgotButton) {
+
+    forgotButton.addEventListener(
+      "click",
+      handleForgotPassword
+    );
+
+  }
+
+
+  /* -----------------------------------------
+     NAVIGATION
+  ----------------------------------------- */
 
   $$("[data-page]").forEach(
     (button) => {
@@ -1262,16 +1750,25 @@ function setupEventListeners() {
           const page =
             button.dataset.page;
 
+
           if (page) {
-            showPage(page);
+
+            showPage(
+              page
+            );
+
           }
+
         }
       );
+
     }
   );
 
 
-  /* PLATFORM SELECTION */
+  /* -----------------------------------------
+     PLATFORM
+  ----------------------------------------- */
 
   $$(".service[data-platform]").forEach(
     (button) => {
@@ -1283,29 +1780,43 @@ function setupEventListeners() {
           selectedPlatform =
             button.dataset.platform;
 
+
           if ($("platform")) {
+
             $("platform").value =
               selectedPlatform;
+
           }
 
+
           if ($("orderTitle")) {
+
             $("orderTitle").textContent =
               selectedPlatform +
               " order";
+
           }
+
 
           updateServiceOptions(
             selectedPlatform
           );
 
-          showPage("order");
+
+          showPage(
+            "order"
+          );
+
         }
       );
+
     }
   );
 
 
-  /* QUANTITY */
+  /* -----------------------------------------
+     QUANTITY
+  ----------------------------------------- */
 
   $("quantity")?.addEventListener(
     "input",
@@ -1313,7 +1824,9 @@ function setupEventListeners() {
   );
 
 
-  /* SERVICE */
+  /* -----------------------------------------
+     SERVICE
+  ----------------------------------------- */
 
   $("service")?.addEventListener(
     "change",
@@ -1321,7 +1834,9 @@ function setupEventListeners() {
   );
 
 
-  /* PLACE ORDER */
+  /* -----------------------------------------
+     PLACE ORDER
+  ----------------------------------------- */
 
   $("place")?.addEventListener(
     "click",
@@ -1329,45 +1844,184 @@ function setupEventListeners() {
   );
 
 
-  /* LOGOUT */
+  /* -----------------------------------------
+     LOGOUT
+  ----------------------------------------- */
 
   $("logout")?.addEventListener(
     "click",
     logout
   );
 
+
   $("logout2")?.addEventListener(
     "click",
     logout
   );
+
 }
 
 
 /* =========================================================
-   START APPLICATION
+   INITIALIZE
+========================================================= */
+
+async function initialize() {
+
+  if (!supabase) {
+
+    console.error(
+      "Supabase client was not found."
+    );
+
+
+    showMessage(
+      "Supabase is not connected. Please check supabase.js."
+    );
+
+
+    return;
+
+  }
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabase.auth.getSession();
+
+
+    if (error) {
+
+      console.error(
+        "Session error:",
+        error
+      );
+
+      return;
+
+    }
+
+
+    const session =
+      data?.session;
+
+
+    if (!session) {
+
+      return;
+
+    }
+
+
+    const user =
+      session.user;
+
+
+    if (!user) {
+
+      return;
+
+    }
+
+
+    if (!user.email_confirmed_at) {
+
+      await supabase.auth.signOut();
+
+
+      showMessage(
+        "Please confirm your email before logging in."
+      );
+
+
+      return;
+
+    }
+
+
+    currentUser =
+      user;
+
+
+    const profile =
+      await loadProfile();
+
+
+    openApp(
+
+      profile || {
+
+        full_name:
+          user.user_metadata?.full_name ||
+          user.user_metadata?.display_name ||
+          user.email?.split("@")[0] ||
+          "Abba",
+
+        email:
+          user.email,
+
+        wallet_balance:
+          0
+
+      }
+
+    );
+
+
+    await loadOrders();
+
+
+  } catch (error) {
+
+    console.error(
+      "Initialization error:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   START
 ========================================================= */
 
 document.addEventListener(
   "DOMContentLoaded",
   () => {
 
+    console.log(
+      "REAL ABBA BOOSTING: app started"
+    );
+
+
     if (!supabase) {
 
       console.error(
-        "Supabase client was not found."
+        "Supabase client missing."
       );
+
 
       showMessage(
         "Supabase is not connected. Please check supabase.js."
       );
 
+
       return;
+
     }
+
 
     setupEventListeners();
 
     setupAuthListener();
 
     initialize();
+
   }
 );
