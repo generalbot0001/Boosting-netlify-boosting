@@ -1,396 +1,69 @@
-// ==========================================
-// REAL ABBA BOOSTING
-// Supabase Authentication + Website Logic
-// ==========================================
-
 const supabase = window.supabaseClient;
 
-// ==========================================
-// SERVICE PRICES
-// ==========================================
+const $ = (id) => document.getElementById(id);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
 
 const SERVICES = {
   TikTok: {
-    "Followers": 6000,
-    "Likes": 1000,
-    "Views": 400
+    Followers: 6000,
+    Likes: 1000,
+    Views: 400
   },
-
   Instagram: {
-    "Followers": 5500,
-    "Likes": 800,
-    "Views": 300
+    Followers: 5500,
+    Likes: 800,
+    Views: 300
   },
-
   YouTube: {
-    "Subscribers": 65000,
-    "Views": 2500
+    Subscribers: 65000,
+    Views: 2500
   },
-
   Facebook: {
-    "Followers": 5300
+    Followers: 5300
   },
-
   Telegram: {
-    "Members": 5000
+    Members: 5000
   }
 };
 
-let selectedPlatform = "";
 let currentUser = null;
+let currentProfile = null;
+let selectedPlatform = "";
 
-// ==========================================
-// HELPERS
-// ==========================================
+function showMessage(message) {
+  $("msg").textContent = message || "";
+}
 
-function money(amount) {
+function showToast(message) {
+  const toast = $("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+}
+
+function formatMoney(amount) {
   return "₦" + Number(amount || 0).toLocaleString("en-NG", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2
   });
 }
 
-function showMessage(message, type = "info") {
-  const box = document.getElementById("msg");
+function showPage(page) {
+  $$(".page").forEach((p) => p.classList.remove("active"));
 
-  if (!box) return;
-
-  box.textContent = message;
-  box.className = "msg " + type;
-}
-
-function showToast(message) {
-  const toast = document.getElementById("toast");
-
-  if (!toast) return;
-
-  toast.textContent = message;
-  toast.classList.add("show");
-
-  setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3000);
-}
-
-// ==========================================
-// AUTH TABS
-// ==========================================
-
-document.querySelectorAll(".tab").forEach(tab => {
-  tab.addEventListener("click", () => {
-
-    document.querySelectorAll(".tab").forEach(t => {
-      t.classList.remove("active");
-    });
-
-    tab.classList.add("active");
-
-    const target = tab.dataset.tab;
-
-    const loginBox = document.getElementById("loginBox");
-    const signupBox = document.getElementById("signupBox");
-
-    if (target === "login") {
-      loginBox?.classList.remove("hide");
-      signupBox?.classList.add("hide");
-    }
-
-    if (target === "signup") {
-      loginBox?.classList.add("hide");
-      signupBox?.classList.remove("hide");
-    }
-
-    showMessage("");
-  });
-});
-
-// ==========================================
-// SIGN UP
-// ==========================================
-
-document.getElementById("signup")?.addEventListener("click", async () => {
-
-  const name = document.getElementById("name")?.value.trim();
-  const email = document.getElementById("email")?.value.trim();
-  const password = document.getElementById("pass")?.value;
-
-  if (!name || !email || !password) {
-    showMessage("Please fill in all fields.", "error");
-    return;
+  const target = $(page);
+  if (target) {
+    target.classList.add("active");
   }
 
-  if (password.length < 6) {
-    showMessage(
-      "Password must be at least 6 characters.",
-      "error"
+  $$("nav button").forEach((button) => {
+    button.classList.toggle(
+      "active",
+      button.dataset.page === page
     );
-    return;
-  }
-
-  showMessage("Creating your account...", "info");
-
-  try {
-
-    const redirectUrl =
-      window.location.origin + window.location.pathname;
-
-    const { data, error } = await supabase.auth.signUp({
-      email: email,
-      password: password,
-
-      options: {
-        emailRedirectTo: redirectUrl,
-
-        data: {
-          full_name: name,
-          display_name: name
-        }
-      }
-    });
-
-    if (error) {
-      throw error;
-    }
-
-    if (data.user) {
-
-      showMessage(
-        "Account created! Check your email and click the verification link before logging in.",
-        "success"
-      );
-
-      document.getElementById("name").value = "";
-      document.getElementById("email").value = "";
-      document.getElementById("pass").value = "";
-    }
-
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage(
-      error.message || "Unable to create account.",
-      "error"
-    );
-  }
-});
-
-// ==========================================
-// LOGIN
-// ==========================================
-
-document.getElementById("login")?.addEventListener("click", async () => {
-
-  const email = document.getElementById("loginEmail")?.value.trim();
-  const password = document.getElementById("loginPass")?.value;
-
-  if (!email || !password) {
-    showMessage("Enter your email and password.", "error");
-    return;
-  }
-
-  showMessage("Logging in...", "info");
-
-  try {
-
-    const { data, error } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-
-    if (error) {
-      throw error;
-    }
-
-    currentUser = data.user;
-
-    // Supabase email verification check
-    if (!currentUser.email_confirmed_at) {
-
-      await supabase.auth.signOut();
-
-      showMessage(
-        "Please verify your email address before logging in.",
-        "error"
-      );
-
-      return;
-    }
-
-    openApp(currentUser);
-
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage(
-      error.message || "Login failed.",
-      "error"
-    );
-  }
-});
-
-// ==========================================
-// FORGOT PASSWORD
-// ==========================================
-
-document.getElementById("forgot")?.addEventListener("click", async () => {
-
-  const email = document.getElementById("loginEmail")?.value.trim();
-
-  if (!email) {
-
-    showMessage(
-      "Enter your email address first.",
-      "error"
-    );
-
-    return;
-  }
-
-  showMessage(
-    "Sending password reset email...",
-    "info"
-  );
-
-  try {
-
-    const redirectUrl =
-      window.location.origin + window.location.pathname;
-
-    const { error } =
-      await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: redirectUrl
-      });
-
-    if (error) {
-      throw error;
-    }
-
-    showMessage(
-      "Password reset email sent. Check your inbox.",
-      "success"
-    );
-
-  } catch (error) {
-
-    console.error(error);
-
-    showMessage(
-      error.message || "Unable to send reset email.",
-      "error"
-    );
-  }
-});
-
-// ==========================================
-// OPEN APP
-// ==========================================
-
-function openApp(user) {
-
-  currentUser = user;
-
-  const auth = document.getElementById("auth");
-  const app = document.getElementById("app");
-
-  if (auth) {
-    auth.classList.add("hide");
-  }
-
-  if (app) {
-    app.classList.remove("hide");
-  }
-
-  const name =
-    user.user_metadata?.display_name ||
-    user.user_metadata?.full_name ||
-    "Creator";
-
-  const welcome = document.getElementById("welcome");
-  const acctName = document.getElementById("acctName");
-  const acctEmail = document.getElementById("acctEmail");
-  const acctEmail2 = document.getElementById("acctEmail2");
-
-  if (welcome) {
-    welcome.textContent = name + " 👋";
-  }
-
-  if (acctName) {
-    acctName.textContent = name;
-  }
-
-  if (acctEmail) {
-    acctEmail.textContent = user.email || "—";
-  }
-
-  if (acctEmail2) {
-    acctEmail2.textContent = user.email || "—";
-  }
-
-  showPage("home");
-}
-
-// ==========================================
-// LOGOUT
-// ==========================================
-
-async function logout() {
-
-  await supabase.auth.signOut();
-
-  currentUser = null;
-
-  const app = document.getElementById("app");
-  const auth = document.getElementById("auth");
-
-  if (app) {
-    app.classList.add("hide");
-  }
-
-  if (auth) {
-    auth.classList.remove("hide");
-  }
-
-  showMessage(
-    "You have been logged out.",
-    "success"
-  );
-}
-
-document.getElementById("logout")?.addEventListener(
-  "click",
-  logout
-);
-
-document.getElementById("logout2")?.addEventListener(
-  "click",
-  logout
-);
-
-// ==========================================
-// NAVIGATION
-// ==========================================
-
-function showPage(pageName) {
-
-  document.querySelectorAll(".page").forEach(page => {
-    page.classList.remove("active");
-  });
-
-  const page = document.getElementById(pageName);
-
-  if (page) {
-    page.classList.add("active");
-  }
-
-  document.querySelectorAll("nav button").forEach(button => {
-    button.classList.remove("active");
-
-    if (button.dataset.page === pageName) {
-      button.classList.add("active");
-    }
   });
 
   window.scrollTo({
@@ -399,354 +72,538 @@ function showPage(pageName) {
   });
 }
 
-document.querySelectorAll("[data-page]").forEach(button => {
+function openApp(profile) {
+  currentProfile = profile;
 
-  button.addEventListener("click", () => {
+  $("auth").classList.add("hide");
+  $("app").classList.remove("hide");
 
-    const page = button.dataset.page;
+  const name =
+    profile?.full_name ||
+    currentUser?.user_metadata?.full_name ||
+    currentUser?.user_metadata?.display_name ||
+    currentUser?.email?.split("@")[0] ||
+    "Abba";
 
-    if (page) {
-      showPage(page);
-    }
+  const email = currentUser?.email || profile?.email || "";
 
+  $("welcome").textContent = name + " 👋";
+  $("acctName").textContent = name;
+  $("acctEmail").textContent = email;
+  $("acctEmail2").textContent = email;
+
+  updateWallet(profile?.wallet_balance || 0);
+
+  showPage("home");
+}
+
+function closeApp() {
+  $("app").classList.add("hide");
+  $("auth").classList.remove("hide");
+}
+
+function updateWallet(balance) {
+  const walletAmount = formatMoney(balance);
+
+  document.querySelectorAll(".wallet b").forEach((element) => {
+    element.textContent = walletAmount;
   });
+}
 
-});
+function updateServiceOptions(platform) {
+  const serviceSelect = $("service");
 
-// ==========================================
-// PLATFORM SELECTION
-// ==========================================
+  serviceSelect.innerHTML = "";
 
-document.querySelectorAll(".service[data-platform]").forEach(button => {
+  const services = SERVICES[platform] || {};
 
-  button.addEventListener("click", () => {
-
-    selectedPlatform =
-      button.dataset.platform;
-
-    const platformInput =
-      document.getElementById("platform");
-
-    if (platformInput) {
-      platformInput.value =
-        selectedPlatform;
-    }
-
-    setupServiceOptions();
-
-    showPage("order");
-  });
-
-});
-
-// ==========================================
-// SERVICE OPTIONS
-// ==========================================
-
-function setupServiceOptions() {
-
-  const select =
-    document.getElementById("service");
-
-  if (!select || !selectedPlatform) {
-    return;
-  }
-
-  select.innerHTML = "";
-
-  const services =
-    SERVICES[selectedPlatform];
-
-  if (!services) {
-    return;
-  }
-
-  Object.keys(services).forEach(service => {
-
-    const option =
-      document.createElement("option");
-
-    option.value = service;
-    option.textContent =
-      `${service} — ${money(services[service])} / 1,000`;
-
-    select.appendChild(option);
-
+  Object.keys(services).forEach((serviceName) => {
+    const option = document.createElement("option");
+    option.value = serviceName;
+    option.textContent = serviceName;
+    serviceSelect.appendChild(option);
   });
 
   calculateTotal();
 }
 
-document.getElementById("service")?.addEventListener(
-  "change",
-  calculateTotal
-);
-
-document.getElementById("quantity")?.addEventListener(
-  "input",
-  calculateTotal
-);
-
-// ==========================================
-// PRICE CALCULATOR
-// ==========================================
-
 function calculateTotal() {
+  const quantity = Number($("quantity").value) || 0;
+  const service = $("service").value;
+  const pricePerThousand =
+    SERVICES[selectedPlatform]?.[service] || 0;
 
-  const quantity =
-    Number(
-      document.getElementById("quantity")?.value || 0
-    );
+  const total = (quantity / 1000) * pricePerThousand;
 
-  const service =
-    document.getElementById("service")?.value;
+  $("total").textContent = formatMoney(total);
+}
 
-  const totalElement =
-    document.getElementById("total");
+async function loadProfile() {
+  if (!currentUser) return null;
 
-  if (!totalElement) {
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", currentUser.id)
+    .single();
+
+  if (error) {
+    console.error("Profile error:", error);
+    return null;
+  }
+
+  return data;
+}
+
+async function loadOrders() {
+  if (!currentUser) return;
+
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("user_id", currentUser.id)
+    .order("created_at", {
+      ascending: false
+    });
+
+  if (error) {
+    console.error("Orders error:", error);
+    $("ordersList").innerHTML = `
+      <div class="card empty">
+        Unable to load orders right now.
+      </div>
+    `;
     return;
   }
 
-  if (
-    !selectedPlatform ||
-    !service ||
-    !SERVICES[selectedPlatform]?.[service]
-  ) {
-    totalElement.textContent = "₦0.00";
+  renderOrders(data || []);
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#039;"
+    })[character]
+  );
+}
+
+function renderOrders(orders) {
+  const list = $("ordersList");
+
+  if (!orders.length) {
+    list.innerHTML = `
+      <div class="card empty">
+        No orders yet. Start boosting to see your orders here.
+      </div>
+    `;
+    return;
+  }
+
+  list.innerHTML = orders
+    .map((order) => {
+      const date = order.created_at
+        ? new Date(order.created_at).toLocaleString("en-NG")
+        : "";
+
+      return `
+        <article class="card order-card">
+          <div>
+            <strong>
+              ${escapeHtml(order.platform)} —
+              ${escapeHtml(order.service)}
+            </strong>
+
+            <small>
+              Quantity:
+              ${Number(order.quantity).toLocaleString()}
+            </small>
+
+            <small>
+              Total:
+              ${formatMoney(order.amount)}
+            </small>
+
+            <small>
+              ${escapeHtml(order.link)}
+            </small>
+
+            <small>
+              ${escapeHtml(date)}
+            </small>
+          </div>
+
+          <span class="status">
+            ${escapeHtml(
+              String(order.status || "pending").toUpperCase()
+            )}
+          </span>
+
+          ${
+            order.admin_note
+              ? `<small>Admin note: ${escapeHtml(order.admin_note)}</small>`
+              : ""
+          }
+        </article>
+      `;
+    })
+    .join("");
+}
+
+async function handleSignup() {
+  const name = $("name").value.trim();
+  const email = $("email").value.trim();
+  const password = $("pass").value;
+
+  if (!name || !email || password.length < 6) {
+    showMessage(
+      "Enter your name, valid email and a 6+ character password."
+    );
+    return;
+  }
+
+  showMessage("Creating your account...");
+
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+    options: {
+      emailRedirectTo:
+        window.location.origin +
+        window.location.pathname,
+
+      data: {
+        full_name: name,
+        display_name: name
+      }
+    }
+  });
+
+  if (error) {
+    console.error(error);
+    showMessage(error.message);
+    return;
+  }
+
+  if (data.user && !data.session) {
+    showMessage(
+      "Account created! Check your email and click the confirmation link before logging in."
+    );
+    return;
+  }
+
+  showMessage("Account created successfully.");
+}
+
+async function handleLogin() {
+  const email = $("loginEmail").value.trim();
+  const password = $("loginPass").value;
+
+  if (!email || !password) {
+    showMessage("Enter your email and password.");
+    return;
+  }
+
+  showMessage("Logging in...");
+
+  const { data, error } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password
+    });
+
+  if (error) {
+    console.error(error);
+    showMessage(error.message);
+    return;
+  }
+
+  if (!data.user.email_confirmed_at) {
+    showMessage(
+      "Please confirm your email before logging in."
+    );
+
+    await supabase.auth.signOut();
+    return;
+  }
+
+  currentUser = data.user;
+
+  const profile = await loadProfile();
+
+  openApp(
+    profile || {
+      full_name:
+        data.user.user_metadata?.full_name ||
+        data.user.email.split("@")[0],
+      email: data.user.email,
+      wallet_balance: 0
+    }
+  );
+
+  await loadOrders();
+}
+
+async function handleForgotPassword() {
+  const email = $("loginEmail").value.trim();
+
+  if (!email) {
+    showMessage("Enter your email first.");
+    return;
+  }
+
+  showMessage("Sending password reset email...");
+
+  const { error } =
+    await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo:
+        window.location.origin +
+        window.location.pathname
+    });
+
+  if (error) {
+    console.error(error);
+    showMessage(error.message);
+    return;
+  }
+
+  showMessage(
+    "Password reset email sent. Check your inbox."
+  );
+}
+
+async function handlePlaceOrder() {
+  if (!currentUser) {
+    showToast("Please log in first.");
+    return;
+  }
+
+  const quantity = Number($("quantity").value);
+  const link = $("url").value.trim();
+  const service = $("service").value;
+
+  if (!selectedPlatform || !service || !quantity || quantity < 1 || !link) {
+    showToast("Please complete all order fields.");
     return;
   }
 
   const pricePerThousand =
-    SERVICES[selectedPlatform][service];
+    SERVICES[selectedPlatform]?.[service];
 
-  const total =
+  if (!pricePerThousand) {
+    showToast("This service is not available.");
+    return;
+  }
+
+  const amount =
     (quantity / 1000) * pricePerThousand;
 
-  totalElement.textContent =
-    money(total);
-}
+  $("place").disabled = true;
+  $("place").textContent = "Submitting...";
 
-// ==========================================
-// PLACE ORDER
-// ==========================================
-
-document.getElementById("place")?.addEventListener(
-  "click",
-  async () => {
-
-    if (!currentUser) {
-      showToast("Please log in first.");
-      return;
-    }
-
-    const service =
-      document.getElementById("service")?.value;
-
-    const quantity =
-      Number(
-        document.getElementById("quantity")?.value || 0
-      );
-
-    const url =
-      document.getElementById("url")?.value.trim();
-
-    if (!selectedPlatform) {
-      showToast("Please select a platform.");
-      return;
-    }
-
-    if (!service) {
-      showToast("Please select a service.");
-      return;
-    }
-
-    if (quantity < 100) {
-      showToast("Minimum order is 100.");
-      return;
-    }
-
-    if (!url) {
-      showToast("Enter your post or profile link.");
-      return;
-    }
-
-    const pricePerThousand =
-      SERVICES[selectedPlatform][service];
-
-    const total =
-      (quantity / 1000) * pricePerThousand;
-
-    /*
-      Database orders will be connected after
-      we create the Supabase database tables.
-    */
-
-    const localOrder = {
-      id: "RAB-" + Date.now(),
+  const { error } = await supabase
+    .from("orders")
+    .insert({
       user_id: currentUser.id,
       platform: selectedPlatform,
       service: service,
       quantity: quantity,
-      link: url,
-      amount: total,
+      link: link,
+      amount: amount,
       status: "pending",
-      created_at: new Date().toISOString()
-    };
+      admin_note: ""
+    });
 
-    const existingOrders =
-      JSON.parse(
-        localStorage.getItem("rab_orders") || "[]"
-      );
+  $("place").disabled = false;
+  $("place").textContent = "Place Order";
 
-    existingOrders.unshift(localOrder);
-
-    localStorage.setItem(
-      "rab_orders",
-      JSON.stringify(existingOrders)
-    );
-
-    showToast(
-      "Order submitted successfully."
-    );
-
-    document.getElementById("quantity").value = "";
-    document.getElementById("url").value = "";
-
-    calculateTotal();
-
-    loadOrders();
-
-    setTimeout(() => {
-      showPage("orders");
-    }, 500);
+  if (error) {
+    console.error("Order error:", error);
+    showToast("Order could not be submitted.");
+    return;
   }
+
+  $("quantity").value = "";
+  $("url").value = "";
+  calculateTotal();
+
+  await loadOrders();
+
+  showToast("Order submitted successfully.");
+  showPage("orders");
+}
+
+async function logout() {
+  await supabase.auth.signOut();
+
+  currentUser = null;
+  currentProfile = null;
+
+  closeApp();
+  showMessage("");
+}
+
+async function initialize() {
+  const {
+    data: { session }
+  } = await supabase.auth.getSession();
+
+  if (!session) {
+    return;
+  }
+
+  if (!session.user.email_confirmed_at) {
+    await supabase.auth.signOut();
+    return;
+  }
+
+  currentUser = session.user;
+
+  const profile = await loadProfile();
+
+  openApp(
+    profile || {
+      full_name:
+        session.user.user_metadata?.full_name ||
+        session.user.email?.split("@")[0] ||
+        "Abba",
+      email: session.user.email,
+      wallet_balance: 0
+    }
+  );
+
+  await loadOrders();
+}
+
+/* LOGIN / SIGN UP TABS */
+
+$$(".tab").forEach((button) => {
+  button.addEventListener("click", () => {
+    $$(".tab").forEach((tab) =>
+      tab.classList.remove("active")
+    );
+
+    button.classList.add("active");
+
+    const signup =
+      button.dataset.tab === "signup";
+
+    $("loginBox").classList.toggle("hide", signup);
+    $("signupBox").classList.toggle("hide", !signup);
+
+    showMessage("");
+  });
+});
+
+/* LOGIN */
+
+$("login").addEventListener("click", handleLogin);
+
+/* SIGN UP */
+
+$("signup").addEventListener("click", handleSignup);
+
+/* FORGOT PASSWORD */
+
+$("forgot").addEventListener(
+  "click",
+  handleForgotPassword
 );
 
-// ==========================================
-// LOAD ORDERS
-// ==========================================
+/* NAVIGATION */
 
-function loadOrders() {
-
-  const list =
-    document.getElementById("ordersList");
-
-  if (!list) {
-    return;
-  }
-
-  const orders =
-    JSON.parse(
-      localStorage.getItem("rab_orders") || "[]"
-    );
-
-  if (!orders.length) {
-
-    list.innerHTML = `
-      <div class="card empty">
-        No orders yet.
-        Start boosting to see your orders here.
-      </div>
-    `;
-
-    return;
-  }
-
-  list.innerHTML = "";
-
-  orders.forEach(order => {
-
-    const item =
-      document.createElement("div");
-
-    item.className = "card order-card";
-
-    item.innerHTML = `
-      <div>
-        <strong>${order.platform} ${order.service}</strong>
-      </div>
-
-      <p>
-        Quantity:
-        ${Number(order.quantity).toLocaleString()}
-      </p>
-
-      <p>
-        Amount:
-        ${money(order.amount)}
-      </p>
-
-      <p>
-        Status:
-        <strong>${order.status}</strong>
-      </p>
-
-      <small>
-        ${new Date(order.created_at).toLocaleString("en-NG")}
-      </small>
-    `;
-
-    list.appendChild(item);
-
+$$("[data-page]").forEach((button) => {
+  button.addEventListener("click", () => {
+    showPage(button.dataset.page);
   });
-}
+});
 
-// ==========================================
-// SUPABASE SESSION
-// ==========================================
+/* PLATFORM SELECTION */
 
-async function checkSession() {
+$$(".service[data-platform]").forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedPlatform =
+      button.dataset.platform;
 
-  try {
+    $("platform").value = selectedPlatform;
+    $("orderTitle").textContent =
+      selectedPlatform + " order";
 
-    const {
-      data: { session }
-    } = await supabase.auth.getSession();
+    updateServiceOptions(selectedPlatform);
+    showPage("order");
+  });
+});
 
-    if (session?.user) {
+/* PRICE CALCULATION */
 
-      currentUser = session.user;
+$("quantity").addEventListener(
+  "input",
+  calculateTotal
+);
 
-      if (currentUser.email_confirmed_at) {
-        openApp(currentUser);
-      }
+$("service").addEventListener(
+  "change",
+  calculateTotal
+);
 
-    }
+/* PLACE ORDER */
 
-  } catch (error) {
+$("place").addEventListener(
+  "click",
+  handlePlaceOrder
+);
 
-    console.error(
-      "Session check error:",
-      error
-    );
+/* LOGOUT */
 
-  }
-}
+$("logout").addEventListener(
+  "click",
+  logout
+);
 
-// ==========================================
-// AUTH STATE CHANGES
-// ==========================================
+$("logout2").addEventListener(
+  "click",
+  logout
+);
+
+/* AUTH STATE */
 
 supabase.auth.onAuthStateChange(
-  (event, session) => {
-
-    if (
-      session?.user &&
-      session.user.email_confirmed_at
-    ) {
-      currentUser = session.user;
+  async (event, session) => {
+    if (event === "SIGNED_OUT") {
+      currentUser = null;
+      currentProfile = null;
+      closeApp();
+      return;
     }
 
+    if (
+      event === "SIGNED_IN" &&
+      session?.user?.email_confirmed_at
+    ) {
+      currentUser = session.user;
+
+      const profile = await loadProfile();
+
+      openApp(
+        profile || {
+          full_name:
+            session.user.user_metadata?.full_name ||
+            session.user.email?.split("@")[0] ||
+            "Abba",
+          email: session.user.email,
+          wallet_balance: 0
+        }
+      );
+
+      await loadOrders();
+    }
   }
 );
 
-// ==========================================
-// START
-// ==========================================
+/* START */
 
-loadOrders();
-
-checkSession();
-
-showPage("home");
+initialize();
